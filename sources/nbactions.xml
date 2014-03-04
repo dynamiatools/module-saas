@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+        <action>
+            <actionName>CUSTOM-New Version</actionName>
+            <displayName>New Version</displayName>
+            <goals>
+                <goal>versions:set</goal>
+            </goals>
+        </action>
+    </actions>
