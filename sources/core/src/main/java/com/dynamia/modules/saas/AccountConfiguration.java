@@ -17,7 +17,7 @@ import org.springframework.core.annotation.Order;
  *
  * @author mario
  */
-@Configuration
+//@Configuration
 @Order(0)
 public class AccountConfiguration {
     

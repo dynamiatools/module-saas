@@ -18,5 +18,7 @@ public interface AccountService {
     Account getAccount(String subdomain);
 
     Account getAccount(HttpServletRequest request);
+
+    void init();
     
 }

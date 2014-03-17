@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
  * @author mario
  */
 @Component
-public class AccountContext{
+public class AccountContext {
 
     @Autowired
     private List<AccountResolver> resolvers;
@@ -44,10 +44,9 @@ public class AccountContext{
     }
 
     private Account getDefaultAccount() {
-        if (crudService.count(Account.class) == 1) {
-            return crudService.findSingle(Account.class, new QueryParameters());
-        }
-        return null;
+
+        return crudService.findSingle(Account.class, new QueryParameters());
+
     }
 
 }

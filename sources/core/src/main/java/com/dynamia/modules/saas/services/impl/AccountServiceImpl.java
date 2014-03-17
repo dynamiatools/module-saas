@@ -16,6 +16,7 @@ import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author mario
  */
 
+@Component
 public class AccountServiceImpl implements AccountService {
 
     @Autowired
@@ -31,7 +33,7 @@ public class AccountServiceImpl implements AccountService {
 
     @PostConstruct
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    private void init() {
+    public void init() {
         if (crudService.count(Account.class) == 0
                 && crudService.count(AccountType.class) == 0) {
             createDefaults();
@@ -59,7 +61,7 @@ public class AccountServiceImpl implements AccountService {
         type.setPrice(BigDecimal.ZERO);
         type.setDescription("Admin account type");
         type = crudService.save(type);
-        
+
         Account account = new Account();
         account.setType(type);
         account.setName("administrator");
@@ -68,7 +70,6 @@ public class AccountServiceImpl implements AccountService {
         account.setStatus(AccountStatus.ACTIVE);
         account.setStatusDate(new Date());
         crudService.save(account);
-        
 
     }
 
