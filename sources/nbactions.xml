@@ -7,4 +7,11 @@
                 <goal>versions:set</goal>
             </goals>
         </action>
+        <action>
+            <actionName>CUSTOM-Deploy to Nexus</actionName>
+            <displayName>Deploy to Nexus</displayName>
+            <goals>
+                <goal>deploy</goal>
+            </goals>
+        </action>
     </actions>
