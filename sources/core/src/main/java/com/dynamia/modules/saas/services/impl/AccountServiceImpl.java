@@ -11,29 +11,34 @@ import com.dynamia.modules.saas.enums.AccountPeriodicity;
 import com.dynamia.modules.saas.enums.AccountStatus;
 import com.dynamia.modules.saas.services.AccountService;
 import com.dynamia.tools.domain.services.CrudService;
+import com.dynamia.tools.domain.services.impl.JpaCrudService;
+import com.dynamia.tools.integration.scheduling.Task;
 import java.math.BigDecimal;
 import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.TransactionCallback;
+import org.springframework.transaction.support.TransactionTemplate;
 
 /**
  *
  * @author mario
  */
-
 @Component
 public class AccountServiceImpl implements AccountService {
 
     @Autowired
     private CrudService crudService;
 
+    @Autowired
+    private PlatformTransactionManager txManager;
+
     @PostConstruct
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void init() {
+    private void init() {
         if (crudService.count(Account.class) == 0
                 && crudService.count(AccountType.class) == 0) {
             createDefaults();
@@ -42,7 +47,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Account getAccount(String subdomain) {
-        return crudService.findSingle(Account.class, "subdomaing", subdomain);
+        return crudService.findSingle(Account.class, "subdomain", subdomain);
     }
 
     @Override
@@ -53,23 +58,31 @@ public class AccountServiceImpl implements AccountService {
     }
 
     private void createDefaults() {
-        AccountType type = new AccountType();
-        type.setActive(true);
-        type.setName("admin");
-        type.setPublicType(false);
-        type.setPeriodicity(AccountPeriodicity.UNLIMITED);
-        type.setPrice(BigDecimal.ZERO);
-        type.setDescription("Admin account type");
-        type = crudService.save(type);
+        TransactionTemplate tx = new TransactionTemplate(txManager);
+        tx.execute(new TransactionCallback() {
 
-        Account account = new Account();
-        account.setType(type);
-        account.setName("administrator");
-        account.setSubdomain("admin");
-        account.setEmail("admin@dynamiasoluciones.com");
-        account.setStatus(AccountStatus.ACTIVE);
-        account.setStatusDate(new Date());
-        crudService.save(account);
+            @Override
+            public Object doInTransaction(TransactionStatus status) {
+                AccountType type = new AccountType();
+                type.setActive(true);
+                type.setName("admin");
+                type.setPublicType(false);
+                type.setPeriodicity(AccountPeriodicity.UNLIMITED);
+                type.setPrice(BigDecimal.ZERO);
+                type.setDescription("Admin account type");
+                type = crudService.save(type);
+
+                Account account = new Account();
+                account.setType(type);
+                account.setName("administrator");
+                account.setSubdomain("admin");
+                account.setEmail("admin@dynamiasoluciones.com");
+                account.setStatus(AccountStatus.ACTIVE);
+                account.setStatusDate(new Date());
+                crudService.save(account);
+                return account;
+            }
+        });
 
     }
 

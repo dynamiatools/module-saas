@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.dynamia.modules.saas.services;
 
 import com.dynamia.modules.saas.domain.Account;
@@ -19,6 +18,4 @@ public interface AccountService {
 
     Account getAccount(HttpServletRequest request);
 
-    void init();
-    
 }

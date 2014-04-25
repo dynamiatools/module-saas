@@ -7,6 +7,7 @@ package com.dynamia.modules.saas.domain;
 
 import com.dynamia.modules.saas.enums.AccountStatus;
 import com.dynamia.tools.domain.BaseEntity;
+import com.dynamia.tools.domain.SimpleEntity;
 import com.dynamia.tools.domain.contraints.Email;
 import com.dynamia.tools.domain.contraints.NotEmpty;
 import java.util.Date;
@@ -23,7 +24,7 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Table(name = "saas_accounts")
-public class Account extends BaseEntity {
+public class Account extends SimpleEntity {
 
     @NotNull
     @NotEmpty(message = "ingrese nombre de cuenta")
@@ -45,6 +46,16 @@ public class Account extends BaseEntity {
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date statusDate;
     private String statusDescription;
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date creationDate = new Date();
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
 
     public String getName() {
         return name;
