@@ -8,7 +8,7 @@ package com.dynamia.modules.saas;
 import com.dynamia.modules.saas.domain.Account;
 import com.dynamia.tools.domain.query.QueryParameters;
 import com.dynamia.tools.domain.services.CrudService;
-import java.io.Serializable;
+import com.dynamia.tools.integration.Containers;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -26,6 +26,10 @@ public class AccountContext {
 
     @Autowired
     private CrudService crudService;
+
+    public static AccountContext getCurrent() {
+        return Containers.get().findObject(AccountContext.class);
+    }
 
     public Account getAccount() {
         Account account = null;

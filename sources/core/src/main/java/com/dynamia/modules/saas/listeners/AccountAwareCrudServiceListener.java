@@ -11,7 +11,6 @@ import com.dynamia.modules.saas.domain.Account;
 import com.dynamia.tools.commons.BeanUtils;
 import com.dynamia.tools.domain.query.QueryParameters;
 import com.dynamia.tools.domain.util.CrudServiceListenerAdapter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -21,13 +20,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class AccountAwareCrudServiceListener extends CrudServiceListenerAdapter<AccountAware> {
 
-    @Autowired
-    private AccountContext context;
-
     @Override
     public void beforeCreate(AccountAware entity) {
-        Account account = context.getAccount();
-        entity.setAccount(account);
+
+        entity.setAccount(AccountContext.getCurrent().getAccount());
     }
 
     @Override
@@ -36,7 +32,7 @@ public class AccountAwareCrudServiceListener extends CrudServiceListenerAdapter<
         if (paramsType != null) {
             Object obj = BeanUtils.newInstance(paramsType);
             if (obj instanceof AccountAware) {
-                Account account = context.getAccount();
+                Account account = AccountContext.getCurrent().getAccount();
                 if (account != null) {
                     params.add("account", account);
                 }
