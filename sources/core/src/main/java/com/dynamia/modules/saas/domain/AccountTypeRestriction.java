@@ -6,6 +6,7 @@
 package com.dynamia.modules.saas.domain;
 
 import com.dynamia.tools.domain.SimpleEntity;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -19,60 +20,62 @@ import javax.persistence.Table;
 public class AccountTypeRestriction extends SimpleEntity {
 
     @ManyToOne
-    private AccountType tipoCuenta;
+    private AccountType type;
+    @Column(name = "rest_name")
+    private String name;
+    @Column(name = "rest_key")
+    private String key;
+    @Column(name = "rest_values", length = 5000)
+    private String values;
+    private boolean active;
+    private String description;
 
-    private String descripcion;
-    private String nombre;
-    private String clave;
-    private String valores;
-    private boolean activa;
-
-    public AccountType getTipoCuenta() {
-        return tipoCuenta;
+    public AccountType getType() {
+        return type;
     }
 
-    public void setTipoCuenta(AccountType tipoCuenta) {
-        this.tipoCuenta = tipoCuenta;
+    public void setType(AccountType type) {
+        this.type = type;
     }
 
-    public String getDescripcion() {
-        return descripcion;
+    public String getName() {
+        return name;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getValores() {
-        return valores;
+    public String getKey() {
+        return key;
     }
 
-    public void setValores(String valores) {
-        this.valores = valores;
+    public void setKey(String key) {
+        this.key = key;
     }
 
-    public boolean isActiva() {
-        return activa;
+    public String getValues() {
+        return values;
     }
 
-    public void setActiva(boolean activa) {
-        this.activa = activa;
+    public void setValues(String values) {
+        this.values = values;
     }
 
-    public String getNombre() {
-        return nombre;
+    public boolean isActive() {
+        return active;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
-    public String getClave() {
-        return clave;
+    public String getDescription() {
+        return description;
     }
 
-    public void setClave(String clave) {
-        this.clave = clave;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
 }

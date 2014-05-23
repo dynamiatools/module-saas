@@ -18,4 +18,12 @@ public interface AccountService {
 
     Account getAccount(HttpServletRequest request);
 
+    Account getAccountByCustomDomain(String domain);
+
+    public void setDefaultAccount(Account account);
+
+    Account getDefaultAccount();
+
+    void init();
+
 }

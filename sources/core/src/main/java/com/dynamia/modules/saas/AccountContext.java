@@ -6,10 +6,11 @@
 package com.dynamia.modules.saas;
 
 import com.dynamia.modules.saas.domain.Account;
-import com.dynamia.tools.domain.query.QueryParameters;
+import com.dynamia.modules.saas.services.AccountService;
 import com.dynamia.tools.domain.services.CrudService;
 import com.dynamia.tools.integration.Containers;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Component;
@@ -18,7 +19,7 @@ import org.springframework.stereotype.Component;
  *
  * @author mario
  */
-@Component
+@Component("accountContext")
 public class AccountContext {
 
     @Autowired
@@ -26,6 +27,14 @@ public class AccountContext {
 
     @Autowired
     private CrudService crudService;
+
+    @Autowired
+    private AccountService service;
+    
+    @PostConstruct
+    private void init(){
+        service.init();
+    }
 
     public static AccountContext getCurrent() {
         return Containers.get().findObject(AccountContext.class);
@@ -41,16 +50,15 @@ public class AccountContext {
         }
 
         if (account == null) {
-            account = getDefaultAccount();
+            account = service.getDefaultAccount();
         }
 
         return account;
     }
 
-    private Account getDefaultAccount() {
-
-        return crudService.findSingle(Account.class, new QueryParameters());
-
+    public boolean isAdminAccount() {
+        Account account = getAccount();
+        return account.getType().getName().equalsIgnoreCase("admin");
     }
 
 }

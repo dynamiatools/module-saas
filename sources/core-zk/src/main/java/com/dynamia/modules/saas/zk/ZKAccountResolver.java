@@ -10,7 +10,6 @@ import com.dynamia.modules.saas.domain.Account;
 import com.dynamia.modules.saas.services.AccountService;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.zkoss.zk.ui.Executions;
 

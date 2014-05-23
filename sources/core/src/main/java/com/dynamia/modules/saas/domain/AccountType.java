@@ -33,7 +33,7 @@ public class AccountType extends SimpleEntity {
     private String internalDescription;
     private boolean active;
     private boolean publicType;
-    @OneToMany(mappedBy = "tipoCuenta")
+    @OneToMany(mappedBy = "type")
     private List<AccountTypeRestriction> restrictions = new ArrayList<>();
     @Enumerated(EnumType.ORDINAL)
     @NotNull

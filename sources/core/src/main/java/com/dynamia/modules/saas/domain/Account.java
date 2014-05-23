@@ -33,6 +33,7 @@ public class Account extends SimpleEntity {
     @NotNull
     @Column(unique = true)
     private String subdomain;
+    private String customDomain;
     @NotNull
     @Email(message = "ingreso direccion de correo valida ")
     @NotEmpty(message = "ingrese direccion de correo electronico")
@@ -48,6 +49,23 @@ public class Account extends SimpleEntity {
     private String statusDescription;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date creationDate = new Date();
+    private boolean defaultAccount;
+
+    public boolean isDefaultAccount() {
+        return defaultAccount;
+    }
+
+    public void setDefaultAccount(boolean defaultAccount) {
+        this.defaultAccount = defaultAccount;
+    }
+
+    public String getCustomDomain() {
+        return customDomain;
+    }
+
+    public void setCustomDomain(String customDomain) {
+        this.customDomain = customDomain;
+    }
 
     public Date getCreationDate() {
         return creationDate;
@@ -102,6 +120,9 @@ public class Account extends SimpleEntity {
     }
 
     public void setStatus(AccountStatus status) {
+        if (status != this.status) {
+            setStatusDate(new Date());
+        }
         this.status = status;
     }
 

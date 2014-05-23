@@ -22,19 +22,22 @@ public class AccountAwareCrudServiceListener extends CrudServiceListenerAdapter<
 
     @Override
     public void beforeCreate(AccountAware entity) {
-
-        entity.setAccount(AccountContext.getCurrent().getAccount());
+        if (entity.getAccount() == null) {
+            entity.setAccount(AccountContext.getCurrent().getAccount());
+        }
     }
 
     @Override
     public void beforeQuery(QueryParameters params) {
-        Class paramsType = params.getType();
-        if (paramsType != null) {
-            Object obj = BeanUtils.newInstance(paramsType);
-            if (obj instanceof AccountAware) {
-                Account account = AccountContext.getCurrent().getAccount();
-                if (account != null) {
-                    params.add("account", account);
+        if (!params.containsKey("account")) {
+            Class paramsType = params.getType();
+            if (paramsType != null) {
+                Object obj = BeanUtils.newInstance(paramsType);
+                if (obj instanceof AccountAware) {
+                    Account account = AccountContext.getCurrent().getAccount();
+                    if (account != null) {
+                        params.add("account", account);
+                    }
                 }
             }
         }

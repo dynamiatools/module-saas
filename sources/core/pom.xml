@@ -10,7 +10,7 @@
     <groupId>com.dynamia.modules</groupId>
     <artifactId>com.dynamia.modules.saas</artifactId>
     <version>1.0.0</version>
-    <name>DynamiaModules - SaaS (${project.version})</name>
+    <name>Dynamia Modules - SaaS (${project.version})</name>
     <url>http://maven.apache.org</url>
     <build>
         <plugins>

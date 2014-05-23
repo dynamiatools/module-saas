@@ -1,0 +1,25 @@
+view: form
+beanClass: com.dynamia.modules.saas.domain.Account
+autofields: false
+
+fields:
+    name:
+        params:
+            span: 2
+    subdomain:
+    customDomain:
+    type:
+    email:
+    status:
+    statusDescription:
+        params:
+            span: 2
+            multiline: true
+            height: 100px
+            
+        
+
+    
+        
+       
+     
