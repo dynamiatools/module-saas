@@ -30,9 +30,9 @@ public class AccountContext {
 
     @Autowired
     private AccountService service;
-    
+
     @PostConstruct
-    private void init(){
+    private void init() {
         service.init();
     }
 
@@ -58,7 +58,10 @@ public class AccountContext {
 
     public boolean isAdminAccount() {
         Account account = getAccount();
-        return account.getType().getName().equalsIgnoreCase("admin");
+        if (account != null) {
+            return account.getType().getName().equalsIgnoreCase("admin");
+        }
+        return false;
     }
 
 }
