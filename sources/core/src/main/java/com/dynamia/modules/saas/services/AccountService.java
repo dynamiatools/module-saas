@@ -24,6 +24,6 @@ public interface AccountService {
 
     Account getDefaultAccount();
 
-    void init();
+    Account init();
 
 }

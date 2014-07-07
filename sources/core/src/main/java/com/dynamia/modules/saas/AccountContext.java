@@ -10,7 +10,6 @@ import com.dynamia.modules.saas.services.AccountService;
 import com.dynamia.tools.domain.services.CrudService;
 import com.dynamia.tools.integration.Containers;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Component;
@@ -31,11 +30,6 @@ public class AccountContext {
     @Autowired
     private AccountService service;
 
-    @PostConstruct
-    private void init() {
-        service.init();
-    }
-
     public static AccountContext getCurrent() {
         return Containers.get().findObject(AccountContext.class);
     }
@@ -51,6 +45,10 @@ public class AccountContext {
 
         if (account == null) {
             account = service.getDefaultAccount();
+            if (account == null) {
+                account = service.init();
+            }
+
         }
 
         return account;

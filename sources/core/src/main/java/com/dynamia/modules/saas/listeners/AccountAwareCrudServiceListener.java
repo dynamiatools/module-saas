@@ -20,6 +20,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class AccountAwareCrudServiceListener extends CrudServiceListenerAdapter<AccountAware> {
 
+    
+    
     @Override
     public void beforeCreate(AccountAware entity) {
         if (entity.getAccount() == null) {

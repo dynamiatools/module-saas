@@ -40,10 +40,12 @@ public class AccountServiceImpl implements AccountService {
     private PlatformTransactionManager txManager;
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void init() {
+    public Account init() {
         if (crudService.count(Account.class) == 0
                 && crudService.count(AccountType.class) == 0) {
-            createDefaults();
+            return createDefaults();
+        } else {
+            return null;
         }
     }
 
@@ -81,7 +83,7 @@ public class AccountServiceImpl implements AccountService {
         return crudService.findSingle(Account.class, "defaultAccount", true);
     }
 
-    private void createDefaults() {
+    private Account createDefaults() {
 
         AccountType type = new AccountType();
         type.setActive(true);
@@ -100,7 +102,8 @@ public class AccountServiceImpl implements AccountService {
         account.setEmail("admin@dynamiasoluciones.com");
         account.setStatus(AccountStatus.ACTIVE);
         account.setStatusDate(new Date());
-        crudService.save(account);
+        account = crudService.save(account);
+        return account;
     }
 
 }

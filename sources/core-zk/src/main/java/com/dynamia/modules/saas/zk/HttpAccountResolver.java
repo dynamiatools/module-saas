@@ -28,10 +28,27 @@ public class HttpAccountResolver implements AccountResolver {
     public Account resolve() {
         try {
 
-            HttpServletRequest request = HttpUtils.getCurrentRequest();
-            return service.getAccount(request);
+            HttpServletRequest request = getHttpRequest();
+
+            Account account = (Account) request.getSession().getAttribute("saas_account");
+
+            if (account == null) {
+                account = service.getAccount(request);
+                if(account==null){
+                    account = service.getDefaultAccount();
+                }
+                if (account != null) {
+                    request.getSession().setAttribute("saas_account", account);
+                }
+            }
+
+            return account;
         } catch (Exception e) {
             return null;
         }
+    }
+
+    protected HttpServletRequest getHttpRequest() {
+        return HttpUtils.getCurrentRequest();
     }
 }
