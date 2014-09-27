@@ -1,2 +1,10 @@
-/sources/core/target/
-/sources/core-zk/target/
+.classpath
+.project
+.directory
+.settings/
+target/
+tmp/
+logs/
+bin/
+gen/
+*.versionsBackup
