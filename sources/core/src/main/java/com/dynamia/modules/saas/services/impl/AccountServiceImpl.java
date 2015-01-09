@@ -12,13 +12,13 @@ import com.dynamia.modules.saas.enums.AccountPeriodicity;
 import com.dynamia.modules.saas.enums.AccountStatus;
 import com.dynamia.modules.saas.services.AccountService;
 import com.dynamia.tools.commons.BeanUtils;
+import com.dynamia.tools.commons.logger.LoggingService;
+import com.dynamia.tools.commons.logger.SLF4JLoggingService;
 import com.dynamia.tools.domain.query.QueryParameters;
 import com.dynamia.tools.domain.services.CrudService;
-import com.dynamia.tools.integration.scheduling.Task;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.jpa.EntityManagerFactoryInfo;
@@ -38,6 +38,8 @@ public class AccountServiceImpl implements AccountService {
 
     @Autowired
     private EntityManagerFactoryInfo entityManagerFactoryInfo;
+
+    private LoggingService logger = new SLF4JLoggingService(AccountService.class);
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public Account init() {
@@ -106,35 +108,33 @@ public class AccountServiceImpl implements AccountService {
         return account;
     }
 
-    @PostConstruct
+    @Transactional
+    @Override
     public void fixAccountAwareEntities() {
-
+        logger.info("Fixing AccountAware entities");
         Account account = crudService.findSingle(Account.class, new QueryParameters());
 
         if (account != null) {
-            final Account currentAccount = account;
-            crudService.executeWithinTransaction(new Task() {
-                @Override
-                public void doWork() {
-                    List<String> entityClasses = entityManagerFactoryInfo.getPersistenceUnitInfo().getManagedClassNames();
-                    for (String className : entityClasses) {
-                        try {
-                            Object entity = BeanUtils.newInstance(className);
-                            if (entity instanceof AccountAware) {
-                                String update = "update " + className + " a set a.account = :account where a.account is null";
-                                int count = crudService.execute(update, QueryParameters.with("account", currentAccount));
-                                System.out.println(count + " " + className + " actualizados con account " + currentAccount.getName());
-                            }
-                        } catch (Exception e) {
-                            // TODO: handle exception
+            logger.info("Setting account " + account + " to all AccountAware entities with null account ");
+            List<String> entityClasses = entityManagerFactoryInfo.getPersistenceUnitInfo().getManagedClassNames();
+            for (String className : entityClasses) {
+                try {
+                    Object entity = BeanUtils.newInstance(className);
+                    if (entity instanceof AccountAware) {
+                        logger.info("Fixing " + className);
+                        String update = "update " + className + " a set a.account = :account where a.account is null";
+                        int count = crudService.execute(update, QueryParameters.with("account", account));
+                        if (count > 0) {
+                            logger.info(" " + count + " " + className + " entities fixed with account " + account);
+                        } else {
+                            logger.info(" Nothing to fix");
                         }
                     }
-
+                } catch (Exception e) {
+                    // TODO: handle exception
                 }
-            });
-
+            }
         }
-
     }
 
 }

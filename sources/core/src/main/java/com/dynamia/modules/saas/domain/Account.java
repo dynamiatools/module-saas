@@ -6,7 +6,6 @@
 package com.dynamia.modules.saas.domain;
 
 import com.dynamia.modules.saas.enums.AccountStatus;
-import com.dynamia.tools.domain.BaseEntity;
 import com.dynamia.tools.domain.SimpleEntity;
 import com.dynamia.tools.domain.contraints.Email;
 import com.dynamia.tools.domain.contraints.NotEmpty;
@@ -140,6 +139,11 @@ public class Account extends SimpleEntity {
 
     public void setStatusDescription(String statusDescription) {
         this.statusDescription = statusDescription;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s (%s)", getName(), getEmail());
     }
 
 }

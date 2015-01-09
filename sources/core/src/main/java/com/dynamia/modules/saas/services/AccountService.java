@@ -26,4 +26,6 @@ public interface AccountService {
 
     Account init();
 
+    void fixAccountAwareEntities();
+
 }

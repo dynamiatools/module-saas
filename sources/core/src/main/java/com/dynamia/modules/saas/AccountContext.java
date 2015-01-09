@@ -10,6 +10,7 @@ import com.dynamia.modules.saas.services.AccountService;
 import com.dynamia.tools.domain.services.CrudService;
 import com.dynamia.tools.integration.Containers;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Component;
@@ -60,6 +61,15 @@ public class AccountContext {
             return account.getType().getName().equalsIgnoreCase("admin");
         }
         return false;
+    }
+
+    @PostConstruct
+    private void fixEntities() {
+        try {
+            service.fixAccountAwareEntities();
+        } catch (Exception e) {
+        }
+
     }
 
 }
