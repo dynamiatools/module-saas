@@ -20,7 +20,7 @@
         </plugins>
     </build>
     <properties>
-        <dynatools.version>2.1.0.Final</dynatools.version>
+        <dynatools.version>2.1.7.Final</dynatools.version>
     </properties>
     
     <modules>

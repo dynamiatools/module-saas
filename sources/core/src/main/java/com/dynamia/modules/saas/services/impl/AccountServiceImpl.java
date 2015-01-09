@@ -5,26 +5,26 @@
  */
 package com.dynamia.modules.saas.services.impl;
 
+import com.dynamia.modules.saas.AccountAware;
 import com.dynamia.modules.saas.domain.Account;
 import com.dynamia.modules.saas.domain.AccountType;
 import com.dynamia.modules.saas.enums.AccountPeriodicity;
 import com.dynamia.modules.saas.enums.AccountStatus;
 import com.dynamia.modules.saas.services.AccountService;
+import com.dynamia.tools.commons.BeanUtils;
+import com.dynamia.tools.domain.query.QueryParameters;
 import com.dynamia.tools.domain.services.CrudService;
-import com.dynamia.tools.domain.services.impl.JpaCrudService;
 import com.dynamia.tools.integration.scheduling.Task;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.jpa.EntityManagerFactoryInfo;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.support.TransactionCallback;
-import org.springframework.transaction.support.TransactionTemplate;
 
 /**
  *
@@ -37,7 +37,7 @@ public class AccountServiceImpl implements AccountService {
     private CrudService crudService;
 
     @Autowired
-    private PlatformTransactionManager txManager;
+    private EntityManagerFactoryInfo entityManagerFactoryInfo;
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public Account init() {
@@ -104,6 +104,37 @@ public class AccountServiceImpl implements AccountService {
         account.setStatusDate(new Date());
         account = crudService.save(account);
         return account;
+    }
+
+    @PostConstruct
+    public void fixAccountAwareEntities() {
+
+        Account account = crudService.findSingle(Account.class, new QueryParameters());
+
+        if (account != null) {
+            final Account currentAccount = account;
+            crudService.executeWithinTransaction(new Task() {
+                @Override
+                public void doWork() {
+                    List<String> entityClasses = entityManagerFactoryInfo.getPersistenceUnitInfo().getManagedClassNames();
+                    for (String className : entityClasses) {
+                        try {
+                            Object entity = BeanUtils.newInstance(className);
+                            if (entity instanceof AccountAware) {
+                                String update = "update " + className + " a set a.account = :account where a.account is null";
+                                int count = crudService.execute(update, QueryParameters.with("account", currentAccount));
+                                System.out.println(count + " " + className + " actualizados con account " + currentAccount.getName());
+                            }
+                        } catch (Exception e) {
+                            // TODO: handle exception
+                        }
+                    }
+
+                }
+            });
+
+        }
+
     }
 
 }
