@@ -8,11 +8,12 @@
 		<version>2.0.0.Beta</version>
 	</parent>
 	<groupId>tools.dynamia.modules</groupId>
-	<artifactId>tools.dynamia.modules.saas</artifactId>
+	<artifactId>tools.dynamia.modules.saas.ui</artifactId>
 	<version>2.0.0.Beta</version>
-	<name>Dynamia Modules - SaaS (${project.version})</name>
+	<name>Dynamia Modules - SaaS UI (${project.version})</name>
 	<url>http://www.dynamia.tools/modules/saas</url>
-	
+
+
 	<build>
 		<plugins>
 			<plugin>
@@ -27,7 +28,7 @@
 			</plugin>
 		</plugins>
 	</build>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -36,9 +37,19 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
+			<groupId>tools.dynamia</groupId>
+			<artifactId>tools.dynamia.zk.crud</artifactId>
+			<version>${dynatools.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>tools.dynamia.modules.saas</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
-			<version>2.5</version>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.1.0</version>
 			<scope>provided</scope>
 		</dependency>
 
