@@ -23,7 +23,8 @@ public class SaaSModuleInstaller implements ModuleProvider{
 
     @Override
     public Module getModule() {
-        Module module = new Module("saas", "SAAS");
+        Module module = new Module("saas", "SaaS");
+        module.setIcon("icons:globe");
         module.addPage(new CrudPage("accounts","Accounts",Account.class));
         module.addPage(new CrudPage("accountsType","Accounts Type",AccountType.class));
         
