@@ -19,16 +19,16 @@ import tools.dynamia.navigation.ModuleProvider;
  * @author mario_2
  */
 @Component
-public class SaaSModuleInstaller implements ModuleProvider{
+public class SaaSModuleInstaller implements ModuleProvider {
 
-    @Override
-    public Module getModule() {
-        Module module = new Module("saas", "SaaS");
-        module.setIcon("icons:globe");
-        module.addPage(new CrudPage("accounts","Accounts",Account.class));
-        module.addPage(new CrudPage("accountsType","Accounts Type",AccountType.class));
-        
-        return module;
-    }
-    	
+	@Override
+	public Module getModule() {
+		Module module = new Module("saas", "SaaS");
+		module.setIcon("globe");
+		module.addPage(new CrudPage("accounts", "Accounts", Account.class));
+		module.addPage(new CrudPage("accountsType", "Accounts Type", AccountType.class));
+
+		return module;
+	}
+
 }
