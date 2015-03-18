@@ -10,6 +10,12 @@ fields:
     customDomain:
     type:
     email:
+    logo:
+       label: Logo
+       params:
+          imageOnly: true
+    skin:
+       component: skincombobox
     status:
     statusDescription:
         params:

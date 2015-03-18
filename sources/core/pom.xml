@@ -42,5 +42,10 @@
 			<scope>provided</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>tools.dynamia.modules</groupId>
+			<artifactId>tools.dynamia.modules.entityfiles</artifactId>
+			<version>${entityfiles.version}</version>
+		</dependency>
 	</dependencies>
 </project>

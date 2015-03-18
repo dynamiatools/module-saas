@@ -17,6 +17,7 @@ import javax.validation.constraints.NotNull;
 import tools.dynamia.domain.SimpleEntity;
 import tools.dynamia.domain.contraints.Email;
 import tools.dynamia.domain.contraints.NotEmpty;
+import tools.dynamia.modules.entityfile.domain.EntityFile;
 import tools.dynamia.modules.saas.enums.AccountStatus;
 
 /**
@@ -27,125 +28,144 @@ import tools.dynamia.modules.saas.enums.AccountStatus;
 @Table(name = "saas_accounts")
 public class Account extends SimpleEntity {
 
-    @NotNull
-    @NotEmpty(message = "ingrese nombre de cuenta")
-    @Column(unique = true)
-    private String name;
-    @NotNull
-    @Column(unique = true)
-    private String subdomain;
-    private String customDomain;
-    @NotNull
-    @Email(message = "ingreso direccion de correo valida ")
-    @NotEmpty(message = "ingrese direccion de correo electronico")
-    private String email;
-    @OneToOne
-    @NotNull
-    private AccountType type;
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date expirationDate;
-    private AccountStatus status;
-    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
-    private Date statusDate;
-    private String statusDescription;
-    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
-    private Date creationDate = new Date();
-    private boolean defaultAccount;
+	@NotNull
+	@NotEmpty(message = "ingrese nombre de cuenta")
+	@Column(unique = true)
+	private String name;
+	@NotNull
+	@Column(unique = true)
+	private String subdomain;
+	private String customDomain;
+	@NotNull
+	@Email(message = "ingreso direccion de correo valida ")
+	@NotEmpty(message = "ingrese direccion de correo electronico")
+	private String email;
+	@OneToOne
+	@NotNull
+	private AccountType type;
+	@Temporal(javax.persistence.TemporalType.DATE)
+	private Date expirationDate;
+	private AccountStatus status;
+	@Temporal(javax.persistence.TemporalType.TIMESTAMP)
+	private Date statusDate;
+	private String statusDescription;
+	@Temporal(javax.persistence.TemporalType.TIMESTAMP)
+	private Date creationDate = new Date();
+	private boolean defaultAccount;
+	private String skin;
+	@OneToOne
+	private EntityFile logo;
 
-    public boolean isDefaultAccount() {
-        return defaultAccount;
-    }
+	public String getSkin() {
+		return skin;
+	}
 
-    public void setDefaultAccount(boolean defaultAccount) {
-        this.defaultAccount = defaultAccount;
-    }
+	public void setSkin(String skin) {
+		this.skin = skin;
+	}
 
-    public String getCustomDomain() {
-        return customDomain;
-    }
+	public EntityFile getLogo() {
+		return logo;
+	}
 
-    public void setCustomDomain(String customDomain) {
-        this.customDomain = customDomain;
-    }
+	public void setLogo(EntityFile logo) {
+		this.logo = logo;
+	}
 
-    public Date getCreationDate() {
-        return creationDate;
-    }
+	public boolean isDefaultAccount() {
+		return defaultAccount;
+	}
 
-    public void setCreationDate(Date creationDate) {
-        this.creationDate = creationDate;
-    }
+	public void setDefaultAccount(boolean defaultAccount) {
+		this.defaultAccount = defaultAccount;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public String getCustomDomain() {
+		return customDomain;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setCustomDomain(String customDomain) {
+		this.customDomain = customDomain;
+	}
 
-    public String getSubdomain() {
-        return subdomain;
-    }
+	public Date getCreationDate() {
+		return creationDate;
+	}
 
-    public void setSubdomain(String subdomain) {
-        this.subdomain = subdomain;
-    }
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public AccountType getType() {
-        return type;
-    }
+	public String getSubdomain() {
+		return subdomain;
+	}
 
-    public void setType(AccountType type) {
-        this.type = type;
-    }
+	public void setSubdomain(String subdomain) {
+		this.subdomain = subdomain;
+	}
 
-    public Date getExpirationDate() {
-        return expirationDate;
-    }
+	public String getEmail() {
+		return email;
+	}
 
-    public void setExpirationDate(Date expirationDate) {
-        this.expirationDate = expirationDate;
-    }
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-    public AccountStatus getStatus() {
-        return status;
-    }
+	public AccountType getType() {
+		return type;
+	}
 
-    public void setStatus(AccountStatus status) {
-        if (status != this.status) {
-            setStatusDate(new Date());
-        }
-        this.status = status;
-    }
+	public void setType(AccountType type) {
+		this.type = type;
+	}
 
-    public Date getStatusDate() {
-        return statusDate;
-    }
+	public Date getExpirationDate() {
+		return expirationDate;
+	}
 
-    public void setStatusDate(Date statusDate) {
-        this.statusDate = statusDate;
-    }
+	public void setExpirationDate(Date expirationDate) {
+		this.expirationDate = expirationDate;
+	}
 
-    public String getStatusDescription() {
-        return statusDescription;
-    }
+	public AccountStatus getStatus() {
+		return status;
+	}
 
-    public void setStatusDescription(String statusDescription) {
-        this.statusDescription = statusDescription;
-    }
+	public void setStatus(AccountStatus status) {
+		if (status != this.status) {
+			setStatusDate(new Date());
+		}
+		this.status = status;
+	}
 
-    @Override
-    public String toString() {
-        return String.format("%s (%s)", getName(), getEmail());
-    }
+	public Date getStatusDate() {
+		return statusDate;
+	}
+
+	public void setStatusDate(Date statusDate) {
+		this.statusDate = statusDate;
+	}
+
+	public String getStatusDescription() {
+		return statusDescription;
+	}
+
+	public void setStatusDescription(String statusDescription) {
+		this.statusDescription = statusDescription;
+	}
+
+	@Override
+	public String toString() {
+		return String.format("%s (%s)", getName(), getEmail());
+	}
 
 }

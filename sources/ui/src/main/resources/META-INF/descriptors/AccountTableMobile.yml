@@ -1,6 +1,7 @@
 view: table
 beanClass: tools.dynamia.modules.saas.domain.Account
 autofields: false
+device: smartphone
 
 fields:
     defaultAccount:
@@ -10,7 +11,8 @@ fields:
        params:
            trueIcon: star
            falseIcon: staroff
-           width: 32px
+           header:
+            width: 32px
            
     accounts:
       component: coollabel
@@ -21,15 +23,13 @@ fields:
             subtitle: email
             description: type
             imageFile: logo.thumbnail 
-    
-    
-    subdomain:
-    customDomain:    
-    status:    
-    statusDate:
-    statusDescription:
-    expirationDate:
-    creationDate:
-    
+   
+    status:
+      params:
+         header:
+            width: 80px    
+
+params:
+  sizedByContent: false
        
      
