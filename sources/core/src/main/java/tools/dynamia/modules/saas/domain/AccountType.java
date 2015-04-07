@@ -18,7 +18,7 @@ import javax.validation.constraints.NotNull;
 
 import tools.dynamia.domain.SimpleEntity;
 import tools.dynamia.domain.contraints.NotEmpty;
-import tools.dynamia.modules.saas.enums.AccountPeriodicity;
+import tools.dynamia.modules.saas.api.enums.AccountPeriodicity;
 
 /**
  *

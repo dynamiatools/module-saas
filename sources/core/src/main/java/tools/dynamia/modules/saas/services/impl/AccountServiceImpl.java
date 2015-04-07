@@ -8,12 +8,12 @@ package tools.dynamia.modules.saas.services.impl;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.jpa.EntityManagerFactoryInfo;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,11 +23,11 @@ import tools.dynamia.commons.logger.LoggingService;
 import tools.dynamia.commons.logger.SLF4JLoggingService;
 import tools.dynamia.domain.query.QueryParameters;
 import tools.dynamia.domain.services.CrudService;
-import tools.dynamia.modules.saas.AccountAware;
+import tools.dynamia.modules.saas.api.AccountAware;
+import tools.dynamia.modules.saas.api.enums.AccountPeriodicity;
+import tools.dynamia.modules.saas.api.enums.AccountStatus;
 import tools.dynamia.modules.saas.domain.Account;
 import tools.dynamia.modules.saas.domain.AccountType;
-import tools.dynamia.modules.saas.enums.AccountPeriodicity;
-import tools.dynamia.modules.saas.enums.AccountStatus;
 import tools.dynamia.modules.saas.services.AccountService;
 
 /**

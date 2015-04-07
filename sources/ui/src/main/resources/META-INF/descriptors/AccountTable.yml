@@ -20,9 +20,10 @@ fields:
             title: name
             subtitle: email
             description: type
-            imageFile: logo.thumbnail 
+            imageFile: logo.storedEntityFile.thumbnailUrl 
     
-    
+    locale:
+    timeZone:
     subdomain:
     customDomain:    
     status:    

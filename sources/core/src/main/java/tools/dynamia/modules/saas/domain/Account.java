@@ -18,7 +18,8 @@ import tools.dynamia.domain.SimpleEntity;
 import tools.dynamia.domain.contraints.Email;
 import tools.dynamia.domain.contraints.NotEmpty;
 import tools.dynamia.modules.entityfile.domain.EntityFile;
-import tools.dynamia.modules.saas.enums.AccountStatus;
+import tools.dynamia.modules.saas.api.AccountInfo;
+import tools.dynamia.modules.saas.api.enums.AccountStatus;
 
 /**
  *
@@ -55,6 +56,24 @@ public class Account extends SimpleEntity {
 	private String skin;
 	@OneToOne
 	private EntityFile logo;
+	private String locale;
+	private String timeZone;
+
+	public String getTimeZone() {
+		return timeZone;
+	}
+
+	public void setTimeZone(String timeZone) {
+		this.timeZone = timeZone;
+	}
+
+	public String getLocale() {
+		return locale;
+	}
+
+	public void setLocale(String locale) {
+		this.locale = locale;
+	}
 
 	public String getSkin() {
 		return skin;
@@ -168,4 +187,27 @@ public class Account extends SimpleEntity {
 		return String.format("%s (%s)", getName(), getEmail());
 	}
 
+	public AccountInfo getInfo() {
+		String logoURL = null;
+		if (logo != null) {
+			logoURL = logo.getStoredEntityFile().getThumbnailUrl(200, 200);
+		}
+
+		AccountInfo info = new AccountInfo(
+				getId(),
+				name,
+				email,
+				status,
+				getType().getPeriodicity(),
+				getType().getName(),
+				creationDate,
+				subdomain,
+				customDomain,
+				statusDescription,
+				skin,
+				logoURL,
+				locale,
+				timeZone);
+		return info;
+	}
 }

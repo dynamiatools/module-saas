@@ -3,15 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tools.dynamia.modules.saas.domain;
+package tools.dynamia.modules.saas.api;
 
 import javax.persistence.Entity;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 import tools.dynamia.domain.query.Parameter;
-import tools.dynamia.modules.saas.AccountAware;
 
 /**
  *
@@ -19,21 +17,20 @@ import tools.dynamia.modules.saas.AccountAware;
  */
 @Entity
 @Table(uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"account_id", "param_name"})
+    @UniqueConstraint(columnNames = {"accountId", "param_name"})
 })
 public class AccountParameter extends Parameter implements AccountAware {
 
-    @OneToOne
-    private Account account;
+	
+	private Long accountId;
 
-    @Override
-    public Account getAccount() {
-        return account;
-    }
+	public Long getAccountId() {
+		return accountId;
+	}
 
-    @Override
-    public void setAccount(Account account) {
-        this.account = account;
-    }
+	public void setAccountId(Long accountId) {
+		this.accountId = accountId;
+	}
+
 
 }

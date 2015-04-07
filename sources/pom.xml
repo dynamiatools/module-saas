@@ -32,8 +32,10 @@
 	</build>
 
 	<modules>
+		<module>api</module>
 		<module>core</module>
 		<module>ui</module>
+
 	</modules>
 	<dependencies>
 		<dependency>

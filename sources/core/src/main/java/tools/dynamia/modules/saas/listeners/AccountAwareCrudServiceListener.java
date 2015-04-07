@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 import tools.dynamia.commons.BeanUtils;
 import tools.dynamia.domain.query.QueryParameters;
 import tools.dynamia.domain.util.CrudServiceListenerAdapter;
-import tools.dynamia.modules.saas.AccountAware;
 import tools.dynamia.modules.saas.AccountContext;
+import tools.dynamia.modules.saas.api.AccountAware;
 import tools.dynamia.modules.saas.domain.Account;
 
 /**
@@ -21,29 +21,32 @@ import tools.dynamia.modules.saas.domain.Account;
 @Component
 public class AccountAwareCrudServiceListener extends CrudServiceListenerAdapter<AccountAware> {
 
-    
-    
-    @Override
-    public void beforeCreate(AccountAware entity) {
-        if (entity.getAccount() == null) {
-            entity.setAccount(AccountContext.getCurrent().getAccount());
-        }
-    }
+	@Override
+	public void beforeCreate(AccountAware entity) {
+		if (entity.getAccountId() == null) {
+			try {
+				entity.setAccountId(AccountContext.getCurrent().getAccount().getId());
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
 
-    @Override
-    public void beforeQuery(QueryParameters params) {
-        if (!params.containsKey("account")) {
-            Class paramsType = params.getType();
-            if (paramsType != null) {
-                Object obj = BeanUtils.newInstance(paramsType);
-                if (obj instanceof AccountAware) {
-                    Account account = AccountContext.getCurrent().getAccount();
-                    if (account != null) {
-                        params.add("account", account);
-                    }
-                }
-            }
-        }
-    }
+	@Override
+	public void beforeQuery(QueryParameters params) {
+		if (!params.containsKey("accountId")) {
+			Class paramsType = params.getType();
+			if (paramsType != null) {
+				Object obj = BeanUtils.newInstance(paramsType);
+				if (obj instanceof AccountAware) {
+					Account account = AccountContext.getCurrent().getAccount();
+					if (account != null) {
+						params.add("accountId", account.getId());
+					}
+				}
+			}
+		}
+	}
 
 }

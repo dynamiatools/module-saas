@@ -3,9 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tools.dynamia.modules.saas;
+package tools.dynamia.modules.saas.api;
 
-import tools.dynamia.modules.saas.domain.Account;
 
 /**
  *
@@ -13,8 +12,8 @@ import tools.dynamia.modules.saas.domain.Account;
  */
 public interface AccountAware {
 
-    public Account getAccount();
+    public Long getAccountId();
 
-    public void setAccount(Account account);
+    public void setAccountId(Long account);
 
 }
