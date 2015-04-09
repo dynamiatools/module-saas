@@ -8,7 +8,6 @@ package tools.dynamia.modules.saas.services.impl;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -125,9 +124,9 @@ class AccountServiceImpl implements AccountService {
 				try {
 					Object entity = BeanUtils.newInstance(className);
 					if (entity instanceof AccountAware) {
-						logger.info("Fixing " + className);
-						String update = "update " + className + " a set a.account = :account where a.account is null";
-						int count = crudService.execute(update, QueryParameters.with("account", account));
+						logger.info("Fixing Account Aware for " + className);
+						String update = "update " + className + " a set a.accountId = :account where a.accountId is null";
+						int count = crudService.execute(update, QueryParameters.with("account", account.getId()));
 						if (count > 0) {
 							logger.info(" " + count + " " + className + " entities fixed with account " + account);
 						} else {
