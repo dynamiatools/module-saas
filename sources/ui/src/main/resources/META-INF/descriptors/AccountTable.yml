@@ -20,7 +20,7 @@ fields:
             title: name
             subtitle: email
             description: type
-            imageFile: logo.storedEntityFile.thumbnailUrl 
+            imageURL: logo.storedEntityFile.thumbnailUrl 
     
     locale:
     timeZone:
