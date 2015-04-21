@@ -125,7 +125,7 @@ class AccountServiceImpl implements AccountService {
 					Object entity = BeanUtils.newInstance(className);
 					if (entity instanceof AccountAware) {
 						logger.info("Fixing Account Aware for " + className);
-						String update = "update " + className + " a set a.accountId = :account where a.accountId is null";
+						String update = "update " + className + " a set a.accountId = :account where (a.accountId is null or a.accountId = 0)";
 						int count = crudService.execute(update, QueryParameters.with("account", account.getId()));
 						if (count > 0) {
 							logger.info(" " + count + " " + className + " entities fixed with account " + account);
