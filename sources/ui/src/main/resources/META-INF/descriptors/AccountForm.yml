@@ -18,6 +18,7 @@ fields:
        label: Logo
        params:
           imageOnly: true
+          shared: true
     skin:
        component: skincombobox
     status:

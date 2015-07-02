@@ -23,32 +23,34 @@ import tools.dynamia.ui.UIMessages;
 @InstallAction
 public class SetDefaultAccountAction extends AbstractCrudAction {
 
-    @Autowired
-    private AccountService accountService;
+	@Autowired
+	private AccountService accountService;
 
-    public SetDefaultAccountAction() {
-        setName("Set as Default Account");
-        setImage("star");
-    }
+	public SetDefaultAccountAction() {
+		setName("Set as Default Account");
+		setImage("star");
+	}
 
-    @Override
-    public void actionPerformed(CrudActionEvent evt) {
-        Account account = (Account) evt.getData();
-        if (account != null) {
-            accountService.setDefaultAccount(account);
-            UIMessages.showMessage(account + " set as default account succefully");
-            evt.getController().doQuery();
-        }
-    }
+	@Override
+	public void actionPerformed(CrudActionEvent evt) {
+		Account account = (Account) evt.getData();
+		if (account != null) {
+			UIMessages.showQuestion("Are you sure?", () -> {
+				accountService.setDefaultAccount(account);
+				UIMessages.showMessage(account + " set as default account succefully");
+				evt.getController().doQuery();
+			});
+		}
+	}
 
-    @Override
-    public CrudState[] getApplicableStates() {
-        return CrudState.get(CrudState.READ, CrudState.UPDATE);
-    }
+	@Override
+	public CrudState[] getApplicableStates() {
+		return CrudState.get(CrudState.READ, CrudState.UPDATE);
+	}
 
-    @Override
-    public ApplicableClass[] getApplicableClasses() {
-        return ApplicableClass.get(Account.class);
-    }
+	@Override
+	public ApplicableClass[] getApplicableClasses() {
+		return ApplicableClass.get(Account.class);
+	}
 
 }

@@ -8,6 +8,8 @@ package tools.dynamia.modules.saas.services.impl;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -101,6 +103,8 @@ class AccountServiceImpl implements AccountService {
 
 		Account account = new Account();
 		account.setType(type);
+		account.setTimeZone(TimeZone.getDefault().getID());
+		account.setLocale(Locale.getDefault().toString());
 		account.setDefaultAccount(true);
 		account.setName("System");
 		account.setSubdomain("admin");
@@ -125,7 +129,8 @@ class AccountServiceImpl implements AccountService {
 					Object entity = BeanUtils.newInstance(className);
 					if (entity instanceof AccountAware) {
 						logger.info("Fixing Account Aware for " + className);
-						String update = "update " + className + " a set a.accountId = :account where (a.accountId is null or a.accountId = 0)";
+						String update = "update " + className
+								+ " a set a.accountId = :account where (a.accountId is null or a.accountId = 0)";
 						int count = crudService.execute(update, QueryParameters.with("account", account.getId()));
 						if (count > 0) {
 							logger.info(" " + count + " " + className + " entities fixed with account " + account);
