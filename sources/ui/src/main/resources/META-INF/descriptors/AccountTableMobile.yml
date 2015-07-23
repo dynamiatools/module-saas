@@ -22,7 +22,7 @@ fields:
             title: name
             subtitle: email
             description: type
-            imageFile: logo.thumbnail 
+            imageURL: logo.storedEntityFile.thumbnailUrl
    
     status:
       params:
