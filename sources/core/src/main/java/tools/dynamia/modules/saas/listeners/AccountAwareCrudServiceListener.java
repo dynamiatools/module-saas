@@ -41,7 +41,7 @@ public class AccountAwareCrudServiceListener extends CrudServiceListenerAdapter<
 				Object obj = BeanUtils.newInstance(paramsType);
 				if (obj instanceof AccountAware) {
 					Account account = AccountContext.getCurrent().getAccount();
-					if (account != null) {
+					if (account != null) {						
 						params.add("accountId", account.getId());
 					}
 				}
