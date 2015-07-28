@@ -26,12 +26,13 @@ public class AccountInfo implements Serializable {
 	private String logoURL;
 	private String locale;
 	private String timeZone;
+	private int maxUsers;
 
 	public AccountInfo(Long id, String name,
 			String email, AccountStatus status,
 			AccountPeriodicity periodicity, String type,
 			Date creationDate, String subdomain, String domain,
-			String statusDescription, String skin, String logoURL, String locale, String timeZone) {
+			String statusDescription, String skin, String logoURL, String locale, String timeZone, int maxUsers) {
 		this.id = id;
 		this.name = name;
 		this.email = email;
@@ -47,6 +48,11 @@ public class AccountInfo implements Serializable {
 
 		this.locale = locale;
 		this.timeZone = timeZone;
+		this.maxUsers = maxUsers;
+	}
+
+	public int getMaxUsers() {
+		return maxUsers;
 	}
 
 	public String getLogoURL() {

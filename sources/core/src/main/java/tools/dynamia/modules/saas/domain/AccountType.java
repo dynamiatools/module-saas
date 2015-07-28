@@ -14,6 +14,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import tools.dynamia.domain.SimpleEntity;
@@ -28,87 +29,97 @@ import tools.dynamia.modules.saas.api.enums.AccountPeriodicity;
 @Table(name = "saas_account_types")
 public class AccountType extends SimpleEntity {
 
-    @NotNull
-    @NotEmpty(message = "ingrese nombre del tipo de cuenta")
-    private String name;
-    private String description;
-    private String internalDescription;
-    private boolean active;
-    private boolean publicType;
-    @OneToMany(mappedBy = "type")
-    private List<AccountTypeRestriction> restrictions = new ArrayList<>();
-    @Enumerated(EnumType.ORDINAL)
-    @NotNull
-    private AccountPeriodicity periodicity;
-    private BigDecimal price;
+	@NotNull
+	@NotEmpty(message = "ingrese nombre del tipo de cuenta")
+	private String name;
+	private String description;
+	private String internalDescription;
+	private boolean active;
+	private boolean publicType;
+	@OneToMany(mappedBy = "type")
+	private List<AccountTypeRestriction> restrictions = new ArrayList<>();
+	@Enumerated(EnumType.ORDINAL)
+	@NotNull
+	private AccountPeriodicity periodicity;
+	private BigDecimal price;
+	@Min(value = 1, message = "Enter valid max users")
+	private int maxUsers = 1;
 
-    public String getName() {
-        return name;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public String getDescription() {
-        return description;
-    }
+	public int getMaxUsers() {
+		return maxUsers;
+	}
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+	public void setMaxUsers(int maxUsers) {
+		this.maxUsers = maxUsers;
+	}
 
-    public String getInternalDescription() {
-        return internalDescription;
-    }
+	public String getDescription() {
+		return description;
+	}
 
-    public void setInternalDescription(String internalDescription) {
-        this.internalDescription = internalDescription;
-    }
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
-    public boolean isActive() {
-        return active;
-    }
+	public String getInternalDescription() {
+		return internalDescription;
+	}
 
-    public void setActive(boolean active) {
-        this.active = active;
-    }
+	public void setInternalDescription(String internalDescription) {
+		this.internalDescription = internalDescription;
+	}
 
-    public boolean isPublicType() {
-        return publicType;
-    }
+	public boolean isActive() {
+		return active;
+	}
 
-    public void setPublicType(boolean publicType) {
-        this.publicType = publicType;
-    }
+	public void setActive(boolean active) {
+		this.active = active;
+	}
 
-    public List<AccountTypeRestriction> getRestrictions() {
-        return restrictions;
-    }
+	public boolean isPublicType() {
+		return publicType;
+	}
 
-    public void setRestrictions(List<AccountTypeRestriction> restrictions) {
-        this.restrictions = restrictions;
-    }
+	public void setPublicType(boolean publicType) {
+		this.publicType = publicType;
+	}
 
-    public AccountPeriodicity getPeriodicity() {
-        return periodicity;
-    }
+	public List<AccountTypeRestriction> getRestrictions() {
+		return restrictions;
+	}
 
-    public void setPeriodicity(AccountPeriodicity periodicity) {
-        this.periodicity = periodicity;
-    }
+	public void setRestrictions(List<AccountTypeRestriction> restrictions) {
+		this.restrictions = restrictions;
+	}
 
-    public BigDecimal getPrice() {
-        return price;
-    }
+	public AccountPeriodicity getPeriodicity() {
+		return periodicity;
+	}
 
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
+	public void setPeriodicity(AccountPeriodicity periodicity) {
+		this.periodicity = periodicity;
+	}
 
-    @Override
-    public String toString() {
-        return name;
-    }
+	public BigDecimal getPrice() {
+		return price;
+	}
+
+	public void setPrice(BigDecimal price) {
+		this.price = price;
+	}
+
+	@Override
+	public String toString() {
+		return name;
+	}
 
 }

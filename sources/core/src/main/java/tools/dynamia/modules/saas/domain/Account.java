@@ -207,7 +207,8 @@ public class Account extends SimpleEntity {
 				skin,
 				logoURL,
 				locale,
-				timeZone);
+				timeZone,
+				getType().getMaxUsers());
 		return info;
 	}
 }

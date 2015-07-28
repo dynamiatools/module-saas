@@ -10,6 +10,7 @@ fields:
     price:
         params:
             converter: converters.Currency
+    maxUsers:        
     active:
     publicType:
         label: Public

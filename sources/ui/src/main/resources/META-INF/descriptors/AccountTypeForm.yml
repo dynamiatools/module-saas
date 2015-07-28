@@ -14,6 +14,7 @@ fields:
             span: 2
             multiline: true
             height: 100px
+    maxUsers:
     periodicity:
     price:  
     active:
