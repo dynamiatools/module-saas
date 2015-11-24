@@ -22,15 +22,17 @@ fields:
             description: type
             imageURL: logo.storedEntityFile.thumbnailUrl 
     
-    locale:
-    timeZone:
+   
     subdomain:
     customDomain:    
+    profile:
     status:    
     statusDate:
     statusDescription:
     expirationDate:
     creationDate:
+    locale:
+    timeZone:
     
        
      

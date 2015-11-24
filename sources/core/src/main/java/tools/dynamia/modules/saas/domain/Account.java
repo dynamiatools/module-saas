@@ -58,6 +58,16 @@ public class Account extends SimpleEntity {
 	private EntityFile logo;
 	private String locale;
 	private String timeZone;
+	@OneToOne
+	private AccountProfile profile;
+
+	public AccountProfile getProfile() {
+		return profile;
+	}
+
+	public void setProfile(AccountProfile profile) {
+		this.profile = profile;
+	}
 
 	public String getTimeZone() {
 		return timeZone;

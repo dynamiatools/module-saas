@@ -4,8 +4,8 @@ autofields: false
 
 fields:
     name:
-        params:
-            span: 2
+          params:
+              span: 2
     subdomain:
     customDomain:
     type:
@@ -22,6 +22,7 @@ fields:
     skin:
        component: skincombobox
     status:
+    profile:
     statusDescription:
         params:
             span: 2

@@ -1,0 +1,11 @@
+view: crud
+beanClass: tools.dynamia.modules.saas.domain.AccountProfile
+controller: tools.dynamia.modules.saas.ui.controllers.AccountProfileController
+autofields: false
+
+actions:
+  NewAction:
+    enabled: false
+  
+  EditAction:
+    enabled: false

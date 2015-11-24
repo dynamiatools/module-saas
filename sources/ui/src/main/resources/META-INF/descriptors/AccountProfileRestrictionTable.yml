@@ -1,0 +1,10 @@
+view: table
+beanClass: tools.dynamia.modules.saas.domain.AccountProfileRestriction
+autofields: false
+
+fields:
+  name:
+  type:
+  value: 
+
+

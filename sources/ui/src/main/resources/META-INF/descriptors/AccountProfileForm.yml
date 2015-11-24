@@ -1,0 +1,15 @@
+view: form
+beanClass: tools.dynamia.modules.saas.domain.AccountProfile
+autofields: false
+
+fields:
+  name:
+  description:
+    params:
+      multiline: true
+      height: 100px
+      
+  restrictions:
+    component: crudview
+
+layout: 1
