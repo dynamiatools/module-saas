@@ -3,13 +3,13 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>tools.dynamia.modules</groupId>
 	<artifactId>tools.dynamia.modules.saas.parent</artifactId>
-	<version>2.0.0.Beta</version>
+	<version>2.0.0</version>
 	<packaging>pom</packaging>
 	<name>Dynamia Modules - SaaS Parent (${project.version})</name>
 
 	<properties>
-		<dynatools.version>3.0.0.Beta</dynatools.version>
-		<entityfiles.version>5.0.0.Beta</entityfiles.version>
+		<dynatools.version>3.0.0.Final</dynatools.version>
+		<entityfiles.version>5.0.0</entityfiles.version>
 
 		<java.version>1.8</java.version>
 		<maven.compiler>2.3.2</maven.compiler>

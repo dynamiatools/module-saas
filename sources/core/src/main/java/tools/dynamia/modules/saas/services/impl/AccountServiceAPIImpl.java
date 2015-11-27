@@ -46,11 +46,16 @@ public class AccountServiceAPIImpl implements AccountServiceAPI {
 	@Override
 	public Long getCurrentAccountId() {
 		try {
-			return AccountContext.getCurrent().getAccount().getId();
+			Account account = AccountContext.getCurrent().getAccount();
+			if (account != null) {
+				return account.getId();
+			} else {
+				logger.warn("No current account found");
+			}
 		} catch (Exception e) {
 			logger.error("Error getting current account id, returning null", e);
-			return null;
 		}
+		return null;
 	}
 
 }
