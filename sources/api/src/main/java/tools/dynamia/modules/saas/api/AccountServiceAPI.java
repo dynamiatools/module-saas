@@ -7,6 +7,8 @@ public interface AccountServiceAPI {
 	public AccountStatus getAccountStatus(Long accountId);
 
 	public AccountInfo getAccountInfo(Long accountId);
+	
+	public Long getSystemAccountId();
 
 	public Long getCurrentAccountId();
 

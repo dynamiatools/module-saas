@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import tools.dynamia.commons.logger.LoggingService;
 import tools.dynamia.commons.logger.SLF4JLoggingService;
+import tools.dynamia.domain.query.QueryConditions;
 import tools.dynamia.domain.services.CrudService;
 import tools.dynamia.integration.sterotypes.Service;
 import tools.dynamia.modules.saas.AccountContext;
@@ -41,6 +42,21 @@ public class AccountServiceAPIImpl implements AccountServiceAPI {
 			logger.error("Error getting account info, returning null", e);
 			return null;
 		}
+	}
+
+	@Override
+	public Long getSystemAccountId() {
+		try {
+			Account account = crudService.findSingle(Account.class, "name", QueryConditions.eq("System"));
+			if (account != null) {
+				return account.getId();
+			} else {
+				logger.warn("No system account found");
+			}
+		} catch (Exception e) {
+			logger.error("Error getting system account id, returning null", e);
+		}
+		return null;
 	}
 
 	@Override
