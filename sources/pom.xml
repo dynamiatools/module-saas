@@ -1,55 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>tools.dynamia.modules</groupId>
-	<artifactId>tools.dynamia.modules.saas.parent</artifactId>
-	<version>2.0.0</version>
-	<packaging>pom</packaging>
-	<name>Dynamia Modules - SaaS Parent (${project.version})</name>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>tools.dynamia.modules</groupId>
+    <artifactId>tools.dynamia.modules.saas.parent</artifactId>
+    <version>2.0.0</version>
+    <packaging>pom</packaging>
+    <name>Dynamia Modules - SaaS Parent (${project.version})</name>
 
-	<properties>
-		<dynatools.version>3.0.0.Final</dynatools.version>
-		<entityfiles.version>5.0.0</entityfiles.version>
+    <properties>
+        <dynatools.version>3.0.0.Final</dynatools.version>
+        <entityfiles.version>5.0.0</entityfiles.version>
 
-		<java.version>1.8</java.version>
-		<maven.compiler>2.3.2</maven.compiler>
-		<source.encoding>UTF-8</source.encoding>
-	</properties>
+        <java.version>1.8</java.version>
+        <maven.compiler>2.3.2</maven.compiler>
+        <source.encoding>UTF-8</source.encoding>
+    </properties>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>${maven.compiler}</version>
-				<configuration>
-					<source>${java.version}</source>
-					<target>${java.version}</target>
-					<encoding>${source.encoding}</encoding>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven.compiler}</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <encoding>${source.encoding}</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
-	<modules>
-		<module>api</module>
-		<module>core</module>
-		<module>ui</module>
+    <modules>
+        <module>api</module>
+        <module>core</module>
+        <module>ui</module>
 
-	</modules>
-	<dependencies>
-		<dependency>
-			<groupId>tools.dynamia</groupId>
-			<artifactId>tools.dynamia.domain</artifactId>
-			<version>${dynatools.version}</version>
-		</dependency>
-	</dependencies>
+    </modules>
+    <dependencies>
+        <dependency>
+            <groupId>tools.dynamia</groupId>
+            <artifactId>tools.dynamia.domain</artifactId>
+            <version>${dynatools.version}</version>
+        </dependency>
+    </dependencies>
 
 
-	<distributionManagement>
-		<repository>
-			<id>nexus</id>
-			<url>http://server.dynamiasoluciones.com:8081/nexus/content/repositories/releases</url>
-		</repository>
-	</distributionManagement>
+    <distributionManagement>
+        <repository>
+            <id>nexus</id>
+            <url>http://server.dynamiasoluciones.com:8081/nexus/content/repositories/releases</url>
+        </repository>
+    </distributionManagement>
 </project>
