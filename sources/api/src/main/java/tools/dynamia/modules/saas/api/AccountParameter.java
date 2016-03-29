@@ -21,16 +21,14 @@ import tools.dynamia.domain.query.Parameter;
 })
 public class AccountParameter extends Parameter implements AccountAware {
 
-	
-	private Long accountId;
+    private Long accountId;
 
-	public Long getAccountId() {
-		return accountId;
-	}
+    public Long getAccountId() {
+        return accountId;
+    }
 
-	public void setAccountId(Long accountId) {
-		this.accountId = accountId;
-	}
-
+    public void setAccountId(Long accountId) {
+        this.accountId = accountId;
+    }
 
 }

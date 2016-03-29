@@ -5,10 +5,10 @@
     <artifactId>tools.dynamia.modules.saas.parent</artifactId>
     <version>2.0.0</version>
     <packaging>pom</packaging>
-    <name>Dynamia Modules - SaaS Parent (${project.version})</name>
+    <name>Dynamia Modules - SaaS  (${project.version})</name>
 
     <properties>
-        <dynatools.version>3.0.0.Final</dynatools.version>
+        <dynamiatools.version>3.0.0.Final</dynamiatools.version>
         <entityfiles.version>5.0.0</entityfiles.version>
 
         <java.version>1.8</java.version>
@@ -41,7 +41,7 @@
         <dependency>
             <groupId>tools.dynamia</groupId>
             <artifactId>tools.dynamia.domain</artifactId>
-            <version>${dynatools.version}</version>
+            <version>${dynamiatools.version}</version>
         </dependency>
     </dependencies>
 

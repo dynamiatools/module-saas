@@ -17,15 +17,15 @@ import tools.dynamia.domain.BaseEntity;
 @MappedSuperclass
 public abstract class BaseEntitySaaS extends BaseEntity implements AccountAware {
 
-	@NotNull
-	private Long accountId;
+    @NotNull
+    private Long accountId;
 
-	public Long getAccountId() {
-		return accountId;
-	}
+    public Long getAccountId() {
+        return accountId;
+    }
 
-	public void setAccountId(Long accountId) {
-		this.accountId = accountId;
-	}
+    public void setAccountId(Long accountId) {
+        this.accountId = accountId;
+    }
 
 }

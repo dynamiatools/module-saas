@@ -39,7 +39,7 @@
         <dependency>
             <groupId>tools.dynamia</groupId>
             <artifactId>tools.dynamia.zk.crud</artifactId>
-            <version>${dynatools.version}</version>
+            <version>${dynamiatools.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
