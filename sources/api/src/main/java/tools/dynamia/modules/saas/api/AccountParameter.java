@@ -10,6 +10,7 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 import tools.dynamia.domain.query.Parameter;
+import tools.dynamia.integration.Containers;
 
 /**
  *
@@ -29,6 +30,16 @@ public class AccountParameter extends Parameter implements AccountAware {
 
     public void setAccountId(Long accountId) {
         this.accountId = accountId;
+    }
+
+    @Override
+    public String identifier() {
+        if (accountId != null) {
+            return "Account" + accountId;
+        } else {
+            AccountServiceAPI service = Containers.get().findObject(AccountServiceAPI.class);
+            return "Account" + service.getCurrentAccountId();
+        }
     }
 
 }
