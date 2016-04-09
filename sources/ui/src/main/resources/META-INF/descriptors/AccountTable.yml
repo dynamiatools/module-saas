@@ -26,6 +26,7 @@ fields:
     subdomain:
     customDomain:    
     profile:
+    skin:
     status:    
     statusDate:
     statusDescription:
