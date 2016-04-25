@@ -5,6 +5,7 @@
  */
 package tools.dynamia.modules.saas.domain;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -12,6 +13,8 @@ import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import tools.dynamia.domain.SimpleEntity;
@@ -60,6 +63,54 @@ public class Account extends SimpleEntity {
     private String timeZone;
     @OneToOne
     private AccountProfile profile;
+    private long users;
+    private long activedUsers;
+    @Min(value = 1, message = "Enter valid day")
+    @Max(value = 31, message = "Enter valid day")
+    private int paymentDay;
+    private BigDecimal paymentValue;
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date lastPaymentDate;
+
+    public Date getLastPaymentDate() {
+        return lastPaymentDate;
+    }
+
+    public void setLastPaymentDate(Date lastPaymentDate) {
+        this.lastPaymentDate = lastPaymentDate;
+    }
+
+    public long getUsers() {
+        return users;
+    }
+
+    public void setUsers(long users) {
+        this.users = users;
+    }
+
+    public long getActivedUsers() {
+        return activedUsers;
+    }
+
+    public void setActivedUsers(long activedUsers) {
+        this.activedUsers = activedUsers;
+    }
+
+    public int getPaymentDay() {
+        return paymentDay;
+    }
+
+    public void setPaymentDay(int paymentDay) {
+        this.paymentDay = paymentDay;
+    }
+
+    public BigDecimal getPaymentValue() {
+        return paymentValue;
+    }
+
+    public void setPaymentValue(BigDecimal paymentValue) {
+        this.paymentValue = paymentValue;
+    }
 
     public AccountProfile getProfile() {
         return profile;
@@ -218,7 +269,10 @@ public class Account extends SimpleEntity {
                 logoURL,
                 locale,
                 timeZone,
-                getType().getMaxUsers());
+                getType().getMaxUsers(),
+                getType().isAllowAdditionalUsers(),
+                paymentDay,
+                lastPaymentDate);
         return info;
     }
 }

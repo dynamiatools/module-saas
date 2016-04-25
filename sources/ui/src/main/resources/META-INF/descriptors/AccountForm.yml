@@ -23,6 +23,7 @@ fields:
        component: skincombobox
     status:
     profile:
+    paymentDay:        
     statusDescription:
         params:
             span: 2

@@ -15,8 +15,10 @@ fields:
             multiline: true
             height: 100px
     maxUsers:
+    allowAdditionalUsers:
     periodicity:
-    price:  
+    price:
+    additionalUserPrice:
     active:
     publicType:
         label: Public

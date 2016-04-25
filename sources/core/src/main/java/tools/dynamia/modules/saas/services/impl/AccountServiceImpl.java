@@ -38,111 +38,136 @@ import tools.dynamia.modules.saas.services.AccountService;
 @Service
 class AccountServiceImpl implements AccountService {
 
-	@Autowired
-	private CrudService crudService;
+    @Autowired
+    private CrudService crudService;
 
-	@Autowired
-	private EntityManagerFactoryInfo entityManagerFactoryInfo;
+    @Autowired
+    private EntityManagerFactoryInfo entityManagerFactoryInfo;
 
-	private LoggingService logger = new SLF4JLoggingService(AccountService.class);
+    private LoggingService logger = new SLF4JLoggingService(AccountService.class);
 
-	@Transactional(propagation = Propagation.REQUIRES_NEW)
-	public Account init() {
-		if (crudService.count(Account.class) == 0
-				&& crudService.count(AccountType.class) == 0) {
-			return createDefaults();
-		} else {
-			return null;
-		}
-	}
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public Account init() {
+        if (crudService.count(Account.class) == 0
+                && crudService.count(AccountType.class) == 0) {
+            return createDefaults();
+        } else {
+            return null;
+        }
+    }
 
-	@Override
-	public Account getAccount(String subdomain) {
-		return crudService.findSingle(Account.class, "subdomain", subdomain);
-	}
+    @Override
+    public Account getAccount(String subdomain) {
+        return crudService.findSingle(Account.class, "subdomain", subdomain);
+    }
 
-	@Override
-	public Account getAccountByCustomDomain(String domain) {
-		return crudService.findSingle(Account.class, "customDomain", domain);
-	}
+    @Override
+    public Account getAccountByCustomDomain(String domain) {
+        return crudService.findSingle(Account.class, "customDomain", domain);
+    }
 
-	@Override
-	public Account getAccount(HttpServletRequest request) {
-		String host = request.getServerName();
-		String subdomain = host.substring(0, host.indexOf("."));
-		return getAccount(subdomain);
-	}
+    @Override
+    public Account getAccount(HttpServletRequest request) {
+        String host = request.getServerName();
+        String subdomain = host.substring(0, host.indexOf("."));
+        return getAccount(subdomain);
+    }
 
-	@Override
-	public void setDefaultAccount(Account account) {
-		Account defaultAccount = getDefaultAccount();
-		if (defaultAccount != null) {
-			defaultAccount.setDefaultAccount(false);
-			crudService.update(defaultAccount);
-		}
+    @Override
+    public void setDefaultAccount(Account account) {
+        Account defaultAccount = getDefaultAccount();
+        if (defaultAccount != null) {
+            defaultAccount.setDefaultAccount(false);
+            crudService.update(defaultAccount);
+        }
 
-		account.setDefaultAccount(true);
-		crudService.update(account);
-	}
+        account.setDefaultAccount(true);
+        crudService.update(account);
+    }
 
-	@Override
-	public Account getDefaultAccount() {
-		return crudService.findSingle(Account.class, "defaultAccount", true);
-	}
+    @Override
+    public Account getDefaultAccount() {
+        return crudService.findSingle(Account.class, "defaultAccount", true);
+    }
 
-	private Account createDefaults() {
+    private Account createDefaults() {
 
-		AccountType type = new AccountType();
-		type.setActive(true);
-		type.setName("admin");
-		type.setPublicType(false);
-		type.setPeriodicity(AccountPeriodicity.UNLIMITED);
-		type.setPrice(BigDecimal.ZERO);
-		type.setDescription("Admin account type");
-		type = crudService.save(type);
+        AccountType type = new AccountType();
+        type.setActive(true);
+        type.setName("admin");
+        type.setPublicType(false);
+        type.setPeriodicity(AccountPeriodicity.UNLIMITED);
+        type.setPrice(BigDecimal.ZERO);
+        type.setDescription("Admin account type");
+        type = crudService.save(type);
 
-		Account account = new Account();
-		account.setType(type);
-		account.setTimeZone(TimeZone.getDefault().getID());
-		account.setLocale(Locale.getDefault().toString());
-		account.setDefaultAccount(true);
-		account.setName("System");
-		account.setSubdomain("admin");
-		account.setEmail("admin@dynamiasoluciones.com");
-		account.setStatus(AccountStatus.ACTIVE);
-		account.setStatusDate(new Date());
-		account = crudService.save(account);
-		return account;
-	}
+        Account account = new Account();
+        account.setType(type);
+        account.setTimeZone(TimeZone.getDefault().getID());
+        account.setLocale(Locale.getDefault().toString());
+        account.setDefaultAccount(true);
+        account.setName("System");
+        account.setSubdomain("admin");
+        account.setEmail("admin@dynamiasoluciones.com");
+        account.setStatus(AccountStatus.ACTIVE);
+        account.setStatusDate(new Date());
+        account = crudService.save(account);
+        return account;
+    }
 
-	@Transactional
-	@Override
-	public void fixAccountAwareEntities() {
-		logger.info("Fixing AccountAware entities");
-		Account account = crudService.findSingle(Account.class, new QueryParameters());
+    @Transactional
+    @Override
+    public void fixAccountAwareEntities() {
+        logger.info("Fixing AccountAware entities");
+        Account account = crudService.findSingle(Account.class, new QueryParameters());
 
-		if (account != null) {
-			logger.info("Setting account " + account + " to all AccountAware entities with null account ");
-			List<String> entityClasses = entityManagerFactoryInfo.getPersistenceUnitInfo().getManagedClassNames();
-			for (String className : entityClasses) {
-				try {
-					Object entity = BeanUtils.newInstance(className);
-					if (entity instanceof AccountAware) {
-						logger.info("Fixing Account Aware for " + className);
-						String update = "update " + className
-								+ " a set a.accountId = :account where (a.accountId is null or a.accountId = 0)";
-						int count = crudService.execute(update, QueryParameters.with("account", account.getId()));
-						if (count > 0) {
-							logger.info(" " + count + " " + className + " entities fixed with account " + account);
-						} else {
-							logger.info(" Nothing to fix");
-						}
-					}
-				} catch (Exception e) {
-					// TODO: handle exception
-				}
-			}
-		}
-	}
+        if (account != null) {
+            logger.info("Setting account " + account + " to all AccountAware entities with null account ");
+            List<String> entityClasses = entityManagerFactoryInfo.getPersistenceUnitInfo().getManagedClassNames();
+            for (String className : entityClasses) {
+                try {
+                    Object entity = BeanUtils.newInstance(className);
+                    if (entity instanceof AccountAware) {
+                        logger.info("Fixing Account Aware for " + className);
+                        String update = "update " + className
+                                + " a set a.accountId = :account where (a.accountId is null or a.accountId = 0)";
+                        int count = crudService.execute(update, QueryParameters.with("account", account.getId()));
+                        if (count > 0) {
+                            logger.info(" " + count + " " + className + " entities fixed with account " + account);
+                        } else {
+                            logger.info(" Nothing to fix");
+                        }
+                    }
+                } catch (Exception e) {
+                    // TODO: handle exception
+                }
+            }
+        }
+    }
+
+    @Override
+    public void computeAccountPaymentValue(Account account) {
+        AccountType type = account.getType();
+        BigDecimal base = type.getPrice();
+        BigDecimal userPrice = BigDecimal.ZERO;
+        BigDecimal paymentValue = BigDecimal.ZERO;
+
+        if (base == null) {
+            base = BigDecimal.ZERO;
+        }
+        if (type.isAllowAdditionalUsers() && type.getAdditionalUserPrice() != null) {
+            userPrice = type.getAdditionalUserPrice();
+        }
+
+        if (account.getActivedUsers() > type.getMaxUsers()) {
+            long additionalUsers = account.getActivedUsers() - type.getMaxUsers();
+            paymentValue = paymentValue.add(userPrice.multiply(new BigDecimal(additionalUsers)));
+        }
+
+        paymentValue = paymentValue.add(base);
+
+        account.setPaymentValue(paymentValue);
+
+    }
 
 }

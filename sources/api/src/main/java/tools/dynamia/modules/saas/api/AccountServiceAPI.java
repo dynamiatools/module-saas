@@ -12,4 +12,6 @@ public interface AccountServiceAPI {
 
     public Long getCurrentAccountId();
 
+    public void updateAccountUsers(Long accountId, long users, long activedUsers);
+
 }

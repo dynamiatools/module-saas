@@ -27,12 +27,16 @@ public class AccountInfo implements Serializable {
     private String locale;
     private String timeZone;
     private int maxUsers;
+    private boolean allowAdditionalUsers;
+    private int paymentDay;
+    private final Date lastPaymentDate;
 
     public AccountInfo(Long id, String name,
             String email, AccountStatus status,
             AccountPeriodicity periodicity, String type,
             Date creationDate, String subdomain, String domain,
-            String statusDescription, String skin, String logoURL, String locale, String timeZone, int maxUsers) {
+            String statusDescription, String skin, String logoURL, String locale,
+            String timeZone, int maxUsers, boolean allowAdditionalUsers, int paymentDay, Date lastPaymentDate) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -49,6 +53,21 @@ public class AccountInfo implements Serializable {
         this.locale = locale;
         this.timeZone = timeZone;
         this.maxUsers = maxUsers;
+        this.allowAdditionalUsers = allowAdditionalUsers;
+        this.paymentDay = paymentDay;
+        this.lastPaymentDate = lastPaymentDate;
+    }
+
+    public int getPaymentDay() {
+        return paymentDay;
+    }
+
+    public Date getLastPaymentDate() {
+        return lastPaymentDate;
+    }
+
+    public boolean isAllowAdditionalUsers() {
+        return allowAdditionalUsers;
     }
 
     public int getMaxUsers() {

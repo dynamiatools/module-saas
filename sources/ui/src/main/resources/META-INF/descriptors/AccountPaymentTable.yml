@@ -1,0 +1,49 @@
+view: table
+beanClass: tools.dynamia.modules.saas.domain.AccountPayment
+autofields: false
+
+fields:
+   id:
+   creationDate:
+       params:
+           converter: converters.Date
+   creationTime:
+       params:
+           converter: converters.Time
+   account:
+   type:
+   users:
+       params:
+           header:
+               align: center
+   activedUsers:
+       params:
+           header:
+               align: center
+   paymentValue:       
+       params:           
+           converter: converters.Currency
+           header:
+               align: right
+   
+   value:
+       params:
+           converter: converters.Currency
+           header:
+               align: right
+           footer:
+               function: sum
+               functionConverter: converters.Currency
+           
+   
+   description:    
+   paymentMethodDescription:               
+   finished:
+   
+           
+               
+
+    
+        
+       
+     

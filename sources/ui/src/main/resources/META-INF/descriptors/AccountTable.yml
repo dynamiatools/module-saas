@@ -24,7 +24,8 @@ fields:
     
    
     subdomain:
-    customDomain:    
+    customDomain: 
+    type:
     profile:
     skin:
     status:    
@@ -34,6 +35,39 @@ fields:
     creationDate:
     locale:
     timeZone:
+    users:
+        params:
+           header:
+               align: center
+    activedUsers:
+        params:
+           header:
+               align: center
+    paymentDay:
+        params:
+           header:
+               align: center
+    lastPaymentDate:
+        params:
+            converter: converters.Date
+    type.price:
+        label: Base Payment
+        params:
+            converter: converters.Currency
+            header:
+                align: right
+            footer:
+                function: sum
+                functionConverter: converters.Currency
+    paymentValue:
+        params:
+            converter: converters.Currency
+            header:
+                align: right
+            footer:
+                function: sum
+                functionConverter: converters.Currency
+       
     
        
      

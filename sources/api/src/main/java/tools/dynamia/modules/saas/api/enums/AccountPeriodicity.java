@@ -11,16 +11,16 @@ package tools.dynamia.modules.saas.api.enums;
  */
 public enum AccountPeriodicity {
 
-	MONTHLY(30), YEARLY(30 * 12), UNLIMITED(Integer.MAX_VALUE);
+    MONTHLY(30), YEARLY(30 * 12), UNLIMITED(Integer.MAX_VALUE);
 
-	private int days;
+    private int days;
 
-	private AccountPeriodicity(int numeroDias) {
-		this.days = numeroDias;
-	}
+    private AccountPeriodicity(int numeroDias) {
+        this.days = numeroDias;
+    }
 
-	public int getDaysCount() {
-		return days;
-	}
+    public int getDaysCount() {
+        return days;
+    }
 
 }

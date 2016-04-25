@@ -23,11 +23,22 @@ fields:
             subtitle: email
             description: type
             imageURL: logo.storedEntityFile.thumbnailUrl
-   
+    type:
     status:
       params:
          header:
             width: 80px    
+    
+    activedUsers:
+    
+    paymentValue:
+        params:
+            converter: converters.Currency
+            header:
+                align: right
+            footer:
+                function: sum
+                functionConverter: converters.Currency
 
 params:
   sizedByContent: false

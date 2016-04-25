@@ -29,4 +29,6 @@ public interface AccountService {
 
     void fixAccountAwareEntities();
 
+    void computeAccountPaymentValue(Account account);
+
 }
