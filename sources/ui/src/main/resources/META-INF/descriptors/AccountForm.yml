@@ -4,8 +4,7 @@ autofields: false
 
 fields:
     name:
-          params:
-              span: 2
+    identification:
     subdomain:
     customDomain:
     type:
@@ -29,7 +28,20 @@ fields:
             span: 2
             multiline: true
             height: 100px
-            
+    contact:
+        params:
+            span: 2
+    phoneNumber:
+    mobileNumber:
+    city:
+    country:
+    address:
+        params:
+            span: 2
+
+groups:
+    contactInfo:
+        fields: [contact,phoneNumber,mobileNumber, city, country, address]
         
 
     

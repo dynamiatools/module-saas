@@ -16,7 +16,7 @@ import tools.dynamia.modules.saas.api.enums.AccountStatus;
 import tools.dynamia.modules.saas.domain.Account;
 import tools.dynamia.modules.saas.services.AccountService;
 
-@Service
+@Service("accountServiceAPI")
 public class AccountServiceAPIImpl implements AccountServiceAPI {
 
     @Autowired

@@ -6,7 +6,9 @@
 package tools.dynamia.modules.saas.domain;
 
 import java.math.BigDecimal;
+import java.time.ZoneId;
 import java.util.Date;
+import java.util.Locale;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,10 +18,12 @@ import javax.persistence.Temporal;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import tools.dynamia.commons.DateTimeUtils;
 
 import tools.dynamia.domain.SimpleEntity;
 import tools.dynamia.domain.contraints.Email;
 import tools.dynamia.domain.contraints.NotEmpty;
+import tools.dynamia.domain.util.ContactInfo;
 import tools.dynamia.modules.entityfile.domain.EntityFile;
 import tools.dynamia.modules.saas.api.AccountInfo;
 import tools.dynamia.modules.saas.api.enums.AccountStatus;
@@ -36,6 +40,9 @@ public class Account extends SimpleEntity {
     @NotEmpty(message = "ingrese nombre de cuenta")
     @Column(unique = true)
     private String name;
+    @NotEmpty(message = "Ingrese numero de identificacion")
+    private String identification;
+
     @NotNull
     @Column(unique = true)
     private String subdomain;
@@ -71,6 +78,81 @@ public class Account extends SimpleEntity {
     private BigDecimal paymentValue;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date lastPaymentDate;
+    private String phoneNumber;
+    private String mobileNumber;
+    private String address;
+    private String city;
+    private String country;
+    private String contact;
+
+    public Account() {
+        try {
+            Locale current = Locale.getDefault();
+            locale = current.toLanguageTag();
+
+            timeZone = ZoneId.systemDefault().getId();
+            
+            paymentDay = DateTimeUtils.getCurrentDay();
+        } catch (Exception e) {
+        }
+
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getMobileNumber() {
+        return mobileNumber;
+    }
+
+    public void setMobileNumber(String mobileNumber) {
+        this.mobileNumber = mobileNumber;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getContact() {
+        return contact;
+    }
+
+    public void setContact(String contact) {
+        this.contact = contact;
+    }
+
+    public String getIdentification() {
+        return identification;
+    }
+
+    public void setIdentification(String identification) {
+        this.identification = identification;
+    }
 
     public Date getLastPaymentDate() {
         return lastPaymentDate;
@@ -254,9 +336,18 @@ public class Account extends SimpleEntity {
             logoURL = logo.getStoredEntityFile().getThumbnailUrl(200, 200);
         }
 
+        ContactInfo contactInfo = new ContactInfo();
+        contactInfo.setAddress(address);
+        contactInfo.setCity(city);
+        contactInfo.setCountry(country);
+        contactInfo.setEmail(email);
+        contactInfo.setMobileNumber(mobileNumber);
+        contactInfo.setPhoneNumber(phoneNumber);
+
         AccountInfo info = new AccountInfo(
                 getId(),
                 name,
+                identification,
                 email,
                 status,
                 getType().getPeriodicity(),
@@ -272,7 +363,8 @@ public class Account extends SimpleEntity {
                 getType().getMaxUsers(),
                 getType().isAllowAdditionalUsers(),
                 paymentDay,
-                lastPaymentDate);
+                lastPaymentDate,
+                contactInfo);
         return info;
     }
 }
