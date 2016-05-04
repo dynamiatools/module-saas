@@ -91,7 +91,7 @@ public class Account extends SimpleEntity {
             locale = current.toLanguageTag();
 
             timeZone = ZoneId.systemDefault().getId();
-            
+
             paymentDay = DateTimeUtils.getCurrentDay();
         } catch (Exception e) {
         }
@@ -147,6 +147,9 @@ public class Account extends SimpleEntity {
     }
 
     public String getIdentification() {
+        if (identification == null) {
+            identification = String.valueOf(getId());
+        }
         return identification;
     }
 

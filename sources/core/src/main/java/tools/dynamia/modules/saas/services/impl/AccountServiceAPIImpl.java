@@ -87,6 +87,7 @@ public class AccountServiceAPIImpl implements AccountServiceAPI {
         if (account != null) {
             account.setActivedUsers(activedUsers);
             account.setUsers(users);
+            account.getIdentification();
             service.computeAccountPaymentValue(account);
             crudService.update(account);
         }
