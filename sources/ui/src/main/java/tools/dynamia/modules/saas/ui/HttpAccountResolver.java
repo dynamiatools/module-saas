@@ -25,21 +25,23 @@ public class HttpAccountResolver implements AccountResolver {
     @Autowired
     private AccountService service;
 
+    private static final String ATTRIBUTE_SAAS_ACCOUNT = "saas_account";
+
     @Override
     public Account resolve() {
         try {
 
             HttpServletRequest request = getHttpRequest();
 
-            Account account = (Account) request.getSession().getAttribute("saas_account");
+            Account account = (Account) request.getSession().getAttribute(ATTRIBUTE_SAAS_ACCOUNT);
 
             if (account == null) {
                 account = service.getAccount(request);
-                if(account==null){
+                if (account == null) {
                     account = service.getDefaultAccount();
                 }
                 if (account != null) {
-                    request.getSession().setAttribute("saas_account", account);
+                    request.getSession().setAttribute(ATTRIBUTE_SAAS_ACCOUNT, account);
                 }
             }
 

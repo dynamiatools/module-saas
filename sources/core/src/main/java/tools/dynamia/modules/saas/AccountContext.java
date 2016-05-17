@@ -38,12 +38,15 @@ public class AccountContext {
     }
 
     public Account getAccount() {
-        Account account = null;
-        for (AccountResolver resolver : resolvers) {
-            account = resolver.resolve();
-            if (account != null) {
-                break;
+        Account account = AccountSessionHolder.get().getCurrent();
+        if (account == null) {
+            for (AccountResolver resolver : resolvers) {
+                account = resolver.resolve();
+                if (account != null) {
+                    break;
+                }
             }
+            AccountSessionHolder.get().setCurrent(account);
         }
 
         if (account == null) {
