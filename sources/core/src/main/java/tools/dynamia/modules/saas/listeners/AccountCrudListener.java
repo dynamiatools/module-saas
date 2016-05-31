@@ -38,7 +38,7 @@ public class AccountCrudListener extends CrudServiceListenerAdapter<Account> {
     @Override
     public void beforeQuery(QueryParameters params) {
         if (Account.class.equals(params.getType())) {
-            if (params.get("status") == null) {
+            if (params.get("status") == null && params.get("id") == null) {
                 params.add("status", QueryConditions.in(AccountStatus.ACTIVE, AccountStatus.NEW));
             }
         }

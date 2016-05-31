@@ -74,7 +74,7 @@ public class Account extends SimpleEntity {
     private long activedUsers;
     @Min(value = 1, message = "Enter valid day")
     @Max(value = 31, message = "Enter valid day")
-    private int paymentDay;
+    private int paymentDay = 1;
     private BigDecimal paymentValue;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date lastPaymentDate;
@@ -182,6 +182,10 @@ public class Account extends SimpleEntity {
     }
 
     public int getPaymentDay() {
+        if (paymentDay == 0) {
+            paymentDay = 1;
+        }
+
         return paymentDay;
     }
 

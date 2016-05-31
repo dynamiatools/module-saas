@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import tools.dynamia.commons.logger.LoggingService;
 import tools.dynamia.commons.logger.SLF4JLoggingService;
 import tools.dynamia.domain.query.QueryConditions;
+import tools.dynamia.domain.query.QueryParameters;
 import tools.dynamia.domain.services.CrudService;
 import tools.dynamia.integration.sterotypes.Service;
 import tools.dynamia.modules.saas.AccountContext;
@@ -42,7 +43,8 @@ public class AccountServiceAPIImpl implements AccountServiceAPI {
     @Override
     public AccountInfo getAccountInfo(Long accountId) {
         try {
-            Account account = crudService.find(Account.class, accountId);
+            Account account = crudService.findSingle(Account.class, QueryParameters.with("id", accountId)
+                    .add("status", QueryConditions.isNotNull()));
             return account.getInfo();
         } catch (Exception e) {
             logger.error("Error getting account info, returning null", e);

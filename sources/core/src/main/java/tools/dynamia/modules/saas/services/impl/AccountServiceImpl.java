@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import tools.dynamia.commons.BeanUtils;
 import tools.dynamia.commons.logger.LoggingService;
 import tools.dynamia.commons.logger.SLF4JLoggingService;
+import tools.dynamia.domain.query.QueryConditions;
 import tools.dynamia.domain.query.QueryParameters;
 import tools.dynamia.domain.services.CrudService;
 import tools.dynamia.modules.saas.api.AccountAware;
@@ -58,19 +59,25 @@ class AccountServiceImpl implements AccountService {
 
     @Override
     public Account getAccount(String subdomain) {
-        return crudService.findSingle(Account.class, "subdomain", subdomain);
+        return crudService.findSingle(Account.class, QueryParameters.with("subdomain", subdomain)
+                .add("status", QueryConditions.isNotNull()));
     }
 
     @Override
     public Account getAccountByCustomDomain(String domain) {
-        return crudService.findSingle(Account.class, "customDomain", domain);
+        return crudService.findSingle(Account.class, QueryParameters.with("customDomain", domain)
+                .add("status", QueryConditions.isNotNull()));
     }
 
     @Override
     public Account getAccount(HttpServletRequest request) {
         String host = request.getServerName();
         String subdomain = host.substring(0, host.indexOf("."));
-        return getAccount(subdomain);
+        Account account = getAccount(subdomain);
+        if (account == null) {
+            account = getAccountByCustomDomain(host);
+        }
+        return account;
     }
 
     @Override
