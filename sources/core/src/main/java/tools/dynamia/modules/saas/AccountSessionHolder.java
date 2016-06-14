@@ -6,6 +6,7 @@
 package tools.dynamia.modules.saas;
 
 import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import tools.dynamia.integration.Containers;
 import tools.dynamia.integration.sterotypes.Component;
 import tools.dynamia.modules.saas.domain.Account;
