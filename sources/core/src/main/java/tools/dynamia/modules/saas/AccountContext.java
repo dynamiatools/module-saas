@@ -11,6 +11,8 @@ import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import tools.dynamia.commons.logger.LoggingService;
+import tools.dynamia.commons.logger.SLF4JLoggingService;
 
 import tools.dynamia.domain.services.CrudService;
 import tools.dynamia.integration.Containers;
@@ -24,11 +26,10 @@ import tools.dynamia.modules.saas.services.AccountService;
 @Component("accountContext")
 public class AccountContext {
 
-    @Autowired
-    private List<AccountResolver> resolvers;
+    private final LoggingService logger = new SLF4JLoggingService(AccountContext.class);
 
     @Autowired
-    private CrudService crudService;
+    private List<AccountResolver> resolvers;
 
     @Autowired
     private AccountService service;
@@ -38,7 +39,12 @@ public class AccountContext {
     }
 
     public Account getAccount() {
-        Account account = AccountSessionHolder.get().getCurrent();
+        Account account = null;
+        try {
+            account = AccountSessionHolder.get().getCurrent();
+        } catch (Exception e) {
+            logger.warn("Cannot get AccountSessionHolder: " + e.getMessage());
+        }
         if (account == null) {
             for (AccountResolver resolver : resolvers) {
                 account = resolver.resolve();
@@ -46,7 +52,11 @@ public class AccountContext {
                     break;
                 }
             }
-            AccountSessionHolder.get().setCurrent(account);
+            try {
+                AccountSessionHolder.get().setCurrent(account);
+            } catch (Exception e) {
+                logger.warn("Cannot get AccountSessionHolder: " + e.getMessage());
+            }
         }
 
         if (account == null) {
