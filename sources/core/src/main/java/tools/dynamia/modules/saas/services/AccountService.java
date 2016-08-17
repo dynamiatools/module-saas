@@ -7,6 +7,7 @@ package tools.dynamia.modules.saas.services;
 
 import javax.servlet.http.HttpServletRequest;
 
+import tools.dynamia.modules.saas.api.AccountInfo;
 import tools.dynamia.modules.saas.domain.Account;
 
 /**
@@ -30,5 +31,7 @@ public interface AccountService {
     void fixAccountAwareEntities();
 
     void computeAccountPaymentValue(Account account);
+
+	void initAccount(Account entity);
 
 }
