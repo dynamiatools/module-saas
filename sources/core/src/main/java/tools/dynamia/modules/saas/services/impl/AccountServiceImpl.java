@@ -122,6 +122,7 @@ class AccountServiceImpl implements AccountService {
 		account.setEmail("admin@dynamiasoluciones.com");
 		account.setStatus(AccountStatus.ACTIVE);
 		account.setStatusDate(new Date());
+		account.setIdentification(System.currentTimeMillis() + "");
 		account = crudService.save(account);
 		return account;
 	}
