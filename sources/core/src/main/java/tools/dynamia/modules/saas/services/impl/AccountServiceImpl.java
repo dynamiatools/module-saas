@@ -14,6 +14,8 @@ import java.util.TimeZone;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.orm.jpa.EntityManagerFactoryInfo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -102,7 +104,7 @@ class AccountServiceImpl implements AccountService {
 	}
 
 	private Account createDefaults() {
-
+		logger.info("Creating default account type");
 		AccountType type = new AccountType();
 		type.setActive(true);
 		type.setName("admin");
@@ -112,6 +114,7 @@ class AccountServiceImpl implements AccountService {
 		type.setDescription("Admin account type");
 		type = crudService.save(type);
 
+		logger.info("Creating default account ");
 		Account account = new Account();
 		account.setType(type);
 		account.setTimeZone(TimeZone.getDefault().getID());
@@ -124,6 +127,8 @@ class AccountServiceImpl implements AccountService {
 		account.setStatusDate(new Date());
 		account.setIdentification(System.currentTimeMillis() + "");
 		account = crudService.save(account);
+
+		logger.info("Default Account created Succcesfull: " + account);
 		return account;
 	}
 
@@ -192,5 +197,10 @@ class AccountServiceImpl implements AccountService {
 				logger.error("Error firing account initializer " + initializer.getClass(), e);
 			}
 		});
+	}
+
+	@EventListener(ContextRefreshedEvent.class)
+	void contextRefreshedEvent() {
+		init();
 	}
 }
