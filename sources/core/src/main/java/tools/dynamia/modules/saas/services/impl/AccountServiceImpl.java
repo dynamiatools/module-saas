@@ -14,6 +14,7 @@ import java.util.TimeZone;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.orm.jpa.EntityManagerFactoryInfo;
@@ -41,7 +42,7 @@ import tools.dynamia.modules.saas.services.AccountService;
  * @author mario
  */
 @Service
-class AccountServiceImpl implements AccountService {
+class AccountServiceImpl implements AccountService, ApplicationListener<ContextRefreshedEvent> {
 
 	private LoggingService logger = new SLF4JLoggingService(AccountService.class);
 
@@ -199,8 +200,9 @@ class AccountServiceImpl implements AccountService {
 		});
 	}
 
-	@EventListener(ContextRefreshedEvent.class)
-	void contextRefreshedEvent() {
+	@Override
+	public void onApplicationEvent(ContextRefreshedEvent evt) {
+		logger.info("Context Refreshed.. initializing Accounts");
 		init();
 	}
 }
