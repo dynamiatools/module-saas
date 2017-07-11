@@ -31,7 +31,7 @@
 
 		</west>
 		<center title="Modulos Asignados">
-			<listbox id="permisos" vflex="true" fixedLayout="true" width="100%" height="100%" model="@{per$composer.entity.restrictions}">
+			<listbox id="permisos" vflex="true" width="100%"  model="@{per$composer.entity.restrictions}">
 				<listhead>
 					<listheader label="Tipo" width="200px" />
 					<listheader label="Nombre" />
