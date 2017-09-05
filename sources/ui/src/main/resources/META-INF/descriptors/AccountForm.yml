@@ -38,6 +38,9 @@ fields:
     address:
         params:
             span: 2
+    uuid:
+    remote:
+
 
 groups:
     contactInfo:

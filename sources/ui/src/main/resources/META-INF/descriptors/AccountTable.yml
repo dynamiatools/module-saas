@@ -67,7 +67,8 @@ fields:
             footer:
                 function: sum
                 functionConverter: converters.Currency
-       
+    uuid:
+    remote:
     
        
      

@@ -27,4 +27,14 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>4.3.9.RELEASE</version>
+			<scope>provided</scope>
+		</dependency>
+
+	</dependencies>
 </project>

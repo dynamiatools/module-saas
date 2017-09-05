@@ -20,6 +20,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import tools.dynamia.commons.DateTimeUtils;
+import tools.dynamia.commons.StringUtils;
 import tools.dynamia.domain.SimpleEntity;
 import tools.dynamia.domain.contraints.Email;
 import tools.dynamia.domain.contraints.NotEmpty;
@@ -87,6 +88,8 @@ public class Account extends SimpleEntity {
     private String city;
     private String country;
     private String contact;
+    private String uuid = StringUtils.randomString();
+    private boolean remote;
 
     public Account() {
         try {
@@ -99,6 +102,22 @@ public class Account extends SimpleEntity {
         } catch (Exception e) {
         }
 
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
+
+    public boolean isRemote() {
+        return remote;
+    }
+
+    public void setRemote(boolean remote) {
+        this.remote = remote;
     }
 
     public String getPhoneNumber() {
@@ -357,7 +376,7 @@ public class Account extends SimpleEntity {
         AccountInfo info = new AccountInfo(getId(), name, identification, email, status, getType().getPeriodicity(),
                 getType().getName(), creationDate, subdomain, customDomain, statusDescription, skin, logoURL, locale,
                 timeZone, getType().getMaxUsers(), getType().isAllowAdditionalUsers(), paymentDay, lastPaymentDate,
-                contactInfo);
+                uuid, remote, contactInfo);
         return info;
     }
 }
