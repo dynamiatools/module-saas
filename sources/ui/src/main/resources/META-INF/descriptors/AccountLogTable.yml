@@ -1,0 +1,12 @@
+view: table
+beanClass: tools.dynamia.modules.saas.domain.AccountLog
+autofields: false
+
+fields:
+  date:
+  ip:
+  pathInfo:
+  message:
+    params:
+      header:
+        width: '40%'

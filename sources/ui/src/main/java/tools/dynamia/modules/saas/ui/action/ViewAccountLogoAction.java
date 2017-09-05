@@ -26,7 +26,6 @@ public class ViewAccountLogoAction extends AbstractCrudAction {
 
     public ViewAccountLogoAction() {
         setName("View Logo");
-        setImage("photo");
     }
 
     @Override
