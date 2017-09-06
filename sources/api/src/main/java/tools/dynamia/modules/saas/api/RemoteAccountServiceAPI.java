@@ -1,7 +1,11 @@
 package tools.dynamia.modules.saas.api;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.web.client.RestTemplate;
+import tools.dynamia.commons.BeanUtils;
 import tools.dynamia.commons.DateTimeUtils;
+import tools.dynamia.domain.query.QueryParameters;
 import tools.dynamia.domain.util.CrudServiceListenerAdapter;
 import tools.dynamia.modules.saas.api.enums.AccountStatus;
 
@@ -9,15 +13,27 @@ import java.util.Date;
 
 public class RemoteAccountServiceAPI extends CrudServiceListenerAdapter<AccountAware> implements AccountServiceAPI {
 
+    @Autowired
+    private Environment env;
+
+    private static final String ACCOUNT_ID = "accountId";
+
     private String serverUrl;
     private String accountUuid;
     private AccountInfo accountInfo;
     private Date lastSync;
-    private final int hours = 2;
+    private final int hours = 1;
+    private Long defaultID;
 
     public RemoteAccountServiceAPI(String serverUrl, String accountUuid) {
         this.serverUrl = serverUrl;
         this.accountUuid = accountUuid;
+    }
+
+    public RemoteAccountServiceAPI(String serverUrl, String accountUuid, Long defaultID) {
+        this.serverUrl = serverUrl;
+        this.accountUuid = accountUuid;
+        this.defaultID = defaultID;
     }
 
     @Override
@@ -26,19 +42,29 @@ public class RemoteAccountServiceAPI extends CrudServiceListenerAdapter<AccountA
         if (accountInfo != null) {
             return accountInfo.getStatus();
         } else {
-            return AccountStatus.ACTIVE;
+            return AccountStatus.CANCELED;
         }
     }
 
     @Override
     public AccountInfo getAccountInfo(Long accountId) {
         checkAccountInfo();
+
+        if (defaultID != null) {
+            accountInfo.setId(defaultID);
+        }
+
         return accountInfo;
 
     }
 
     @Override
     public Long getSystemAccountId() {
+
+        if (defaultID != null) {
+            return defaultID;
+        }
+
         checkAccountInfo();
         if (accountInfo != null) {
             return accountInfo.getId();
@@ -50,6 +76,10 @@ public class RemoteAccountServiceAPI extends CrudServiceListenerAdapter<AccountA
 
     @Override
     public Long getCurrentAccountId() {
+        if (defaultID != null) {
+            return defaultID;
+        }
+
         checkAccountInfo();
         if (accountInfo != null) {
             return accountInfo.getId();
@@ -68,6 +98,10 @@ public class RemoteAccountServiceAPI extends CrudServiceListenerAdapter<AccountA
             accountInfo = null;
         }
 
+        if (accountInfo != null && accountInfo.getStatus() == AccountStatus.CANCELED) {
+            accountInfo = null;
+        }
+
         if (accountInfo == null) {
             syncAccountInfo();
         }
@@ -80,8 +114,17 @@ public class RemoteAccountServiceAPI extends CrudServiceListenerAdapter<AccountA
 
         RestTemplate rest = new RestTemplate();
 
+        String info = getLocalInfo();
+        if(info!=null){
+            url = url+"?info="+info;
+        }
+
         accountInfo = rest.getForObject(url, AccountInfo.class);
         lastSync = new Date();
+
+        if (defaultID != null) {
+            accountInfo.setId(defaultID);
+        }
 
 
     }
@@ -89,20 +132,66 @@ public class RemoteAccountServiceAPI extends CrudServiceListenerAdapter<AccountA
 
     @Override
     public void beforeCreate(AccountAware entity) {
+        if (entity != null && defaultID != null) {
+            entity.setAccountId(defaultID);
+            return;
+        }
+
+
         checkAccountInfo();
 
         if (entity != null && accountInfo != null) {
-            entity.setAccountId(accountInfo.getId());
+            if (defaultID != null) {
+                entity.setAccountId(defaultID);
+            } else {
+                entity.setAccountId(accountInfo.getId());
+            }
         }
     }
 
 
     @Override
-    public void afterUpdate(AccountAware entity) {
+    public void beforeUpdate(AccountAware entity) {
+        if (entity != null && defaultID != null) {
+            entity.setAccountId(defaultID);
+            return;
+        }
+
+
         checkAccountInfo();
         if (entity != null && entity.getAccountId() == null && accountInfo != null) {
-            entity.setAccountId(accountInfo.getId());
+            if (defaultID != null) {
+                entity.setAccountId(defaultID);
+            } else {
+                entity.setAccountId(accountInfo.getId());
+            }
         }
     }
 
+    @Override
+    public void beforeQuery(QueryParameters params) {
+        if (!params.containsKey(ACCOUNT_ID) || params.get(ACCOUNT_ID) == null) {
+            Class paramsType = params.getType();
+            if (paramsType != null) {
+                Object obj = BeanUtils.newInstance(paramsType);
+                if (obj instanceof AccountAware) {
+                    if (defaultID != null) {
+                        params.add(ACCOUNT_ID, defaultID);
+                    } else if (accountInfo != null) {
+                        params.add(ACCOUNT_ID, accountInfo.getId());
+                    }
+
+                }
+            }
+        }
+    }
+
+    private String getLocalInfo() {
+        StringBuilder info = new StringBuilder();
+        info.append("User Dir:").append(System.getProperty("user.dir")).append(",");
+        info.append("OS:").append(System.getProperty("os.name")).append(",");
+        info.append("Port:").append(env.getProperty("server.port")).append(",");
+        info.append("Datasource:").append(env.getProperty("spring.datasource.url"));
+        return info.toString();
+    }
 }

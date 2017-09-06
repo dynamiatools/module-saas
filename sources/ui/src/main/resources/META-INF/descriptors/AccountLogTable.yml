@@ -7,6 +7,7 @@ fields:
   ip:
   pathInfo:
   message:
-    params:
-      header:
-        width: '40%'
+  clientInfo:
+      params:
+        header:
+          width: '40%'

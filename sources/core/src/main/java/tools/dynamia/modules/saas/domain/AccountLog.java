@@ -21,6 +21,8 @@ public class AccountLog extends SimpleEntity {
     private String ip;
     private String pathInfo;
     private String message;
+    @Column(length = 2000)
+    private String clientInfo;
 
     public AccountLog() {
     }
@@ -69,5 +71,13 @@ public class AccountLog extends SimpleEntity {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public String getClientInfo() {
+        return clientInfo;
+    }
+
+    public void setClientInfo(String clientInfo) {
+        this.clientInfo = clientInfo;
     }
 }
