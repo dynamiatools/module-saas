@@ -8,3 +8,5 @@ logs/
 bin/
 gen/
 *.versionsBackup
+*.iml
+.idea/
