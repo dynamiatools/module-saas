@@ -115,8 +115,8 @@ public class RemoteAccountServiceAPI extends CrudServiceListenerAdapter<AccountA
         RestTemplate rest = new RestTemplate();
 
         String info = getLocalInfo();
-        if(info!=null){
-            url = url+"?info="+info;
+        if (info != null) {
+            url = url + "?info=" + info;
         }
 
         accountInfo = rest.getForObject(url, AccountInfo.class);
