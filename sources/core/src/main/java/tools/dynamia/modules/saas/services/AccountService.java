@@ -22,7 +22,7 @@ public interface AccountService {
 
     Account getAccountByCustomDomain(String domain);
 
-    public void setDefaultAccount(Account account);
+    void setDefaultAccount(Account account);
 
     Account getDefaultAccount();
 

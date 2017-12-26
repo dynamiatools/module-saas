@@ -15,7 +15,7 @@ public enum AccountPeriodicity {
 
     private int days;
 
-    private AccountPeriodicity(int numeroDias) {
+    AccountPeriodicity(int numeroDias) {
         this.days = numeroDias;
     }
 

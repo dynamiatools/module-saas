@@ -11,5 +11,5 @@ package tools.dynamia.modules.saas.api.enums;
  */
 public enum AccountStatus {
 
-    NEW, ACTIVE, CANCELED;
+    NEW, ACTIVE, CANCELED
 }

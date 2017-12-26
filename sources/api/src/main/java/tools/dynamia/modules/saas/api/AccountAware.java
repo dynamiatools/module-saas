@@ -11,8 +11,8 @@ package tools.dynamia.modules.saas.api;
  */
 public interface AccountAware {
 
-    public Long getAccountId();
+    Long getAccountId();
 
-    public void setAccountId(Long account);
+    void setAccountId(Long account);
 
 }

@@ -4,14 +4,14 @@ import tools.dynamia.modules.saas.api.enums.AccountStatus;
 
 public interface AccountServiceAPI {
 
-    public AccountStatus getAccountStatus(Long accountId);
+    AccountStatus getAccountStatus(Long accountId);
 
-    public AccountInfo getAccountInfo(Long accountId);
+    AccountInfo getAccountInfo(Long accountId);
 
-    public Long getSystemAccountId();
+    Long getSystemAccountId();
 
-    public Long getCurrentAccountId();
+    Long getCurrentAccountId();
 
-    public void updateAccountUsers(Long accountId, long users, long activedUsers);
+    void updateAccountUsers(Long accountId, long users, long activedUsers);
 
 }

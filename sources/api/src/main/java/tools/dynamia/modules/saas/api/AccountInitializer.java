@@ -11,6 +11,6 @@ package tools.dynamia.modules.saas.api;
  */
 public interface AccountInitializer {
 
-    public void init(AccountInfo accountInfo);
+    void init(AccountInfo accountInfo);
 
 }

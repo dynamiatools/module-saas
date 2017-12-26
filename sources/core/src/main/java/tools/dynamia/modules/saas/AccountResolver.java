@@ -15,6 +15,6 @@ import tools.dynamia.modules.saas.domain.Account;
 public interface AccountResolver {
     
     
-    public Account resolve();
+    Account resolve();
     
 }
