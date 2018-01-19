@@ -2,9 +2,11 @@ package tools.dynamia.modules.saas.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import tools.dynamia.commons.BeanUtils;
 import tools.dynamia.commons.DateTimeUtils;
+import tools.dynamia.commons.Messages;
 import tools.dynamia.domain.query.QueryParameters;
 import tools.dynamia.domain.util.CrudServiceListenerAdapter;
 import tools.dynamia.modules.saas.api.enums.AccountStatus;
@@ -24,6 +26,7 @@ public class RemoteAccountServiceAPI extends CrudServiceListenerAdapter<AccountA
     private Date lastSync;
     private final int hours = 1;
     private Long defaultID;
+    private int connectionFailCount = 0;
 
     public RemoteAccountServiceAPI(String serverUrl, String accountUuid) {
         this.serverUrl = serverUrl;
@@ -119,14 +122,44 @@ public class RemoteAccountServiceAPI extends CrudServiceListenerAdapter<AccountA
             url = url + "?info=" + info;
         }
 
-        accountInfo = rest.getForObject(url, AccountInfo.class);
-        lastSync = new Date();
+        try {
+            accountInfo = rest.getForObject(url, AccountInfo.class);
+            lastSync = new Date();
 
-        if (defaultID != null) {
-            accountInfo.setId(defaultID);
+            if (defaultID != null) {
+                accountInfo.setId(defaultID);
+            }
+            connectionFailCount = 0;
+        } catch (RestClientException e) {
+            connectionFailCount++;
+            accountInfo = tempAccountInfo();
+
+            if (connectionFailCount >= 10) {
+                throw new RemoteAccountNotAuthenticatedException(Messages.get(RemoteAccountServiceAPI.class, "remoteConnectionFail"));
+            }
+
+            if (connectionFailCount > 5) {
+                accountInfo.setStatus(AccountStatus.CANCELED);
+                accountInfo.setStatusDescription(Messages.get(RemoteAccountServiceAPI.class, "remoteConnectionFail"));
+                System.err.println(accountInfo.getStatusDescription());
+            }
+
+            lastSync = new Date();
         }
 
 
+    }
+
+    private AccountInfo tempAccountInfo() {
+        AccountInfo temp = new AccountInfo();
+        temp.setId(defaultID);
+        temp.setName("Temporary Account");
+        temp.setCreationDate(new Date());
+        temp.setAllowAdditionalUsers(false);
+        temp.setRemote(true);
+        temp.setIdentification("0000");
+        temp.setStatus(AccountStatus.ACTIVE);
+        return temp;
     }
 
 
