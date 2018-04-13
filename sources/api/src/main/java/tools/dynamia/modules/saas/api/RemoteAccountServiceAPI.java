@@ -2,6 +2,7 @@ package tools.dynamia.modules.saas.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import tools.dynamia.commons.BeanUtils;
@@ -12,11 +13,15 @@ import tools.dynamia.domain.util.CrudServiceListenerAdapter;
 import tools.dynamia.modules.saas.api.enums.AccountStatus;
 
 import java.util.Date;
+import java.util.List;
 
 public class RemoteAccountServiceAPI extends CrudServiceListenerAdapter<AccountAware> implements AccountServiceAPI {
 
     @Autowired
     private Environment env;
+
+    @Autowired
+    private List<AccountStatsProvider> statsProviders;
 
     private static final String ACCOUNT_ID = "accountId";
 
@@ -108,12 +113,10 @@ public class RemoteAccountServiceAPI extends CrudServiceListenerAdapter<AccountA
         if (accountInfo == null) {
             syncAccountInfo();
         }
-
-
     }
 
     private void syncAccountInfo() {
-        String url = String.format("%s/api/saas/account/%s", serverUrl, accountUuid);
+        String url = getAdminURL();
 
         RestTemplate rest = new RestTemplate();
 
@@ -148,6 +151,10 @@ public class RemoteAccountServiceAPI extends CrudServiceListenerAdapter<AccountA
         }
 
 
+    }
+
+    private String getAdminURL() {
+        return String.format("%s/api/saas/account/%s", serverUrl, accountUuid);
     }
 
     private AccountInfo tempAccountInfo() {
@@ -226,5 +233,22 @@ public class RemoteAccountServiceAPI extends CrudServiceListenerAdapter<AccountA
         info.append("Port:").append(env.getProperty("server.port")).append(",");
         info.append("Datasource:").append(env.getProperty("spring.datasource.url"));
         return info.toString();
+    }
+
+    @Scheduled(cron = "0 0 6 * * *")
+    public void sendStats() {
+        if (accountInfo != null) {
+            AccountStatsList stats = new AccountStatsList();
+
+            statsProviders.forEach(provider -> {
+                stats.add(provider.getAccountStats(accountInfo.getId()));
+            });
+
+            String url = getAdminURL() + "/stats";
+
+            RestTemplate rest = new RestTemplate();
+            String response = rest.postForObject(url, stats, String.class);
+            System.out.println("Stats Response: " + response);
+        }
     }
 }

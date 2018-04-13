@@ -7,14 +7,12 @@ package tools.dynamia.modules.saas.domain;
 
 import java.math.BigDecimal;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
+import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -90,6 +88,8 @@ public class Account extends SimpleEntity {
     private String contact;
     private String uuid = StringUtils.randomString();
     private boolean remote;
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<AccountStatsData> stats = new ArrayList<>();
 
     public Account() {
         try {
@@ -378,5 +378,17 @@ public class Account extends SimpleEntity {
                 timeZone, getType().getMaxUsers(), getType().isAllowAdditionalUsers(), paymentDay, lastPaymentDate,
                 uuid, remote, contactInfo);
         return info;
+    }
+
+    public List<AccountStatsData> getStats() {
+        return stats;
+    }
+
+    public void setStats(List<AccountStatsData> stats) {
+        this.stats = stats;
+    }
+
+    public AccountStatsData findStats(String name) {
+        return stats.stream().filter(a -> a.getName().equals(name)).findFirst().orElse(null);
     }
 }

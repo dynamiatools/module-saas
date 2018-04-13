@@ -28,12 +28,12 @@ import tools.dynamia.commons.logger.SLF4JLoggingService;
 import tools.dynamia.domain.query.QueryConditions;
 import tools.dynamia.domain.query.QueryParameters;
 import tools.dynamia.domain.services.CrudService;
-import tools.dynamia.modules.saas.api.AccountAware;
-import tools.dynamia.modules.saas.api.AccountInfo;
-import tools.dynamia.modules.saas.api.AccountInitializer;
+import tools.dynamia.integration.Containers;
+import tools.dynamia.modules.saas.api.*;
 import tools.dynamia.modules.saas.api.enums.AccountPeriodicity;
 import tools.dynamia.modules.saas.api.enums.AccountStatus;
 import tools.dynamia.modules.saas.domain.Account;
+import tools.dynamia.modules.saas.domain.AccountStatsData;
 import tools.dynamia.modules.saas.domain.AccountType;
 import tools.dynamia.modules.saas.services.AccountService;
 
@@ -206,5 +206,46 @@ class AccountServiceImpl implements AccountService, ApplicationListener<ContextR
     public void onApplicationEvent(ContextRefreshedEvent evt) {
         logger.info("Context Refreshed.. initializing Accounts");
         init();
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void updateStats(Account a) {
+        final Account account = crudService.reload(a);
+        account.getStats().size();
+        Containers.get().findObjects(AccountStatsProvider.class).forEach(provider -> {
+            List<AccountStats> stats = provider.getAccountStats(account.getId());
+            if (stats != null && !stats.isEmpty()) {
+                syncAccountStats(account, stats);
+            }
+        });
+        crudService.save(account);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void updateAllAccountsStats() {
+        List<Account> accounts = crudService.find(Account.class, QueryParameters.with("remote", false).add("status", AccountStatus.ACTIVE));
+        accounts.forEach(this::updateStats);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void updateStats(Account a, List<AccountStats> stats) {
+        final Account account = crudService.reload(a);
+        syncAccountStats(account, stats);
+        account.save();
+    }
+
+    private void syncAccountStats(Account account, List<AccountStats> stats) {
+        stats.forEach(s -> {
+            AccountStatsData statsData = account.findStats(s.getName());
+            if (statsData == null) {
+                statsData = new AccountStatsData();
+                statsData.setAccount(account);
+                account.getStats().add(statsData);
+            }
+            statsData.load(s);
+        });
     }
 }

@@ -41,6 +41,9 @@ fields:
     uuid:
     remote:
 
+    stats:
+      component: crudview
+
 
 groups:
     contactInfo:

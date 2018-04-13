@@ -1,21 +1,22 @@
 package tools.dynamia.modules.saas.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 import tools.dynamia.domain.query.QueryConditions;
 import tools.dynamia.domain.query.QueryParameters;
 import tools.dynamia.domain.services.CrudService;
 import tools.dynamia.modules.saas.api.AccountInfo;
+import tools.dynamia.modules.saas.api.AccountStatsList;
 import tools.dynamia.modules.saas.api.enums.AccountPeriodicity;
 import tools.dynamia.modules.saas.api.enums.AccountStatus;
 import tools.dynamia.modules.saas.domain.Account;
 import tools.dynamia.modules.saas.domain.AccountLog;
+import tools.dynamia.modules.saas.services.AccountService;
 import tools.dynamia.web.util.HttpUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
 import java.util.Date;
 
 @RestController
@@ -30,6 +31,9 @@ public class AccountInfoController {
     @Autowired
     private CrudService crudService;
 
+    @Autowired
+    private AccountService service;
+
     @GetMapping("/account/{uuid}")
     public AccountInfo getAccount(@PathVariable("uuid") String uuid, HttpServletRequest request) {
 
@@ -40,7 +44,7 @@ public class AccountInfoController {
                     .add("status", QueryConditions.isNotNull()));
 
             if (account != null) {
-                newLog(uuid,request,account);
+                newLog(uuid, request, account);
                 return account.getInfo();
             }
 
@@ -50,13 +54,36 @@ public class AccountInfoController {
 
     }
 
+    @PostMapping("/account/{uuid}/stats")
+    public String updateStats(@PathVariable("uuid") String uuid, @RequestBody AccountStatsList stats, HttpServletRequest request) {
+        if (uuid != null && !uuid.isEmpty()) {
+
+            Account account = crudService.findSingle(Account.class, QueryParameters.with("uuid", QueryConditions.eq(uuid)));
+            if (account != null) {
+                System.out.println("Statistics " + account);
+                if (stats != null) {
+                    stats.getData().forEach(d -> System.out.println(d));
+
+                    service.updateStats(account, stats.getData());
+                    return "DONE: Account stats updated";
+                } else {
+                    return "Invalid stats";
+                }
+            } else {
+                return "Cannot found account with uuid: " + uuid;
+            }
+        } else {
+            return "Uuid empty";
+        }
+    }
+
     private void newLog(String uuid, HttpServletRequest request, Account account) {
         try {
-            AccountLog log = new AccountLog(account, HttpUtils.getIpFromRequest(request),"Remote account check");
+            AccountLog log = new AccountLog(account, HttpUtils.getIpFromRequest(request), "Remote account check");
             log.setPathInfo(request.getPathInfo());
             log.setClientInfo(request.getParameter("info"));
             crudService.create(log);
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
     }
