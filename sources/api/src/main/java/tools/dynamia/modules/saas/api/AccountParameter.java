@@ -5,12 +5,12 @@
  */
 package tools.dynamia.modules.saas.api;
 
+import tools.dynamia.domain.jpa.JpaParameter;
+import tools.dynamia.integration.Containers;
+
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
-
-import tools.dynamia.domain.query.Parameter;
-import tools.dynamia.integration.Containers;
 
 /**
  *
@@ -20,7 +20,7 @@ import tools.dynamia.integration.Containers;
 @Table(uniqueConstraints = {
     @UniqueConstraint(columnNames = {"accountId", "param_name"})
 })
-public class AccountParameter extends Parameter implements AccountAware {
+public class AccountParameter extends JpaParameter implements AccountAware {
 
     private Long accountId;
 
