@@ -20,11 +20,12 @@ import javax.validation.constraints.NotNull;
 import tools.dynamia.commons.DateTimeUtils;
 import tools.dynamia.commons.StringUtils;
 import tools.dynamia.domain.SimpleEntity;
+import tools.dynamia.domain.Transferable;
 import tools.dynamia.domain.contraints.Email;
 import tools.dynamia.domain.contraints.NotEmpty;
 import tools.dynamia.domain.util.ContactInfo;
 import tools.dynamia.modules.entityfile.domain.EntityFile;
-import tools.dynamia.modules.saas.api.AccountInfo;
+import tools.dynamia.modules.saas.api.dto.AccountDTO;
 import tools.dynamia.modules.saas.api.enums.AccountStatus;
 
 /**
@@ -32,7 +33,7 @@ import tools.dynamia.modules.saas.api.enums.AccountStatus;
  */
 @Entity
 @Table(name = "saas_accounts")
-public class Account extends SimpleEntity {
+public class Account extends SimpleEntity implements Transferable<AccountDTO> {
 
     /**
      *
@@ -359,7 +360,7 @@ public class Account extends SimpleEntity {
         return String.format("%s (%s)", getName(), getEmail());
     }
 
-    public AccountInfo getInfo() {
+    public AccountDTO toDTO() {
         String logoURL = null;
         if (logo != null) {
             logoURL = logo.getStoredEntityFile().getThumbnailUrl(200, 200);
@@ -373,11 +374,11 @@ public class Account extends SimpleEntity {
         contactInfo.setMobileNumber(mobileNumber);
         contactInfo.setPhoneNumber(phoneNumber);
 
-        AccountInfo info = new AccountInfo(getId(), name, identification, email, status, getType().getPeriodicity(),
+        AccountDTO dto = new AccountDTO(getId(), name, identification, email, status, getType().getPeriodicity(),
                 getType().getName(), creationDate, subdomain, customDomain, statusDescription, skin, logoURL, locale,
                 timeZone, getType().getMaxUsers(), getType().isAllowAdditionalUsers(), paymentDay, lastPaymentDate,
                 uuid, remote, contactInfo);
-        return info;
+        return dto;
     }
 
     public List<AccountStatsData> getStats() {

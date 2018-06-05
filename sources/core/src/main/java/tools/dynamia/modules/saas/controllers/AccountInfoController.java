@@ -1,12 +1,11 @@
 package tools.dynamia.modules.saas.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import tools.dynamia.domain.query.QueryConditions;
 import tools.dynamia.domain.query.QueryParameters;
 import tools.dynamia.domain.services.CrudService;
-import tools.dynamia.modules.saas.api.AccountInfo;
+import tools.dynamia.modules.saas.api.dto.AccountDTO;
 import tools.dynamia.modules.saas.api.AccountStatsList;
 import tools.dynamia.modules.saas.api.enums.AccountPeriodicity;
 import tools.dynamia.modules.saas.api.enums.AccountStatus;
@@ -16,14 +15,13 @@ import tools.dynamia.modules.saas.services.AccountService;
 import tools.dynamia.web.util.HttpUtils;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Arrays;
 import java.util.Date;
 
 @RestController
 @RequestMapping("/api/saas")
 public class AccountInfoController {
 
-    private static final AccountInfo NO_ACCOUNT = new AccountInfo(1L, "Invalid License", "1", "account@api.com",
+    private static final AccountDTO NO_ACCOUNT = new AccountDTO(1L, "Invalid License", "1", "account@api.com",
             AccountStatus.CANCELED, AccountPeriodicity.MONTHLY, "Invalid", new Date(), "", null, "Licencia Invalida", null, "", null,
             "GMT-5", 10000, true, 1, null, "Invalid", false, null);
 
@@ -35,7 +33,7 @@ public class AccountInfoController {
     private AccountService service;
 
     @GetMapping("/account/{uuid}")
-    public AccountInfo getAccount(@PathVariable("uuid") String uuid, HttpServletRequest request) {
+    public AccountDTO getAccount(@PathVariable("uuid") String uuid, HttpServletRequest request) {
 
         if (uuid != null && !uuid.isEmpty()) {
 
@@ -45,7 +43,7 @@ public class AccountInfoController {
 
             if (account != null) {
                 newLog(uuid, request, account);
-                return account.getInfo();
+                return account.toDTO();
             }
 
         }

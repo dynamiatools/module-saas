@@ -1,6 +1,8 @@
 package tools.dynamia.modules.saas.domain;
 
 import tools.dynamia.domain.SimpleEntity;
+import tools.dynamia.domain.Transferable;
+import tools.dynamia.modules.saas.api.dto.AccountLogDTO;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -8,7 +10,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "saas_logs")
-public class AccountLog extends SimpleEntity {
+public class AccountLog extends SimpleEntity implements Transferable<AccountLogDTO> {
 
 
     @Temporal(TemporalType.TIMESTAMP)

@@ -10,8 +10,12 @@ import tools.dynamia.commons.DateTimeUtils;
 import tools.dynamia.commons.Messages;
 import tools.dynamia.domain.query.QueryParameters;
 import tools.dynamia.domain.util.CrudServiceListenerAdapter;
+import tools.dynamia.modules.saas.api.dto.AccountDTO;
+import tools.dynamia.modules.saas.api.dto.AccountLogDTO;
+import tools.dynamia.modules.saas.api.dto.AccountPaymentDTO;
 import tools.dynamia.modules.saas.api.enums.AccountStatus;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -27,7 +31,7 @@ public class RemoteAccountServiceAPI extends CrudServiceListenerAdapter<AccountA
 
     private String serverUrl;
     private String accountUuid;
-    private AccountInfo accountInfo;
+    private AccountDTO accountDTO;
     private Date lastSync;
     private final int hours = 1;
     private Long defaultID;
@@ -47,22 +51,22 @@ public class RemoteAccountServiceAPI extends CrudServiceListenerAdapter<AccountA
     @Override
     public AccountStatus getAccountStatus(Long accountId) {
         checkAccountInfo();
-        if (accountInfo != null) {
-            return accountInfo.getStatus();
+        if (accountDTO != null) {
+            return accountDTO.getStatus();
         } else {
             return AccountStatus.CANCELED;
         }
     }
 
     @Override
-    public AccountInfo getAccountInfo(Long accountId) {
+    public AccountDTO getAccount(Long accountId) {
         checkAccountInfo();
 
         if (defaultID != null) {
-            accountInfo.setId(defaultID);
+            accountDTO.setId(defaultID);
         }
 
-        return accountInfo;
+        return accountDTO;
 
     }
 
@@ -74,8 +78,8 @@ public class RemoteAccountServiceAPI extends CrudServiceListenerAdapter<AccountA
         }
 
         checkAccountInfo();
-        if (accountInfo != null) {
-            return accountInfo.getId();
+        if (accountDTO != null) {
+            return accountDTO.getId();
         } else {
             return 1L;
         }
@@ -89,8 +93,8 @@ public class RemoteAccountServiceAPI extends CrudServiceListenerAdapter<AccountA
         }
 
         checkAccountInfo();
-        if (accountInfo != null) {
-            return accountInfo.getId();
+        if (accountDTO != null) {
+            return accountDTO.getId();
         } else {
             return 1L;
         }
@@ -103,14 +107,14 @@ public class RemoteAccountServiceAPI extends CrudServiceListenerAdapter<AccountA
 
     private void checkAccountInfo() {
         if (lastSync != null && DateTimeUtils.hoursBetween(lastSync, new Date()) >= hours) {
-            accountInfo = null;
+            accountDTO = null;
         }
 
-        if (accountInfo != null && accountInfo.getStatus() == AccountStatus.CANCELED) {
-            accountInfo = null;
+        if (accountDTO != null && accountDTO.getStatus() == AccountStatus.CANCELED) {
+            accountDTO = null;
         }
 
-        if (accountInfo == null) {
+        if (accountDTO == null) {
             syncAccountInfo();
         }
     }
@@ -126,25 +130,25 @@ public class RemoteAccountServiceAPI extends CrudServiceListenerAdapter<AccountA
         }
 
         try {
-            accountInfo = rest.getForObject(url, AccountInfo.class);
+            accountDTO = rest.getForObject(url, AccountDTO.class);
             lastSync = new Date();
 
             if (defaultID != null) {
-                accountInfo.setId(defaultID);
+                accountDTO.setId(defaultID);
             }
             connectionFailCount = 0;
         } catch (RestClientException e) {
             connectionFailCount++;
-            accountInfo = tempAccountInfo();
+            accountDTO = tempAccountInfo();
 
             if (connectionFailCount >= 10) {
                 throw new RemoteAccountNotAuthenticatedException(Messages.get(RemoteAccountServiceAPI.class, "remoteConnectionFail"));
             }
 
             if (connectionFailCount > 5) {
-                accountInfo.setStatus(AccountStatus.CANCELED);
-                accountInfo.setStatusDescription(Messages.get(RemoteAccountServiceAPI.class, "remoteConnectionFail"));
-                System.err.println(accountInfo.getStatusDescription());
+                accountDTO.setStatus(AccountStatus.CANCELED);
+                accountDTO.setStatusDescription(Messages.get(RemoteAccountServiceAPI.class, "remoteConnectionFail"));
+                System.err.println(accountDTO.getStatusDescription());
             }
 
             lastSync = new Date();
@@ -157,8 +161,8 @@ public class RemoteAccountServiceAPI extends CrudServiceListenerAdapter<AccountA
         return String.format("%s/api/saas/account/%s", serverUrl, accountUuid);
     }
 
-    private AccountInfo tempAccountInfo() {
-        AccountInfo temp = new AccountInfo();
+    private AccountDTO tempAccountInfo() {
+        AccountDTO temp = new AccountDTO();
         temp.setId(defaultID);
         temp.setName("Temporary Account");
         temp.setCreationDate(new Date());
@@ -180,11 +184,11 @@ public class RemoteAccountServiceAPI extends CrudServiceListenerAdapter<AccountA
 
         checkAccountInfo();
 
-        if (entity != null && accountInfo != null) {
+        if (entity != null && accountDTO != null) {
             if (defaultID != null) {
                 entity.setAccountId(defaultID);
             } else {
-                entity.setAccountId(accountInfo.getId());
+                entity.setAccountId(accountDTO.getId());
             }
         }
     }
@@ -199,11 +203,11 @@ public class RemoteAccountServiceAPI extends CrudServiceListenerAdapter<AccountA
 
 
         checkAccountInfo();
-        if (entity != null && entity.getAccountId() == null && accountInfo != null) {
+        if (entity != null && entity.getAccountId() == null && accountDTO != null) {
             if (defaultID != null) {
                 entity.setAccountId(defaultID);
             } else {
-                entity.setAccountId(accountInfo.getId());
+                entity.setAccountId(accountDTO.getId());
             }
         }
     }
@@ -217,8 +221,8 @@ public class RemoteAccountServiceAPI extends CrudServiceListenerAdapter<AccountA
                 if (obj instanceof AccountAware) {
                     if (defaultID != null) {
                         params.add(ACCOUNT_ID, defaultID);
-                    } else if (accountInfo != null) {
-                        params.add(ACCOUNT_ID, accountInfo.getId());
+                    } else if (accountDTO != null) {
+                        params.add(ACCOUNT_ID, accountDTO.getId());
                     }
 
                 }
@@ -237,11 +241,11 @@ public class RemoteAccountServiceAPI extends CrudServiceListenerAdapter<AccountA
 
     @Scheduled(cron = "0 0 6 * * *")
     public void sendStats() {
-        if (accountInfo != null) {
+        if (accountDTO != null) {
             AccountStatsList stats = new AccountStatsList();
 
             statsProviders.forEach(provider -> {
-                stats.add(provider.getAccountStats(accountInfo.getId()));
+                stats.add(provider.getAccountStats(accountDTO.getId()));
             });
 
             String url = getAdminURL() + "/stats";
@@ -250,5 +254,15 @@ public class RemoteAccountServiceAPI extends CrudServiceListenerAdapter<AccountA
             String response = rest.postForObject(url, stats, String.class);
             System.out.println("Stats Response: " + response);
         }
+    }
+
+    @Override
+    public List<AccountPaymentDTO> getPayments(Long accountId) {
+        return Collections.emptyList();
+    }
+
+    @Override
+    public List<AccountLogDTO> getLogs(Long accountId, Date startDate, Date endDate) {
+        return Collections.emptyList();
     }
 }

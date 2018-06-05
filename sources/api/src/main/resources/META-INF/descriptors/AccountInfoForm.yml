@@ -1,5 +1,5 @@
 view: form
-beanClass: tools.dynamia.modules.saas.api.AccountInfo
+beanClass: tools.dynamia.modules.saas.api.dto.AccountDTO
 autofields: false
 
 fields:    

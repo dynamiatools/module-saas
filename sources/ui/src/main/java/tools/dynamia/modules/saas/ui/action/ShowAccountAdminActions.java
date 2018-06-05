@@ -14,7 +14,7 @@ import tools.dynamia.crud.AbstractCrudAction;
 import tools.dynamia.crud.CrudActionEvent;
 import tools.dynamia.crud.CrudState;
 import tools.dynamia.modules.saas.api.AccountAdminAction;
-import tools.dynamia.modules.saas.api.AccountInfo;
+import tools.dynamia.modules.saas.api.dto.AccountDTO;
 import tools.dynamia.modules.saas.domain.Account;
 import tools.dynamia.ui.MessageType;
 import tools.dynamia.ui.UIMessages;
@@ -43,7 +43,7 @@ public class ShowAccountAdminActions extends AbstractCrudAction {
 	public void actionPerformed(CrudActionEvent evt) {
 		Account account = (Account) evt.getData();
 		if (account != null) {
-			AccountInfo info = account.getInfo();
+			AccountDTO info = account.toDTO();
 			ActionEventBuilder evtBuilder = (source, params) -> new ActionEvent(info, this);
 
 			ActionLoader<AccountAdminAction> loader = new ActionLoader<>(AccountAdminAction.class);

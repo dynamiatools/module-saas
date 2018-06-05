@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
-import org.springframework.context.event.EventListener;
 import org.springframework.orm.jpa.EntityManagerFactoryInfo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -30,6 +29,7 @@ import tools.dynamia.domain.query.QueryParameters;
 import tools.dynamia.domain.services.CrudService;
 import tools.dynamia.integration.Containers;
 import tools.dynamia.modules.saas.api.*;
+import tools.dynamia.modules.saas.api.dto.AccountDTO;
 import tools.dynamia.modules.saas.api.enums.AccountPeriodicity;
 import tools.dynamia.modules.saas.api.enums.AccountStatus;
 import tools.dynamia.modules.saas.domain.Account;
@@ -191,10 +191,10 @@ class AccountServiceImpl implements AccountService, ApplicationListener<ContextR
     @Override
     public void initAccount(Account account) {
         if (!account.isRemote()) {
-            AccountInfo accountInfo = account.getInfo();
+            AccountDTO accountDTO = account.toDTO();
             initializers.stream().forEach((initializer) -> {
                 try {
-                    initializer.init(accountInfo);
+                    initializer.init(accountDTO);
                 } catch (Exception e) {
                     logger.error("Error firing account initializer " + initializer.getClass(), e);
                 }

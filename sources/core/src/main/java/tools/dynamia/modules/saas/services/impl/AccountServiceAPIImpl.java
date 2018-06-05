@@ -11,11 +11,16 @@ import tools.dynamia.domain.query.QueryParameters;
 import tools.dynamia.domain.services.CrudService;
 import tools.dynamia.integration.sterotypes.Service;
 import tools.dynamia.modules.saas.AccountContext;
-import tools.dynamia.modules.saas.api.AccountInfo;
+import tools.dynamia.modules.saas.api.dto.AccountDTO;
 import tools.dynamia.modules.saas.api.AccountServiceAPI;
+import tools.dynamia.modules.saas.api.dto.AccountLogDTO;
+import tools.dynamia.modules.saas.api.dto.AccountPaymentDTO;
 import tools.dynamia.modules.saas.api.enums.AccountStatus;
 import tools.dynamia.modules.saas.domain.Account;
 import tools.dynamia.modules.saas.services.AccountService;
+
+import java.util.Date;
+import java.util.List;
 
 @Service("accountServiceAPI")
 public class AccountServiceAPIImpl implements AccountServiceAPI {
@@ -41,12 +46,12 @@ public class AccountServiceAPIImpl implements AccountServiceAPI {
 	}
 
 	@Override
-	public AccountInfo getAccountInfo(Long accountId) {
+	public AccountDTO getAccount(Long accountId) {
 		try {
 			Account account = crudService.findSingle(Account.class,
 					QueryParameters.with("id", accountId).add("status", QueryConditions.isNotNull()));
 			if (account != null) {
-				return account.getInfo();
+				return account.toDTO();
 			} else {
 				logger.error("No account found with id " + accountId);
 				return null;
@@ -107,4 +112,13 @@ public class AccountServiceAPIImpl implements AccountServiceAPI {
 		}
 	}
 
+	@Override
+	public List<AccountPaymentDTO> getPayments(Long accountId) {
+		return null;
+	}
+
+	@Override
+	public List<AccountLogDTO> getLogs(Long accountId, Date startDate, Date endDate) {
+		return null;
+	}
 }

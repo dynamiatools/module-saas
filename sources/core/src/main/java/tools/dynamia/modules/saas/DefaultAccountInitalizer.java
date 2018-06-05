@@ -6,7 +6,7 @@
 package tools.dynamia.modules.saas;
 
 import org.springframework.stereotype.Component;
-import tools.dynamia.modules.saas.api.AccountInfo;
+import tools.dynamia.modules.saas.api.dto.AccountDTO;
 import tools.dynamia.modules.saas.api.AccountInitializer;
 
 /**
@@ -17,7 +17,7 @@ import tools.dynamia.modules.saas.api.AccountInitializer;
 public class DefaultAccountInitalizer implements AccountInitializer {
 
     @Override
-    public void init(AccountInfo accountInfo) {
+    public void init(AccountDTO accountDTO) {
 //nothing to do
     }
 

@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import tools.dynamia.modules.saas.api.AccountInfo;
 import tools.dynamia.modules.saas.api.AccountStats;
 import tools.dynamia.modules.saas.domain.Account;
 
