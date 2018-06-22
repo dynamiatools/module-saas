@@ -17,7 +17,7 @@ import tools.dynamia.modules.saas.services.AccountService;
 
 /**
  *
- * @author mario
+ * @author Mario Serrano Leones
  */
 @Listener
 public class AccountCrudListener extends CrudServiceListenerAdapter<Account> {

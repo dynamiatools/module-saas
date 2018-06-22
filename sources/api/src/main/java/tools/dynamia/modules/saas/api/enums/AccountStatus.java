@@ -7,7 +7,7 @@ package tools.dynamia.modules.saas.api.enums;
 
 /**
  *
- * @author mario
+ * @author Mario Serrano Leones
  */
 public enum AccountStatus {
 

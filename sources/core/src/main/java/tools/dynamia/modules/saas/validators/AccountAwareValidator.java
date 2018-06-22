@@ -14,7 +14,7 @@ import tools.dynamia.modules.saas.api.AccountAware;
 
 /**
  *
- * @author mario_2
+ * @author Mario Serrano Leones
  */
 @Component
 public class AccountAwareValidator implements Validator<AccountAware> {

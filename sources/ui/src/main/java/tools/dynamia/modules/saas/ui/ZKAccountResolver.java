@@ -11,7 +11,7 @@ import org.zkoss.zk.ui.Executions;
 
 /**
  *
- * @author mario
+ * @author Mario Serrano Leones
  */
 @Component
 public class ZKAccountResolver extends HttpAccountResolver {

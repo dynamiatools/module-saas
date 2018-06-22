@@ -14,7 +14,7 @@ import tools.dynamia.modules.saas.ui.controllers.AccountProfileController;
 
 /**
  *
- * @author mario
+ * @author Mario Serrano Leones
  */
 @InstallAction
 public class NewProfileAction extends NewAction {

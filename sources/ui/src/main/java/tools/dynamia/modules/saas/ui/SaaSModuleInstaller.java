@@ -17,7 +17,7 @@ import tools.dynamia.navigation.ModuleProvider;
 
 /**
  *
- * @author mario_2
+ * @author Mario Serrano Leones
  */
 @Component
 public class SaaSModuleInstaller implements ModuleProvider {

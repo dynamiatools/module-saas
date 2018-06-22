@@ -28,7 +28,7 @@ import tools.dynamia.zk.util.ZKUtil;
 
 /**
  *
- * @author mario
+ * @author Mario Serrano Leones
  */
 @Component("accountProfile")
 @Scope("prototype")

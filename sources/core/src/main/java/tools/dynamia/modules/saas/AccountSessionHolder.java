@@ -13,7 +13,7 @@ import tools.dynamia.modules.saas.domain.Account;
 
 /**
  *
- * @author mario
+ * @author Mario Serrano Leones
  */
 @Component("accountSessionHolder")
 @Scope("session")

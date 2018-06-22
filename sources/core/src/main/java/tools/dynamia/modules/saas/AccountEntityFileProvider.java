@@ -12,7 +12,7 @@ import tools.dynamia.modules.saas.api.AccountServiceAPI;
 
 /**
  *
- * @author mario
+ * @author Mario Serrano Leones
  */
 @Provider
 public class AccountEntityFileProvider implements EntityFileAccountProvider {

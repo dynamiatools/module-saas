@@ -23,7 +23,7 @@ import tools.dynamia.modules.saas.api.enums.AccountPeriodicity;
 
 /**
  *
- * @author mario
+ * @author Mario Serrano Leones
  */
 @Entity
 @Table(name = "saas_account_types")

@@ -16,7 +16,7 @@ import tools.dynamia.ui.UIMessages;
 
 /**
  *
- * @author mario
+ * @author Mario Serrano Leones
  */
 @InstallAction
 public class EditProfileAction extends EditAction {

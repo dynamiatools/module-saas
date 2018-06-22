@@ -29,7 +29,7 @@ import tools.dynamia.modules.saas.api.dto.AccountDTO;
 import tools.dynamia.modules.saas.api.enums.AccountStatus;
 
 /**
- * @author mario
+ * @author Mario Serrano Leones
  */
 @Entity
 @Table(name = "saas_accounts")

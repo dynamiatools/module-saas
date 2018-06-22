@@ -9,7 +9,7 @@ import tools.dynamia.modules.saas.api.dto.AccountDTO;
 
 /**
  *
- * @author mario
+ * @author Mario Serrano Leones
  */
 public interface AccountInitializer {
 

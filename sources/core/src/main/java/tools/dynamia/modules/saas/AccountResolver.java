@@ -10,7 +10,7 @@ import tools.dynamia.modules.saas.domain.Account;
 
 /**
  *
- * @author mario
+ * @author Mario Serrano Leones
  */
 public interface AccountResolver {
     

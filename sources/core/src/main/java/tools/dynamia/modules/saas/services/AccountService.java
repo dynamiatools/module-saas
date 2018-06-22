@@ -16,7 +16,7 @@ import java.util.List;
 
 /**
  *
- * @author mario
+ * @author Mario Serrano Leones
  */
 public interface AccountService {
 

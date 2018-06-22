@@ -17,7 +17,7 @@ import tools.dynamia.navigation.NavigationElement;
 
 /**
  *
- * @author mario
+ * @author Mario Serrano Leones
  */
 @Component
 @Scope("session")

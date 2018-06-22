@@ -7,7 +7,7 @@ package tools.dynamia.modules.saas.api;
 
 /**
  *
- * @author mario
+ * @author Mario Serrano Leones
  */
 public interface AccountAware {
 

@@ -13,7 +13,7 @@ import tools.dynamia.viewers.FieldGroup;
 
 /**
  *
- * @author mario
+ * @author Mario Serrano Leones
  */
 @Component
 public class AccountFieldCustomizer implements FieldCustomizer {

@@ -11,7 +11,7 @@ import tools.dynamia.modules.saas.api.AccountInitializer;
 
 /**
  *
- * @author mario
+ * @author Mario Serrano Leones
  */
 @Component
 public class DefaultAccountInitalizer implements AccountInitializer {

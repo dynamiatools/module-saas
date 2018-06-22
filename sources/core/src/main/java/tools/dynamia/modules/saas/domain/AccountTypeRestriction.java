@@ -14,7 +14,7 @@ import tools.dynamia.domain.SimpleEntity;
 
 /**
  *
- * @author mario
+ * @author Mario Serrano Leones
  */
 @Entity
 @Table(name = "saas_restrictions")

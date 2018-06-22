@@ -17,7 +17,7 @@ import tools.dynamia.web.util.HttpUtils;
 
 /**
  *
- * @author mario_2
+ * @author Mario Serrano Leones
  */
 @Component
 public class HttpAccountResolver implements AccountResolver {

@@ -13,7 +13,7 @@ import tools.dynamia.modules.saas.domain.AccountPayment;
 
 /**
  *
- * @author mario
+ * @author Mario Serrano Leones
  */
 @Listener
 public class AccountPaymenCrudListener extends CrudServiceListenerAdapter<AccountPayment> {

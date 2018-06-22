@@ -17,7 +17,7 @@ import tools.dynamia.modules.saas.api.dto.AccountPaymentDTO;
 
 /**
  *
- * @author mario
+ * @author Mario Serrano Leones
  */
 @Entity
 @Table(name = "saas_payments")

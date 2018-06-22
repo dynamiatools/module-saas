@@ -19,7 +19,7 @@ import tools.dynamia.zk.util.ZKUtil;
 
 /**
  *
- * @author mario
+ * @author Mario Serrano Leones
  */
 @InstallAction
 public class ViewAccountLogoAction extends AbstractCrudAction {

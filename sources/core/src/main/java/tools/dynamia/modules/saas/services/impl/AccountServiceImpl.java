@@ -38,7 +38,7 @@ import tools.dynamia.modules.saas.domain.AccountType;
 import tools.dynamia.modules.saas.services.AccountService;
 
 /**
- * @author mario
+ * @author Mario Serrano Leones
  */
 @Service
 class AccountServiceImpl implements AccountService, ApplicationListener<ContextRefreshedEvent> {

@@ -12,7 +12,7 @@ import tools.dynamia.domain.SimpleEntity;
 
 /**
  *
- * @author mario
+ * @author Mario Serrano Leones
  */
 @MappedSuperclass
 public abstract class SimpleEntitySaaS extends SimpleEntity implements AccountAware {

@@ -14,7 +14,7 @@ import javax.persistence.UniqueConstraint;
 
 /**
  *
- * @author mario
+ * @author Mario Serrano Leones
  */
 @Entity
 @Table(uniqueConstraints = {
