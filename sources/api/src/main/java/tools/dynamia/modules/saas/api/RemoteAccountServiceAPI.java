@@ -8,6 +8,8 @@ import org.springframework.web.client.RestTemplate;
 import tools.dynamia.commons.BeanUtils;
 import tools.dynamia.commons.DateTimeUtils;
 import tools.dynamia.commons.Messages;
+import tools.dynamia.domain.query.ApplicationParameters;
+import tools.dynamia.domain.query.Parameter;
 import tools.dynamia.domain.query.QueryParameters;
 import tools.dynamia.domain.util.CrudServiceListenerAdapter;
 import tools.dynamia.modules.saas.api.dto.AccountDTO;
@@ -264,5 +266,25 @@ public class RemoteAccountServiceAPI extends CrudServiceListenerAdapter<AccountA
     @Override
     public List<AccountLogDTO> getLogs(Long accountId, Date startDate, Date endDate) {
         return Collections.emptyList();
+    }
+
+    @Override
+    public Parameter getParameter(String name) {
+        return ApplicationParameters.get().getParameter(AccountParameter.class, name);
+    }
+
+    @Override
+    public String getParameterValue(String name) {
+        return ApplicationParameters.get().getValue(AccountParameter.class, name);
+    }
+
+    @Override
+    public String getParameterValue(String name, String defaultValue) {
+        return ApplicationParameters.get().getValue(AccountParameter.class, name, defaultValue);
+    }
+
+    @Override
+    public void setParameter(String name, String value) {
+        ApplicationParameters.get().setParameter(AccountParameter.class, name, value);
     }
 }

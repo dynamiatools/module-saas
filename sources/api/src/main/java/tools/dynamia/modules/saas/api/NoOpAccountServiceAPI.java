@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import tools.dynamia.domain.query.Parameter;
 import tools.dynamia.domain.util.CrudServiceListenerAdapter;
 import tools.dynamia.modules.saas.api.dto.AccountDTO;
 import tools.dynamia.modules.saas.api.dto.AccountLogDTO;
@@ -65,5 +66,25 @@ public class NoOpAccountServiceAPI extends CrudServiceListenerAdapter<AccountAwa
     @Override
     public List<AccountLogDTO> getLogs(Long accountId, Date startDate, Date endDate) {
         return Collections.emptyList();
+    }
+
+    @Override
+    public Parameter getParameter(String name) {
+        return null;
+    }
+
+    @Override
+    public String getParameterValue(String name) {
+        return null;
+    }
+
+    @Override
+    public String getParameterValue(String name, String defaultValue) {
+        return defaultValue;
+    }
+
+    @Override
+    public void setParameter(String name, String value) {
+//do nothin
     }
 }
