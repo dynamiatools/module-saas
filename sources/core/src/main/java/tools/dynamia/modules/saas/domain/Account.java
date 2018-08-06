@@ -91,6 +91,7 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
     private boolean remote;
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AccountStatsData> stats = new ArrayList<>();
+    private String adminUsername = "admin";
 
     public Account() {
         try {
@@ -360,6 +361,7 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
         return String.format("%s (%s)", getName(), getEmail());
     }
 
+    @Override
     public AccountDTO toDTO() {
         String logoURL = null;
         if (logo != null) {
@@ -374,11 +376,10 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
         contactInfo.setMobileNumber(mobileNumber);
         contactInfo.setPhoneNumber(phoneNumber);
 
-        AccountDTO dto = new AccountDTO(getId(), name, identification, email, status, getType().getPeriodicity(),
+        return new AccountDTO(getId(), name, identification, email, status, getType().getPeriodicity(),
                 getType().getName(), creationDate, subdomain, customDomain, statusDescription, skin, logoURL, locale,
                 timeZone, getType().getMaxUsers(), getType().isAllowAdditionalUsers(), paymentDay, lastPaymentDate,
-                uuid, remote, contactInfo);
-        return dto;
+                uuid, remote, getAdminUsername(), contactInfo);
     }
 
     public List<AccountStatsData> getStats() {
@@ -391,5 +392,16 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
 
     public AccountStatsData findStats(String name) {
         return stats.stream().filter(a -> a.getName().equals(name)).findFirst().orElse(null);
+    }
+
+    public String getAdminUsername() {
+        if (adminUsername == null) {
+            adminUsername = "admin";
+        }
+        return adminUsername;
+    }
+
+    public void setAdminUsername(String adminUsername) {
+        this.adminUsername = adminUsername;
     }
 }

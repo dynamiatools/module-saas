@@ -6,10 +6,7 @@
 package tools.dynamia.modules.saas.services.impl;
 
 import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.TimeZone;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -51,8 +48,6 @@ class AccountServiceImpl implements AccountService, ApplicationListener<ContextR
     @Autowired
     private EntityManagerFactoryInfo entityManagerFactoryInfo;
 
-    @Autowired
-    private List<AccountInitializer> initializers;
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public Account init() {
@@ -192,7 +187,8 @@ class AccountServiceImpl implements AccountService, ApplicationListener<ContextR
     public void initAccount(Account account) {
         if (!account.isRemote()) {
             AccountDTO accountDTO = account.toDTO();
-            initializers.stream().forEach((initializer) -> {
+            Collection<AccountInitializer> initializers = Containers.get().findObjects(AccountInitializer.class);
+            initializers.stream().sorted(Comparator.comparingInt(AccountInitializer::getPriority)).forEach(initializer -> {
                 try {
                     initializer.init(accountDTO);
                 } catch (Exception e) {

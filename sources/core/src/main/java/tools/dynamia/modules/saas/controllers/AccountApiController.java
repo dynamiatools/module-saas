@@ -24,7 +24,7 @@ public class AccountApiController extends AbstractService {
 
     private static final AccountDTO NO_ACCOUNT = new AccountDTO(1L, "Invalid License", "1", "account@api.com",
             AccountStatus.CANCELED, AccountPeriodicity.MONTHLY, "Invalid", new Date(), "", null, "Licencia Invalida", null, "", null,
-            "GMT-5", 10000, true, 1, null, "Invalid", false, null);
+            "GMT-5", 10000, true, 1, null, "Invalid", false, "admin", null);
 
 
     private AccountService service;

@@ -3,72 +3,76 @@ beanClass: tools.dynamia.modules.saas.domain.Account
 autofields: false
 
 fields:
-    defaultAccount:
-       label: D
-       description: Default Account
-       component: iconimage
-       params:
-           trueIcon: star
-           falseIcon: staroff
-           width: 32px
-           
-    accounts:
-      component: coollabel
-      params:
-         noImagePath: classpath:/web/tools/images/no-photo.jpg
-         bindings:
-            title: name
-            subtitle: email
-            description: type
-            imageURL: logo.storedEntityFile.thumbnailUrl 
-    identification:
-   
-    subdomain:
-    customDomain: 
-    type:
-    profile:
-    skin:
-    status:    
-    statusDate:
-    statusDescription:
-    expirationDate:
-    creationDate:
-    locale:
-    timeZone:
-    users:
-        params:
-           header:
-               align: center
-    activedUsers:
-        params:
-           header:
-               align: center
-    paymentDay:
-        params:
-           header:
-               align: center
-    lastPaymentDate:
-        params:
-            converter: converters.Date
-    type.price:
-        label: Base Payment
-        params:
-            converter: converters.Currency
-            header:
-                align: right
-            footer:
-                function: sum
-                functionConverter: converters.Currency
-    paymentValue:
-        params:
-            converter: converters.Currency
-            header:
-                align: right
-            footer:
-                function: sum
-                functionConverter: converters.Currency
-    uuid:
-    remote:
+  defaultAccount:
+    label: D
+    description: Default Account
+    component: iconimage
+    params:
+      trueIcon: star
+      falseIcon: staroff
+      width: 32px
+  logo:
+    component: entityfileImage
+    params:
+      thumbnail: true
+      thumbnailHeight: 32px
+      thumbnailWidth: 32px
+      header:
+        width: 40px
+        align: center
+  name:
+  email:
+  type:
+  id:
+
+  identification:
+
+  subdomain:
+  customDomain:
+
+  profile:
+  skin:
+  status:
+  statusDate:
+  statusDescription:
+  expirationDate:
+  creationDate:
+  locale:
+  timeZone:
+  users:
+    params:
+      header:
+        align: center
+  activedUsers:
+    params:
+      header:
+        align: center
+  paymentDay:
+    params:
+      header:
+        align: center
+  lastPaymentDate:
+    params:
+      converter: converters.Date
+  type.price:
+    label: Base Payment
+    params:
+      converter: converters.Currency
+      header:
+        align: right
+      footer:
+        function: sum
+        functionConverter: converters.Currency
+  paymentValue:
+    params:
+      converter: converters.Currency
+      header:
+        align: right
+      footer:
+        function: sum
+        functionConverter: converters.Currency
+  uuid:
+  remote:
     
        
      

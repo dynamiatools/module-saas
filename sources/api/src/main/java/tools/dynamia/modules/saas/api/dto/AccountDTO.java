@@ -36,11 +36,12 @@ public class AccountDTO implements Serializable {
     private ContactInfo contactInfo;
     private String uuid;
     private boolean remote;
+    private String adminUsername;
 
     public AccountDTO(Long id, String name, String identification, String email, AccountStatus status,
                       AccountPeriodicity periodicity, String type, Date creationDate, String subdomain, String domain,
                       String statusDescription, String skin, String logoURL, String locale, String timeZone, int maxUsers,
-                      boolean allowAdditionalUsers, int paymentDay, Date lastPaymentDate, String uuid, boolean remote, ContactInfo contactInfo) {
+                      boolean allowAdditionalUsers, int paymentDay, Date lastPaymentDate, String uuid, boolean remote, String adminUsername, ContactInfo contactInfo) {
         this.id = id;
         this.name = name;
         this.identification = identification;
@@ -54,7 +55,6 @@ public class AccountDTO implements Serializable {
         this.statusDescription = statusDescription;
         this.skin = skin;
         this.logoURL = logoURL;
-
         this.locale = locale;
         this.timeZone = timeZone;
         this.maxUsers = maxUsers;
@@ -63,6 +63,7 @@ public class AccountDTO implements Serializable {
         this.lastPaymentDate = lastPaymentDate;
         this.uuid = uuid;
         this.remote = remote;
+        this.adminUsername = adminUsername;
         this.contactInfo = contactInfo;
     }
 
@@ -158,6 +159,9 @@ public class AccountDTO implements Serializable {
     }
 
     public ContactInfo getContactInfo() {
+        if (contactInfo == null) {
+            contactInfo = new ContactInfo();
+        }
         return contactInfo;
     }
 
@@ -246,4 +250,7 @@ public class AccountDTO implements Serializable {
         return String.format("%s (%s)", name, type);
     }
 
+    public String getAdminUsername() {
+        return adminUsername;
+    }
 }
