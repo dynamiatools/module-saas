@@ -16,6 +16,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import tools.dynamia.commons.DateTimeUtils;
 import tools.dynamia.commons.StringUtils;
@@ -91,6 +92,7 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
     private boolean remote;
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AccountStatsData> stats = new ArrayList<>();
+    @Size(min = 5, message = "El nombre de usuario debe ser minimo de 5 caracteres")
     private String adminUsername = "admin";
 
     public Account() {
