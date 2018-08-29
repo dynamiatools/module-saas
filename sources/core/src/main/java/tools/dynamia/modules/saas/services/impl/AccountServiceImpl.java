@@ -5,11 +5,6 @@
  */
 package tools.dynamia.modules.saas.services.impl;
 
-import java.math.BigDecimal;
-import java.util.*;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -17,7 +12,6 @@ import org.springframework.orm.jpa.EntityManagerFactoryInfo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
 import tools.dynamia.commons.BeanUtils;
 import tools.dynamia.commons.logger.LoggingService;
 import tools.dynamia.commons.logger.SLF4JLoggingService;
@@ -25,7 +19,10 @@ import tools.dynamia.domain.query.QueryConditions;
 import tools.dynamia.domain.query.QueryParameters;
 import tools.dynamia.domain.services.CrudService;
 import tools.dynamia.integration.Containers;
-import tools.dynamia.modules.saas.api.*;
+import tools.dynamia.modules.saas.api.AccountAware;
+import tools.dynamia.modules.saas.api.AccountInitializer;
+import tools.dynamia.modules.saas.api.AccountStats;
+import tools.dynamia.modules.saas.api.AccountStatsProvider;
 import tools.dynamia.modules.saas.api.dto.AccountDTO;
 import tools.dynamia.modules.saas.api.enums.AccountPeriodicity;
 import tools.dynamia.modules.saas.api.enums.AccountStatus;
@@ -33,6 +30,10 @@ import tools.dynamia.modules.saas.domain.Account;
 import tools.dynamia.modules.saas.domain.AccountStatsData;
 import tools.dynamia.modules.saas.domain.AccountType;
 import tools.dynamia.modules.saas.services.AccountService;
+
+import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
+import java.util.*;
 
 /**
  * @author Mario Serrano Leones
@@ -75,6 +76,9 @@ class AccountServiceImpl implements AccountService, ApplicationListener<ContextR
     public Account getAccount(HttpServletRequest request) {
         String host = request.getServerName();
         String subdomain = host.substring(0, host.indexOf("."));
+        if (request.getParameter("a") != null) {
+            subdomain = request.getParameter("a");
+        }
         Account account = getAccount(subdomain);
         if (account == null) {
             account = getAccountByCustomDomain(host);
