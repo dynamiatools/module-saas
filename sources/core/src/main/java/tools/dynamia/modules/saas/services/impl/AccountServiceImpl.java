@@ -39,7 +39,7 @@ import java.util.*;
  * @author Mario Serrano Leones
  */
 @Service
-class AccountServiceImpl implements AccountService, ApplicationListener<ContextRefreshedEvent> {
+public class AccountServiceImpl implements AccountService, ApplicationListener<ContextRefreshedEvent> {
 
     private LoggingService logger = new SLF4JLoggingService(AccountService.class);
 
