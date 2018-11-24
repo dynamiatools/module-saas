@@ -41,7 +41,8 @@ fields:
       span: 2
   uuid:
   remote:
-
+  instanceUuid:
+  requiredInstanceUuid:
   stats:
     component: crudview
 
