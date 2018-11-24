@@ -37,11 +37,14 @@ public class AccountDTO implements Serializable {
     private String uuid;
     private boolean remote;
     private String adminUsername;
+    private String instanceUuid;
+    private Boolean requiredInstanceUuid = Boolean.FALSE;
 
     public AccountDTO(Long id, String name, String identification, String email, AccountStatus status,
                       AccountPeriodicity periodicity, String type, Date creationDate, String subdomain, String domain,
                       String statusDescription, String skin, String logoURL, String locale, String timeZone, int maxUsers,
-                      boolean allowAdditionalUsers, int paymentDay, Date lastPaymentDate, String uuid, boolean remote, String adminUsername, ContactInfo contactInfo) {
+                      boolean allowAdditionalUsers, int paymentDay, Date lastPaymentDate, String uuid, boolean remote, String adminUsername,
+                      ContactInfo contactInfo, String instanceUuid, Boolean requiredInstanceUuid) {
         this.id = id;
         this.name = name;
         this.identification = identification;
@@ -65,9 +68,27 @@ public class AccountDTO implements Serializable {
         this.remote = remote;
         this.adminUsername = adminUsername;
         this.contactInfo = contactInfo;
+        this.instanceUuid = instanceUuid;
+        this.requiredInstanceUuid = requiredInstanceUuid;
     }
 
     public AccountDTO() {
+    }
+
+    public Boolean getRequiredInstanceUuid() {
+        return requiredInstanceUuid;
+    }
+
+    public void setRequiredInstanceUuid(Boolean requiredInstanceUuid) {
+        this.requiredInstanceUuid = requiredInstanceUuid;
+    }
+
+    public String getInstanceUuid() {
+        return instanceUuid;
+    }
+
+    public void setInstanceUuid(String instanceUuid) {
+        this.instanceUuid = instanceUuid;
     }
 
     public void setId(Long id) {

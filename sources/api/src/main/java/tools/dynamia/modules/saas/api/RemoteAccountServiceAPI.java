@@ -5,6 +5,9 @@ import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
+import oshi.SystemInfo;
+import oshi.hardware.HWDiskStore;
+import oshi.hardware.NetworkIF;
 import tools.dynamia.commons.BeanUtils;
 import tools.dynamia.commons.DateTimeUtils;
 import tools.dynamia.commons.Messages;
@@ -38,6 +41,7 @@ public class RemoteAccountServiceAPI extends CrudServiceListenerAdapter<AccountA
     private final int hours = 1;
     private Long defaultID;
     private int connectionFailCount = 0;
+    private static SystemInfo systemInfo = new SystemInfo();
 
     public RemoteAccountServiceAPI(String serverUrl, String accountUuid) {
         this.serverUrl = serverUrl;
@@ -121,6 +125,21 @@ public class RemoteAccountServiceAPI extends CrudServiceListenerAdapter<AccountA
         }
     }
 
+    public String getHardwareUUID() {
+        String processorID = systemInfo.getHardware().getProcessor().getProcessorID();
+        String serialHDD = "";
+        HWDiskStore[] diskStores = systemInfo.getHardware().getDiskStores();
+        if (diskStores != null && diskStores.length > 1) {
+            serialHDD = diskStores[0].getSerial();
+        }
+        NetworkIF[] networkIFs = systemInfo.getHardware().getNetworkIFs();
+        String macaddr = "";
+        if (networkIFs != null && networkIFs.length > 1) {
+            macaddr = networkIFs[0].getMacaddr();
+        }
+        return processorID + serialHDD + macaddr;
+    }
+
     private void syncAccountInfo() {
         String url = getAdminURL();
 
@@ -128,7 +147,7 @@ public class RemoteAccountServiceAPI extends CrudServiceListenerAdapter<AccountA
 
         String info = getLocalInfo();
         if (info != null) {
-            url = url + "?info=" + info;
+            url = url + "?info=" + info + "&uuid=" + getHardwareUUID();
         }
 
         try {

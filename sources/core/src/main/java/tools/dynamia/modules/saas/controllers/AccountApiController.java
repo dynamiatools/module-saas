@@ -24,7 +24,7 @@ public class AccountApiController extends AbstractService {
 
     private static final AccountDTO NO_ACCOUNT = new AccountDTO(1L, "Invalid License", "1", "account@api.com",
             AccountStatus.CANCELED, AccountPeriodicity.MONTHLY, "Invalid", new Date(), "", null, "Licencia Invalida", null, "", null,
-            "GMT-5", 10000, true, 1, null, "Invalid", false, "admin", null);
+            "GMT-5", 10000, true, 1, null, "Invalid", false, "admin", null, "", false);
 
 
     private AccountService service;
@@ -42,7 +42,13 @@ public class AccountApiController extends AbstractService {
 
         if (account != null) {
             newLog(uuid, request, account);
-            return account.toDTO();
+            AccountDTO accountDTO = account.toDTO();
+            if (accountDTO.getRequiredInstanceUuid()) {
+                String uuidhw = request.getParameter("uuid");
+                if (!uuidhw.equalsIgnoreCase(accountDTO.getInstanceUuid()))
+                    accountDTO.setStatus(AccountStatus.CANCELED);
+            }
+            return accountDTO;
         }
 
 

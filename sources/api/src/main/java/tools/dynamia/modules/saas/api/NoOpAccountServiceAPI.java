@@ -17,7 +17,7 @@ public class NoOpAccountServiceAPI extends CrudServiceListenerAdapter<AccountAwa
     private static final Long ACCOUNT_ID = 1L;
     private static final AccountDTO CURRENT_ACCOUNT = new AccountDTO(ACCOUNT_ID, "", "1", "account@api.com",
             AccountStatus.ACTIVE, AccountPeriodicity.UNLIMITED, "NoOp", new Date(), "", null, null, null, null, null,
-            "GMT-5", 10000, true, 1, null, "UUID", false, "admin", null);
+            "GMT-5", 10000, true, 1, null, "UUID", false, "admin", null, "", false);
 
     @Override
     public AccountStatus getAccountStatus(Long accountId) {

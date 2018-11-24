@@ -89,6 +89,8 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
     private String country;
     private String contact;
     private String uuid = StringUtils.randomString();
+    private String instanceUuid;
+    private Boolean requiredInstanceUuid = Boolean.FALSE;
     private boolean remote;
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AccountStatsData> stats = new ArrayList<>();
@@ -106,6 +108,14 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
         } catch (Exception e) {
         }
 
+    }
+
+    public Boolean getRequiredInstanceUuid() {
+        return requiredInstanceUuid;
+    }
+
+    public void setRequiredInstanceUuid(Boolean requiredInstanceUuid) {
+        this.requiredInstanceUuid = requiredInstanceUuid;
     }
 
     public String getUuid() {
@@ -358,6 +368,14 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
         this.statusDescription = statusDescription;
     }
 
+    public String getInstanceUuid() {
+        return instanceUuid;
+    }
+
+    public void setInstanceUuid(String instanceUuid) {
+        this.instanceUuid = instanceUuid;
+    }
+
     @Override
     public String toString() {
         return String.format("%s (%s)", getName(), getEmail());
@@ -381,7 +399,7 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
         return new AccountDTO(getId(), name, identification, email, status, getType().getPeriodicity(),
                 getType().getName(), creationDate, subdomain, customDomain, statusDescription, skin, logoURL, locale,
                 timeZone, getType().getMaxUsers(), getType().isAllowAdditionalUsers(), paymentDay, lastPaymentDate,
-                uuid, remote, getAdminUsername(), contactInfo);
+                uuid, remote, getAdminUsername(), contactInfo, instanceUuid, requiredInstanceUuid);
     }
 
     public List<AccountStatsData> getStats() {
