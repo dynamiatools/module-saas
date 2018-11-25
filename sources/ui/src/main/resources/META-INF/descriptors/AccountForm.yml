@@ -27,8 +27,6 @@ fields:
   statusDescription:
     params:
       span: 2
-      multiline: true
-      height: 100px
   contact:
     params:
       span: 2
@@ -40,11 +38,11 @@ fields:
     params:
       span: 2
   uuid:
-  remote:
   instanceUuid:
   requiredInstanceUuid:
   stats:
     component: crudview
+  remote:
 
 
 groups:

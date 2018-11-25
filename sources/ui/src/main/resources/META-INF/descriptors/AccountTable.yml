@@ -11,34 +11,40 @@ fields:
       trueIcon: star
       falseIcon: staroff
       width: 32px
-  logo:
-    component: entityfileImage
-    params:
-      thumbnail: true
-      thumbnailHeight: 32px
-      thumbnailWidth: 32px
       header:
-        width: 40px
+        width: 30px
         align: center
-  name:
-  email:
-  type:
-  id:
 
-  identification:
+  account:
+    component: coollabel
+    params:
+      header:
+        width: 300px
+      bindings:
+        title: name
+        subtitle: email
+        description: type
 
-  subdomain:
-  customDomain:
-  adminUsername:
   profile:
-  skin:
+  remote:
+    params:
+      header:
+        width: 60px
   status:
+    params:
+      header:
+        align: center
+        width: 70px
   statusDate:
-  statusDescription:
-  expirationDate:
+    params:
+      converter: converters.Date
+
   creationDate:
-  locale:
-  timeZone:
+    label: Created
+    params:
+      converter: converters.Date
+      header:
+        width: 80px
   users:
     params:
       header:
@@ -48,12 +54,16 @@ fields:
       header:
         align: center
   paymentDay:
+    label: Payment
     params:
       header:
         align: center
   lastPaymentDate:
+    label: Last Payment
     params:
       converter: converters.Date
+      header:
+        width: 80px
   type.price:
     label: Base Payment
     params:
@@ -71,8 +81,9 @@ fields:
       footer:
         function: sum
         functionConverter: converters.Currency
-  uuid:
-  remote:
-    
-       
-     
+  id:
+    params:
+      header:
+        width: 30px
+
+
