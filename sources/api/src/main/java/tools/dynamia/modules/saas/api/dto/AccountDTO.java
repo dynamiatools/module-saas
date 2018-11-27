@@ -76,6 +76,9 @@ public class AccountDTO implements Serializable {
     }
 
     public Boolean getRequiredInstanceUuid() {
+        if (requiredInstanceUuid == null) {
+            requiredInstanceUuid = false;
+        }
         return requiredInstanceUuid;
     }
 
