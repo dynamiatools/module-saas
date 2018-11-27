@@ -11,15 +11,18 @@ import oshi.hardware.NetworkIF;
 import tools.dynamia.commons.BeanUtils;
 import tools.dynamia.commons.DateTimeUtils;
 import tools.dynamia.commons.Messages;
+import tools.dynamia.commons.StringUtils;
 import tools.dynamia.domain.query.ApplicationParameters;
 import tools.dynamia.domain.query.Parameter;
 import tools.dynamia.domain.query.QueryParameters;
 import tools.dynamia.domain.util.CrudServiceListenerAdapter;
+import tools.dynamia.io.IOUtils;
 import tools.dynamia.modules.saas.api.dto.AccountDTO;
 import tools.dynamia.modules.saas.api.dto.AccountLogDTO;
 import tools.dynamia.modules.saas.api.dto.AccountPaymentDTO;
 import tools.dynamia.modules.saas.api.enums.AccountStatus;
 
+import javax.annotation.PostConstruct;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -137,7 +140,7 @@ public class RemoteAccountServiceAPI extends CrudServiceListenerAdapter<AccountA
         if (networkIFs != null && networkIFs.length > 1) {
             macaddr = networkIFs[0].getMacaddr();
         }
-        return processorID + serialHDD + macaddr;
+        return StringUtils.hash(processorID + serialHDD + macaddr, "md5");
     }
 
     private void syncAccountInfo() {

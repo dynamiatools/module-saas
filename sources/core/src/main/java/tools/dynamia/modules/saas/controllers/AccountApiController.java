@@ -45,8 +45,10 @@ public class AccountApiController extends AbstractService {
             AccountDTO accountDTO = account.toDTO();
             if (accountDTO.getRequiredInstanceUuid()) {
                 String uuidhw = request.getParameter("uuid");
-                if (!uuidhw.equalsIgnoreCase(accountDTO.getInstanceUuid()))
-                    accountDTO.setStatus(AccountStatus.CANCELED);
+                if (!uuidhw.equalsIgnoreCase(accountDTO.getInstanceUuid())) {
+                    accountDTO.setStatus(AccountStatus.NEW);
+                    accountDTO.setStatusDescription("Licencia invalida");
+                }
             }
             return accountDTO;
         }
