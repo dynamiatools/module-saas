@@ -1,6 +1,6 @@
-package tools.dynamia.modules.saas.api;
+package tools.dynamia.modules.saas.remote;
 
-import javax.naming.AuthenticationNotSupportedException;
+import tools.dynamia.modules.saas.api.AccountException;
 
 /**
  * Throwed when remote accounts cant check authentication info

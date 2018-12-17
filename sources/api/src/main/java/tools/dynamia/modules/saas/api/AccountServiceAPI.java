@@ -1,6 +1,5 @@
 package tools.dynamia.modules.saas.api;
 
-import tools.dynamia.domain.query.Parameter;
 import tools.dynamia.modules.saas.api.dto.AccountDTO;
 import tools.dynamia.modules.saas.api.dto.AccountLogDTO;
 import tools.dynamia.modules.saas.api.dto.AccountPaymentDTO;
@@ -24,8 +23,6 @@ public interface AccountServiceAPI {
     List<AccountPaymentDTO> getPayments(Long accountId);
 
     List<AccountLogDTO> getLogs(Long accountId, Date startDate, Date endDate);
-
-    Parameter getParameter(String name);
 
     String getParameterValue(String name);
 

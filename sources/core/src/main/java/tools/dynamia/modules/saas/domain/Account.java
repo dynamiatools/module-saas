@@ -384,18 +384,19 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
             logoURL = logo.getStoredEntityFile().getThumbnailUrl(200, 200);
         }
 
-        ContactInfo contactInfo = new ContactInfo();
-        contactInfo.setAddress(address);
-        contactInfo.setCity(city);
-        contactInfo.setCountry(country);
-        contactInfo.setEmail(email);
-        contactInfo.setMobileNumber(mobileNumber);
-        contactInfo.setPhoneNumber(phoneNumber);
 
-        return new AccountDTO(getId(), name, identification, email, status, getType().getPeriodicity(),
+        AccountDTO dto = new AccountDTO(getId(), name, identification, email, status, getType().getPeriodicity(),
                 getType().getName(), creationDate, subdomain, customDomain, statusDescription, skin, logoURL, locale,
                 timeZone, getType().getMaxUsers(), getType().isAllowAdditionalUsers(), paymentDay, lastPaymentDate,
-                uuid, remote, getAdminUsername(), contactInfo, instanceUuid, requiredInstanceUuid);
+                uuid, remote, getAdminUsername(), instanceUuid, requiredInstanceUuid);
+
+        dto.setCity(city);
+        dto.setCountry(country);
+        dto.setPhoneNumber(phoneNumber);
+        dto.setMobileNumber(mobileNumber);
+
+
+        return dto;
     }
 
     public List<AccountStatsData> getStats() {

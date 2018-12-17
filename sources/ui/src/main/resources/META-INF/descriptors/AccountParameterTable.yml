@@ -1,5 +1,5 @@
 view: form
-beanClass: tools.dynamia.modules.saas.api.AccountParameter
+beanClass: tools.dynamia.modules.saas.jpa.AccountParameter
 autofields: false
 
 fields:

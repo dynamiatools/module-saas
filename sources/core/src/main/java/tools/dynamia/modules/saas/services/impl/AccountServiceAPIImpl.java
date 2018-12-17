@@ -10,13 +10,13 @@ import tools.dynamia.domain.query.QueryParameters;
 import tools.dynamia.domain.services.AbstractService;
 import tools.dynamia.integration.sterotypes.Service;
 import tools.dynamia.modules.saas.AccountContext;
-import tools.dynamia.modules.saas.api.AccountParameter;
 import tools.dynamia.modules.saas.api.AccountServiceAPI;
 import tools.dynamia.modules.saas.api.dto.AccountDTO;
 import tools.dynamia.modules.saas.api.dto.AccountLogDTO;
 import tools.dynamia.modules.saas.api.dto.AccountPaymentDTO;
 import tools.dynamia.modules.saas.api.enums.AccountStatus;
 import tools.dynamia.modules.saas.domain.Account;
+import tools.dynamia.modules.saas.jpa.AccountParameter;
 import tools.dynamia.modules.saas.services.AccountService;
 
 import java.util.Date;
@@ -121,10 +121,6 @@ public class AccountServiceAPIImpl extends AbstractService implements AccountSer
         return null;
     }
 
-    @Override
-    public Parameter getParameter(String name) {
-        return ApplicationParameters.get().getParameter(AccountParameter.class, name);
-    }
 
     @Override
     public String getParameterValue(String name) {

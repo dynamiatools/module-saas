@@ -5,13 +5,13 @@ import org.springframework.web.bind.annotation.*;
 import tools.dynamia.domain.query.QueryConditions;
 import tools.dynamia.domain.query.QueryParameters;
 import tools.dynamia.domain.services.AbstractService;
-import tools.dynamia.modules.saas.api.AccountParameter;
 import tools.dynamia.modules.saas.api.AccountStatsList;
 import tools.dynamia.modules.saas.api.dto.AccountDTO;
 import tools.dynamia.modules.saas.api.enums.AccountPeriodicity;
 import tools.dynamia.modules.saas.api.enums.AccountStatus;
 import tools.dynamia.modules.saas.domain.Account;
 import tools.dynamia.modules.saas.domain.AccountLog;
+import tools.dynamia.modules.saas.jpa.AccountParameter;
 import tools.dynamia.modules.saas.services.AccountService;
 import tools.dynamia.web.util.HttpUtils;
 
@@ -24,7 +24,7 @@ public class AccountApiController extends AbstractService {
 
     private static final AccountDTO NO_ACCOUNT = new AccountDTO(1L, "Invalid License", "1", "account@api.com",
             AccountStatus.CANCELED, AccountPeriodicity.MONTHLY, "Invalid", new Date(), "", null, "Licencia Invalida", null, "", null,
-            "GMT-5", 10000, true, 1, null, "Invalid", false, "admin", null, "", false);
+            "GMT-5", 10000, true, 1, null, "Invalid", false, "admin",  "", false);
 
 
     private AccountService service;

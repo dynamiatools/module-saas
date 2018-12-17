@@ -3,8 +3,6 @@ package tools.dynamia.modules.saas.api.dto;
 import java.io.Serializable;
 import java.util.Date;
 
-import tools.dynamia.domain.util.ContactInfo;
-
 import tools.dynamia.modules.saas.api.enums.AccountPeriodicity;
 import tools.dynamia.modules.saas.api.enums.AccountStatus;
 
@@ -33,18 +31,24 @@ public class AccountDTO implements Serializable {
     private boolean allowAdditionalUsers;
     private int paymentDay;
     private Date lastPaymentDate;
-    private ContactInfo contactInfo;
     private String uuid;
     private boolean remote;
     private String adminUsername;
     private String instanceUuid;
     private Boolean requiredInstanceUuid = Boolean.FALSE;
+    private String address;
+    private String phoneNumber;
+    private String mobileNumber;
+    private String city;
+    private String country;
+    private String region;
+
 
     public AccountDTO(Long id, String name, String identification, String email, AccountStatus status,
                       AccountPeriodicity periodicity, String type, Date creationDate, String subdomain, String domain,
                       String statusDescription, String skin, String logoURL, String locale, String timeZone, int maxUsers,
                       boolean allowAdditionalUsers, int paymentDay, Date lastPaymentDate, String uuid, boolean remote, String adminUsername,
-                      ContactInfo contactInfo, String instanceUuid, Boolean requiredInstanceUuid) {
+                      String instanceUuid, Boolean requiredInstanceUuid) {
         this.id = id;
         this.name = name;
         this.identification = identification;
@@ -67,7 +71,6 @@ public class AccountDTO implements Serializable {
         this.uuid = uuid;
         this.remote = remote;
         this.adminUsername = adminUsername;
-        this.contactInfo = contactInfo;
         this.instanceUuid = instanceUuid;
         this.requiredInstanceUuid = requiredInstanceUuid;
     }
@@ -162,9 +165,6 @@ public class AccountDTO implements Serializable {
         this.paymentDay = paymentDay;
     }
 
-    public void setContactInfo(ContactInfo contactInfo) {
-        this.contactInfo = contactInfo;
-    }
 
     public void setUuid(String uuid) {
         this.uuid = uuid;
@@ -182,12 +182,6 @@ public class AccountDTO implements Serializable {
         return remote;
     }
 
-    public ContactInfo getContactInfo() {
-        if (contactInfo == null) {
-            contactInfo = new ContactInfo();
-        }
-        return contactInfo;
-    }
 
     public String getIdentification() {
         return identification;
@@ -269,12 +263,62 @@ public class AccountDTO implements Serializable {
         return creationDate;
     }
 
+    public String getAdminUsername() {
+        return adminUsername;
+    }
+
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
+    }
+
     @Override
     public String toString() {
         return String.format("%s (%s)", name, type);
     }
 
-    public String getAdminUsername() {
-        return adminUsername;
+
+    public String getMobileNumber() {
+        return mobileNumber;
+    }
+
+    public void setMobileNumber(String mobileNumber) {
+        this.mobileNumber = mobileNumber;
     }
 }

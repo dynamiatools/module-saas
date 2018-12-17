@@ -4,8 +4,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <modelVersion>4.0.0</modelVersion>
     <properties>
-        <oshi.version>3.10.0</oshi.version>
-        <jna.version>5.1.0</jna.version>
+
     </properties>
     <parent>
         <groupId>tools.dynamia.modules</groupId>
@@ -13,9 +12,10 @@
         <version>2.1.0</version>
     </parent>
     <artifactId>tools.dynamia.modules.saas.api</artifactId>
-    <version>2.1.0</version>
+
     <name>DynamiaModules - SaaS API (${project.version})</name>
     <url>http://www.dynamia.tools/modules/saas</url>
+    <version>2.1.0</version>
 
     <build>
         <plugins>
@@ -33,35 +33,12 @@
     </build>
 
     <dependencies>
-
-
         <dependency>
-            <groupId>com.github.oshi</groupId>
-            <artifactId>oshi-core</artifactId>
-            <version>${oshi.version}</version>
+            <groupId>tools.dynamia</groupId>
+            <artifactId>tools.dynamia.actions</artifactId>
+            <version>${dynamiatools.version}</version>
         </dependency>
-
-        <dependency>
-            <groupId>com.github.oshi</groupId>
-            <artifactId>oshi-core-shaded</artifactId>
-            <version>${oshi.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>net.java.dev.jna</groupId>
-            <artifactId>jna</artifactId>
-            <version>${jna.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>net.java.dev.jna</groupId>
-            <artifactId>jna-platform</artifactId>
-            <version>${jna.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-webmvc</artifactId>
-            <version>4.3.9.RELEASE</version>
-            <scope>provided</scope>
-        </dependency>
-
     </dependencies>
+
+
 </project>

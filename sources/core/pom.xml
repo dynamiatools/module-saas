@@ -34,9 +34,9 @@
             <version>2.1.0</version>
         </dependency>
         <dependency>
-            <groupId>tools.dynamia</groupId>
-            <artifactId>tools.dynamia.domain.jpa</artifactId>
-            <version>${dynamiatools.version}</version>
+            <groupId>tools.dynamia.modules</groupId>
+            <artifactId>tools.dynamia.modules.saas.jpa</artifactId>
+            <version>2.1.0</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
