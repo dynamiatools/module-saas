@@ -92,6 +92,11 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
     private List<AccountStatsData> stats = new ArrayList<>();
     @Size(min = 5, message = "El nombre de usuario debe ser minimo de 5 caracteres")
     private String adminUsername = "admin";
+    @Column(length = 2000)
+    private String globalMessage;
+    private boolean showGlobalMessage;
+
+
 
     public Account() {
         try {
@@ -420,5 +425,21 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
 
     public void setAdminUsername(String adminUsername) {
         this.adminUsername = adminUsername;
+    }
+
+    public String getGlobalMessage() {
+        return globalMessage;
+    }
+
+    public void setGlobalMessage(String globalMessage) {
+        this.globalMessage = globalMessage;
+    }
+
+    public boolean isShowGlobalMessage() {
+        return showGlobalMessage;
+    }
+
+    public void setShowGlobalMessage(boolean showGlobalMessage) {
+        this.showGlobalMessage = showGlobalMessage;
     }
 }

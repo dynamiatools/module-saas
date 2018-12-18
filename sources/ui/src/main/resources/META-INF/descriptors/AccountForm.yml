@@ -43,11 +43,19 @@ fields:
   stats:
     component: crudview
   remote:
+  globalMessage:
+    label: Message
+    span: 4
+  showGlobalMessage:
+    label: Show
 
 
 groups:
   contactInfo:
     fields: [contact,phoneNumber,mobileNumber, city, country, address]
+
+  notification:
+    fields: [globalMessage,showGlobalMessage]
 
 
 layout:

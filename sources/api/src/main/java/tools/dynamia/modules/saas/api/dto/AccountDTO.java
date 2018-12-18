@@ -42,6 +42,9 @@ public class AccountDTO implements Serializable {
     private String city;
     private String country;
     private String region;
+    private String globalMessage;
+    private boolean showGlobalMessage;
+
 
 
     public AccountDTO(Long id, String name, String identification, String email, AccountStatus status,
@@ -320,5 +323,21 @@ public class AccountDTO implements Serializable {
 
     public void setMobileNumber(String mobileNumber) {
         this.mobileNumber = mobileNumber;
+    }
+
+    public String getGlobalMessage() {
+        return globalMessage;
+    }
+
+    public void setGlobalMessage(String globalMessage) {
+        this.globalMessage = globalMessage;
+    }
+
+    public boolean isShowGlobalMessage() {
+        return showGlobalMessage;
+    }
+
+    public void setShowGlobalMessage(boolean showGlobalMessage) {
+        this.showGlobalMessage = showGlobalMessage;
     }
 }
