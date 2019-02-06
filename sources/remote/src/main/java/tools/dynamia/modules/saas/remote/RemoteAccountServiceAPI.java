@@ -37,12 +37,12 @@ public class RemoteAccountServiceAPI extends CrudServiceListenerAdapter<AccountA
 
     private static final String ACCOUNT_ID = "accountId";
 
-    private String serverUrl;
-    private String accountUuid;
-    private AccountDTO accountDTO;
+    protected String serverUrl;
+    protected String accountUuid;
+    protected AccountDTO accountDTO;
     private Date lastSync;
     private final int hours = 1;
-    private Long defaultID;
+    protected Long defaultID;
     private int connectionFailCount = 0;
     private static SystemInfo systemInfo = new SystemInfo();
 
@@ -114,7 +114,7 @@ public class RemoteAccountServiceAPI extends CrudServiceListenerAdapter<AccountA
 
     }
 
-    private void checkAccountInfo() {
+    protected void checkAccountInfo() {
         if (lastSync != null && DateTimeUtils.hoursBetween(lastSync, new Date()) >= hours) {
             accountDTO = null;
         }
@@ -128,7 +128,7 @@ public class RemoteAccountServiceAPI extends CrudServiceListenerAdapter<AccountA
         }
     }
 
-    public String getHardwareUUID() {
+    static String getHardwareUUID() {
         String processorID = systemInfo.getHardware().getProcessor().getProcessorID();
         String serialHDD = "";
         HWDiskStore[] diskStores = systemInfo.getHardware().getDiskStores();
@@ -143,7 +143,7 @@ public class RemoteAccountServiceAPI extends CrudServiceListenerAdapter<AccountA
         return StringUtils.hash(processorID + serialHDD + macaddr, "md5");
     }
 
-    private void syncAccountInfo() {
+    protected void syncAccountInfo() {
         String url = getAdminURL();
 
         RestTemplate rest = new RestTemplate();
@@ -163,7 +163,7 @@ public class RemoteAccountServiceAPI extends CrudServiceListenerAdapter<AccountA
             connectionFailCount = 0;
         } catch (RestClientException e) {
             connectionFailCount++;
-            accountDTO = tempAccountInfo();
+            accountDTO = tempAccountInfo(defaultID);
 
             if (connectionFailCount >= 10) {
                 throw new RemoteAccountNotAuthenticatedException(Messages.get(RemoteAccountServiceAPI.class, "remoteConnectionFail"));
@@ -181,13 +181,13 @@ public class RemoteAccountServiceAPI extends CrudServiceListenerAdapter<AccountA
 
     }
 
-    private String getAdminURL() {
+    protected String getAdminURL() {
         return String.format("%s/api/saas/account/%s", serverUrl, accountUuid);
     }
 
-    private AccountDTO tempAccountInfo() {
+    static AccountDTO tempAccountInfo(Long id) {
         AccountDTO temp = new AccountDTO();
-        temp.setId(defaultID);
+        temp.setId(id);
         temp.setName("Temporary Account");
         temp.setCreationDate(new Date());
         temp.setAllowAdditionalUsers(false);
