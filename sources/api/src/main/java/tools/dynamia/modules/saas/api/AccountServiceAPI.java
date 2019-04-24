@@ -30,4 +30,7 @@ public interface AccountServiceAPI {
 
     void setParameter(String name, String value);
 
+    default boolean hasFeature(Long accountId, String featureId) {
+        return false;
+    }
 }

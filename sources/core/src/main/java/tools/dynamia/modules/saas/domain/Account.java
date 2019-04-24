@@ -95,7 +95,8 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
     @Column(length = 2000)
     private String globalMessage;
     private boolean showGlobalMessage;
-
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<AccountFeature> features = new ArrayList<>();
 
 
     public Account() {
@@ -441,5 +442,13 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
 
     public void setShowGlobalMessage(boolean showGlobalMessage) {
         this.showGlobalMessage = showGlobalMessage;
+    }
+
+    public List<AccountFeature> getFeatures() {
+        return features;
+    }
+
+    public void setFeatures(List<AccountFeature> features) {
+        this.features = features;
     }
 }

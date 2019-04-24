@@ -1,0 +1,12 @@
+view: table
+beanClass: tools.dynamia.modules.saas.domain.AccountFeature
+autofields: false
+
+fields:
+  name:
+  enabled:
+    params:
+      readonly: false
+
+params:
+  writable: true

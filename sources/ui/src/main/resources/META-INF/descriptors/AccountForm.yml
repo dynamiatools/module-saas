@@ -40,14 +40,19 @@ fields:
   uuid:
   instanceUuid:
   requiredInstanceUuid:
-  stats:
-    component: crudview
+
   remote:
   globalMessage:
     label: Message
     span: 4
   showGlobalMessage:
     label: Show
+
+  features:
+    component: crudview
+
+  stats:
+    component: crudview
 
 
 groups:
