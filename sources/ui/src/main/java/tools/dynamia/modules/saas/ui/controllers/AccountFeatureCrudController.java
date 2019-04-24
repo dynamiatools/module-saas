@@ -1,5 +1,6 @@
 package tools.dynamia.modules.saas.ui.controllers;
 
+import org.zkoss.zul.Checkbox;
 import tools.dynamia.domain.query.QueryConditions;
 import tools.dynamia.domain.query.QueryParameters;
 import tools.dynamia.integration.Containers;
@@ -34,6 +35,7 @@ public class AccountFeatureCrudController extends SubcrudController<AccountFeatu
                 feature.setName(p.getName());
                 feature.save();
             }
+
             result.add(feature);
 
         });

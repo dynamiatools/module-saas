@@ -50,6 +50,8 @@ fields:
 
   features:
     component: crudview
+    params:
+      controller: tools.dynamia.modules.saas.ui.controllers.AccountFeatureCrudController
 
   stats:
     component: crudview

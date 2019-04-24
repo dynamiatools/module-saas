@@ -3,7 +3,9 @@ package tools.dynamia.modules.saas.services.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import tools.dynamia.domain.query.*;
+import tools.dynamia.domain.query.ApplicationParameters;
+import tools.dynamia.domain.query.QueryConditions;
+import tools.dynamia.domain.query.QueryParameters;
 import tools.dynamia.domain.services.AbstractService;
 import tools.dynamia.integration.sterotypes.Service;
 import tools.dynamia.modules.saas.AccountContext;
@@ -137,7 +139,7 @@ public class AccountServiceAPIImpl extends AbstractService implements AccountSer
 
     @Override
     public boolean hasFeature(Long accountId, String featureId) {
-        AccountFeature feature = crudService().findSingle(AccountFeature.class, QueryParameters.with("acccount.id", accountId)
+        AccountFeature feature = crudService().findSingle(AccountFeature.class, QueryParameters.with("account.id", accountId)
                 .add("providerId", QueryConditions.eq(featureId)));
 
         return feature != null && feature.isEnabled();

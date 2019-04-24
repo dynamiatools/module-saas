@@ -6,7 +6,7 @@ fields:
   name:
   enabled:
     params:
-      readonly: false
+      writable: true
 
 params:
   writable: true
