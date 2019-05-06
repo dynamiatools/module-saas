@@ -1,10 +1,5 @@
 package tools.dynamia.modules.saas.jpa;
 
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-
-import tools.dynamia.domain.query.Parameter;
 import tools.dynamia.domain.util.CrudServiceListenerAdapter;
 import tools.dynamia.modules.saas.api.AccountAware;
 import tools.dynamia.modules.saas.api.AccountServiceAPI;
@@ -13,6 +8,10 @@ import tools.dynamia.modules.saas.api.dto.AccountLogDTO;
 import tools.dynamia.modules.saas.api.dto.AccountPaymentDTO;
 import tools.dynamia.modules.saas.api.enums.AccountPeriodicity;
 import tools.dynamia.modules.saas.api.enums.AccountStatus;
+
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 
 public class NoOpAccountServiceAPI extends CrudServiceListenerAdapter<AccountAware> implements AccountServiceAPI {
 
