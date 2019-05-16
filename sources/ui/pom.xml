@@ -5,10 +5,10 @@
     <parent>
         <groupId>tools.dynamia.modules</groupId>
         <artifactId>tools.dynamia.modules.saas.parent</artifactId>
-        <version>2.1.0</version>
+        <version>2.3.0</version>
     </parent>
     <artifactId>tools.dynamia.modules.saas.ui</artifactId>
-    <version>2.1.0</version>
+    <version>2.3.0</version>
     <name>DynamiaModules - SaaS UI (${project.version})</name>
     <url>http://www.dynamia.tools/modules/saas</url>
 
