@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <name>DynamiaModules - SaaS Remote (${project.version})</name>
+    <name>DynamiaModules - SaaS Remote</name>
     <url>http://www.dynamia.tools/modules/saas</url>
     <artifactId>tools.dynamia.modules.saas.remote</artifactId>
 

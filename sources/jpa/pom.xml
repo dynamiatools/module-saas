@@ -8,7 +8,7 @@
         <version>2.3.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <name>DynamiaModules - SaaS JPA (${project.version})</name>
+    <name>DynamiaModules - SaaS JPA</name>
     <url>http://www.dynamia.tools/modules/saas</url>
     <artifactId>tools.dynamia.modules.saas.jpa</artifactId>
 

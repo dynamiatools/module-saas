@@ -9,7 +9,7 @@
     </parent>
     <artifactId>tools.dynamia.modules.saas.ui</artifactId>
     <version>2.3.0</version>
-    <name>DynamiaModules - SaaS UI (${project.version})</name>
+    <name>DynamiaModules - SaaS UI</name>
     <url>http://www.dynamia.tools/modules/saas</url>
 
 

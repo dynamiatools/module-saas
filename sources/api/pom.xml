@@ -13,7 +13,7 @@
     </parent>
     <artifactId>tools.dynamia.modules.saas.api</artifactId>
 
-    <name>DynamiaModules - SaaS API (${project.version})</name>
+    <name>DynamiaModules - SaaS API</name>
     <url>http://www.dynamia.tools/modules/saas</url>
     <version>2.3.0</version>
 
