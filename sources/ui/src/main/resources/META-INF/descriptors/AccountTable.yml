@@ -24,6 +24,7 @@ fields:
         title: name
         subtitle: email
         description: type
+        imageURL: logo.URL
 
   profile:
   remote:

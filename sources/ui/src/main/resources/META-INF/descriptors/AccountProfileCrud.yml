@@ -6,6 +6,6 @@ autofields: false
 actions:
   NewAction:
     enabled: false
-  
+
   EditAction:
     enabled: false

@@ -5,9 +5,9 @@ autofields: false
 fields:
   name:
   type:
-  value: 
+  value:
     params:
-      span: 2 
+      span: 2
 
 
 layout: 2

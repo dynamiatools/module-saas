@@ -3,24 +3,25 @@ beanClass: tools.dynamia.modules.saas.domain.AccountType
 autofields: false
 
 fields:
-    name:
-    description:
-        params:
-            span: 2
-            multiline: true
-            height: 100px
-    internalDescription:
-        params:
-            span: 2
-            multiline: true
-            height: 100px
-    maxUsers:
-    allowAdditionalUsers:
-    periodicity:
-    price:
-    additionalUserPrice:
-    active:
-    publicType:
-        label: Public
-       
-     
+  name:
+  description:
+    params:
+      span: 2
+      multiline: true
+      height: 100px
+  internalDescription:
+    params:
+      span: 2
+      multiline: true
+      height: 100px
+  maxUsers:
+  allowAdditionalUsers:
+  periodicity:
+  price:
+  additionalUserPrice:
+  active:
+  publicType:
+    label: Public
+  printingSupport:
+  restrictions:
+    component: crudview

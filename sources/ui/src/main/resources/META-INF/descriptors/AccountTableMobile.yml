@@ -4,41 +4,41 @@ autofields: false
 device: smartphone
 
 fields:
-    defaultAccount:
-       label: D
-       description: Default Account
-       component: iconimage
-       params:
-           trueIcon: star
-           falseIcon: staroff
-           header:
-            width: 32px
-           
-    accounts:
-      component: coollabel
-      params:
-         noImagePath: classpath:/web/tools/images/no-photo.jpg
-         bindings:
-            title: name
-            subtitle: email
-            description: type
-            imageURL: logo.storedEntityFile.thumbnailUrl
-    type:
-    status:
-      params:
-         header:
-            width: 80px    
-    
-    activedUsers:
-    
-    paymentValue:
-        params:
-            converter: converters.Currency
-            header:
-                align: right
-            footer:
-                function: sum
-                functionConverter: converters.Currency
+  defaultAccount:
+    label: D
+    description: Default Account
+    component: iconimage
+    params:
+      trueIcon: star
+      falseIcon: staroff
+      header:
+        width: 32px
+
+  accounts:
+    component: coollabel
+    params:
+      noImagePath: classpath:/web/tools/images/no-photo.jpg
+      bindings:
+        title: name
+        subtitle: email
+        description: type
+        imageURL: logo.storedEntityFile.thumbnailUrl
+  type:
+  status:
+    params:
+      header:
+        width: 80px
+
+  activedUsers:
+
+  paymentValue:
+    params:
+      converter: converters.Currency
+      header:
+        align: right
+      footer:
+        function: sum
+        functionConverter: converters.Currency
 
 params:
   sizedByContent: false

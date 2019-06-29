@@ -41,7 +41,7 @@ public class HelpSystemNavigationRestriction implements NavigationRestriction {
             Long accountId = accountServiceAPI.getCurrentAccountId();
             if (accountId != null) {
                 AccountDTO accountDTO = accountServiceAPI.getAccount(accountId);
-                if (accountDTO != null && !accountDTO.getType().equals("admin")) {
+                if (accountDTO != null && !accountDTO.getTypeName().equals("admin")) {
                     return false;
                 }
             }

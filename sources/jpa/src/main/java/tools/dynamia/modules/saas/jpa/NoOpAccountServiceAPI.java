@@ -10,12 +10,12 @@ package tools.dynamia.modules.saas.jpa;
  * it under the terms of the GNU Lesser General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Lesser Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Lesser Public
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/lgpl-3.0.html>.
@@ -31,16 +31,28 @@ import tools.dynamia.modules.saas.api.dto.AccountPaymentDTO;
 import tools.dynamia.modules.saas.api.enums.AccountPeriodicity;
 import tools.dynamia.modules.saas.api.enums.AccountStatus;
 
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+import java.util.zip.CRC32;
 
 public class NoOpAccountServiceAPI extends CrudServiceListenerAdapter<AccountAware> implements AccountServiceAPI {
 
     private static final Long ACCOUNT_ID = 1L;
-    private static final AccountDTO CURRENT_ACCOUNT = new AccountDTO(ACCOUNT_ID, "", "1", "account@api.com",
-            AccountStatus.ACTIVE, AccountPeriodicity.UNLIMITED, "NoOp", new Date(), "", null, null, null, null, null,
-            "GMT-5", 10000, true, 1, null, "UUID", false, "admin", "", false);
+    private static final AccountDTO CURRENT_ACCOUNT;
+
+    static {
+        CURRENT_ACCOUNT = new AccountDTO();
+        CURRENT_ACCOUNT.setId(ACCOUNT_ID);
+        CURRENT_ACCOUNT.setName("NoOp");
+        CURRENT_ACCOUNT.setEmail("account@account.com");
+        CURRENT_ACCOUNT.setStatus(AccountStatus.ACTIVE);
+        CURRENT_ACCOUNT.setTimeZone(TimeZone.getDefault().getDisplayName());
+        CURRENT_ACCOUNT.setLocale(Locale.getDefault().toString());
+        CURRENT_ACCOUNT.setCreationDate(new Date());
+        CURRENT_ACCOUNT.setIdentification("1");
+        CURRENT_ACCOUNT.setAdminUsername("admin");
+        CURRENT_ACCOUNT.setMaxUsers(1000);
+        CURRENT_ACCOUNT.setInstanceUuid("UUID");
+    }
 
     @Override
     public AccountStatus getAccountStatus(Long accountId) {

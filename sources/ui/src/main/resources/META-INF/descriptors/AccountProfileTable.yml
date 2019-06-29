@@ -10,6 +10,6 @@ fields:
       converter: converters.Date
   creator:
 
-  
+
 params:
   orderBy: name

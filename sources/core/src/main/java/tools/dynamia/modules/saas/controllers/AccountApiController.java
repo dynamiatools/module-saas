@@ -10,12 +10,12 @@ package tools.dynamia.modules.saas.controllers;
  * it under the terms of the GNU Lesser General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Lesser Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Lesser Public
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/lgpl-3.0.html>.
@@ -44,10 +44,15 @@ import java.util.Date;
 @RequestMapping("/api/saas")
 public class AccountApiController extends AbstractService {
 
-    private static final AccountDTO NO_ACCOUNT = new AccountDTO(1L, "Invalid License", "1", "account@api.com",
-            AccountStatus.CANCELED, AccountPeriodicity.MONTHLY, "Invalid", new Date(), "", null, "Licencia Invalida", null, "", null,
-            "GMT-5", 10000, true, 1, null, "Invalid", false, "admin",  "", false);
+    private static final AccountDTO NO_ACCOUNT;
 
+    static {
+        NO_ACCOUNT = new AccountDTO();
+        NO_ACCOUNT.setId(1L);
+        NO_ACCOUNT.setStatus(AccountStatus.CANCELED);
+        NO_ACCOUNT.setStatusDate(new Date());
+        NO_ACCOUNT.setStatusDescription("Invalid License");
+    }
 
     private AccountService service;
 

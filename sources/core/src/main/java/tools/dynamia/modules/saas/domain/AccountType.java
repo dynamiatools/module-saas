@@ -11,12 +11,12 @@ package tools.dynamia.modules.saas.domain;
  * it under the terms of the GNU Lesser General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Lesser Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Lesser Public
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/lgpl-3.0.html>.
@@ -27,25 +27,23 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import tools.dynamia.domain.SimpleEntity;
+import tools.dynamia.domain.Transferable;
 import tools.dynamia.domain.contraints.NotEmpty;
+import tools.dynamia.domain.util.DomainUtils;
+import tools.dynamia.modules.saas.api.dto.AccountTypeDTO;
 import tools.dynamia.modules.saas.api.enums.AccountPeriodicity;
 
 /**
- *
  * @author Mario Serrano Leones
  */
 @Entity
 @Table(name = "saas_account_types")
-public class AccountType extends SimpleEntity {
+public class AccountType extends SimpleEntity implements Transferable<AccountTypeDTO> {
 
     @NotNull
     @NotEmpty(message = "ingrese nombre del tipo de cuenta")
@@ -54,16 +52,17 @@ public class AccountType extends SimpleEntity {
     private String internalDescription;
     private boolean active;
     private boolean publicType;
-    @OneToMany(mappedBy = "type")
+    @OneToMany(mappedBy = "type", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AccountTypeRestriction> restrictions = new ArrayList<>();
     @Enumerated(EnumType.ORDINAL)
     @NotNull
-    private AccountPeriodicity periodicity;
+    private AccountPeriodicity periodicity = AccountPeriodicity.MONTHLY;
     private BigDecimal price;
     @Min(value = 1, message = "Enter valid max users")
     private int maxUsers = 1;
     private boolean allowAdditionalUsers;
     private BigDecimal additionalUserPrice;
+    private boolean printingSupport;
 
     public String getName() {
         return name;
@@ -158,4 +157,22 @@ public class AccountType extends SimpleEntity {
         return name;
     }
 
+    public boolean isPrintingSupport() {
+        return printingSupport;
+    }
+
+    public void setPrintingSupport(boolean printingSupport) {
+        this.printingSupport = printingSupport;
+    }
+
+    @Override
+    public AccountTypeDTO toDTO() {
+        AccountTypeDTO dto = DomainUtils.autoDataTransferObject(this, AccountTypeDTO.class);
+        try {
+            getRestrictions().forEach(r -> dto.getRestrictions().add(r.toDTO()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return dto;
+    }
 }

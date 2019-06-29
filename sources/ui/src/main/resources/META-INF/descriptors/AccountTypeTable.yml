@@ -3,29 +3,29 @@ beanClass: tools.dynamia.modules.saas.domain.AccountType
 autofields: false
 
 fields:
-    name:
-    description:
-    internalDescription:
-    periodicity:
-    price:
-        params:
-            header:
-                align: right
-            converter: converters.Currency
-    additionalUserPrice:
-        label: User Price
-        params:
-            header:
-                align: right
-            converter: converters.Currency
-    maxUsers:        
-    active:
-    allowAdditionalUsers:
-        label: Add User
-    
-    publicType:
-        label: Public
+  name:
+  description:
+  internalDescription:
+  periodicity:
+  price:
+    params:
+      header:
+        align: right
+      converter: converters.Currency
+  additionalUserPrice:
+    label: User Price
+    params:
+      header:
+        align: right
+      converter: converters.Currency
+  maxUsers:
+  active:
+  allowAdditionalUsers:
+    label: Add User
 
+  publicType:
+    label: Public
+  printingSupport:
 params:
-    orderBy: name
+  orderBy: name
      

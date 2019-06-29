@@ -3,13 +3,13 @@ beanClass: tools.dynamia.modules.saas.domain.AccountType
 autofields: false
 
 fields:
-    name:  
-    periodicity:
-    price:
-        params:
-            converter: converters.Currency
-    active:
-    publicType:
-        label: Public
+  name:
+  periodicity:
+  price:
+    params:
+      converter: converters.Currency
+  active:
+  publicType:
+    label: Public
        
      

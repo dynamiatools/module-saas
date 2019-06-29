@@ -3,9 +3,9 @@ beanClass: tools.dynamia.modules.saas.jpa.AccountParameter
 autofields: false
 
 fields:
-    label:
-    name:
-    description:
-    value:        
-    cacheable:
-    disabled:
+  label:
+  name:
+  description:
+  value:
+  cacheable:
+  disabled:

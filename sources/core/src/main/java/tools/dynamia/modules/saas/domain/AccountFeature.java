@@ -10,12 +10,12 @@ package tools.dynamia.modules.saas.domain;
  * it under the terms of the GNU Lesser General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Lesser Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Lesser Public
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/lgpl-3.0.html>.
@@ -23,7 +23,9 @@ package tools.dynamia.modules.saas.domain;
  */
 
 import tools.dynamia.domain.SimpleEntity;
+import tools.dynamia.domain.Transferable;
 import tools.dynamia.domain.contraints.NotEmpty;
+import tools.dynamia.modules.saas.api.dto.AccountFeatureDTO;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -31,7 +33,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "saas_accounts_features")
-public class AccountFeature extends SimpleEntity {
+public class AccountFeature extends SimpleEntity implements Transferable<AccountFeatureDTO> {
 
     @ManyToOne
     private Account account;

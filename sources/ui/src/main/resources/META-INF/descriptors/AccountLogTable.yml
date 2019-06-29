@@ -8,6 +8,6 @@ fields:
   pathInfo:
   message:
   clientInfo:
-      params:
-        header:
-          width: '40%'
+    params:
+      header:
+        width: '40%'

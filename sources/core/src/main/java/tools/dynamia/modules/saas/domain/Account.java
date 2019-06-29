@@ -11,30 +11,17 @@ package tools.dynamia.modules.saas.domain;
  * it under the terms of the GNU Lesser General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Lesser Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Lesser Public
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/lgpl-3.0.html>.
  * #L%
  */
-
-import java.math.BigDecimal;
-import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-
-import javax.persistence.*;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 import tools.dynamia.commons.DateTimeUtils;
 import tools.dynamia.commons.StringUtils;
@@ -42,10 +29,22 @@ import tools.dynamia.domain.SimpleEntity;
 import tools.dynamia.domain.Transferable;
 import tools.dynamia.domain.contraints.Email;
 import tools.dynamia.domain.contraints.NotEmpty;
-import tools.dynamia.domain.util.ContactInfo;
+import tools.dynamia.domain.util.DomainUtils;
 import tools.dynamia.modules.entityfile.domain.EntityFile;
 import tools.dynamia.modules.saas.api.dto.AccountDTO;
 import tools.dynamia.modules.saas.api.enums.AccountStatus;
+
+import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.math.BigDecimal;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * @author Mario Serrano Leones
@@ -91,6 +90,7 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
     private String locale;
     private String timeZone;
     @OneToOne
+    @NotNull(message = "Select profile")
     private AccountProfile profile;
     private long users;
     private long activedUsers;
@@ -407,22 +407,19 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
 
     @Override
     public AccountDTO toDTO() {
+        AccountDTO dto = DomainUtils.autoDataTransferObject(this, AccountDTO.class);
+
         String logoURL = null;
         if (logo != null) {
             logoURL = logo.getStoredEntityFile().getThumbnailUrl(200, 200);
         }
-
-
-        AccountDTO dto = new AccountDTO(getId(), name, identification, email, status, getType().getPeriodicity(),
-                getType().getName(), creationDate, subdomain, customDomain, statusDescription, skin, logoURL, locale,
-                timeZone, getType().getMaxUsers(), getType().isAllowAdditionalUsers(), paymentDay, lastPaymentDate,
-                uuid, remote, getAdminUsername(), instanceUuid, requiredInstanceUuid);
-
-        dto.setCity(city);
-        dto.setCountry(country);
-        dto.setPhoneNumber(phoneNumber);
-        dto.setMobileNumber(mobileNumber);
-
+        dto.setLogo(logoURL);
+        dto.setType(getType().toDTO());
+        try {
+            getFeatures().forEach(f -> dto.getFeatures().add(f.toDTO()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return dto;
     }
