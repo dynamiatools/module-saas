@@ -411,4 +411,6 @@ public class AccountDTO implements Serializable {
     public void setAllowAdditionalUsers(boolean allowAdditionalUsers) {
         type.setAllowAdditionalUsers(allowAdditionalUsers);
     }
+
+
 }

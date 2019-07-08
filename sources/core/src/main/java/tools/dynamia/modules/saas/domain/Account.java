@@ -90,7 +90,6 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
     private String locale;
     private String timeZone;
     @OneToOne
-    @NotNull(message = "Select profile")
     private AccountProfile profile;
     private long users;
     private long activedUsers;
@@ -420,7 +419,7 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        dto.setStatus(getStatus());
         return dto;
     }
 
