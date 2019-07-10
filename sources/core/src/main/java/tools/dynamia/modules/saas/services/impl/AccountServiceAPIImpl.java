@@ -167,4 +167,15 @@ public class AccountServiceAPIImpl extends AbstractService implements AccountSer
 
         return feature != null && feature.isEnabled();
     }
+
+    @Override
+    public boolean isPrintingEnabled(Long accountId) {
+        Boolean enabled = crudService().executeProjection(Boolean.class, "select a.type.printingSupport from Account a where a.id = :accountId",
+                QueryParameters.with("accountId", accountId));
+
+        if (enabled == null) {
+            enabled = true;
+        }
+        return enabled;
+    }
 }
