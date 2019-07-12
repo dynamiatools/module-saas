@@ -57,6 +57,7 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
      *
      */
     private static final long serialVersionUID = 684169179001325225L;
+
     @NotNull
     @NotEmpty(message = "ingrese nombre de cuenta")
     @Column(unique = true)
@@ -99,6 +100,8 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
     private BigDecimal paymentValue;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date lastPaymentDate;
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date lastChargeDate;
     private String phoneNumber;
     private String mobileNumber;
     private String address;
@@ -116,8 +119,13 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
     @Column(length = 2000)
     private String globalMessage;
     private boolean showGlobalMessage;
+    private String globalMessageType;
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AccountFeature> features = new ArrayList<>();
+    private BigDecimal balance = BigDecimal.ZERO;
+    private BigDecimal fixedPaymentValue;
+    private BigDecimal discount;
+    private Date discountExpire;
 
 
     public Account() {
@@ -128,6 +136,9 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
             timeZone = ZoneId.systemDefault().getId();
 
             paymentDay = DateTimeUtils.getCurrentDay();
+            if (paymentDay >= 29) {
+                paymentDay = 1;
+            }
         } catch (Exception e) {
         }
 
@@ -420,6 +431,9 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
             e.printStackTrace();
         }
         dto.setStatus(getStatus());
+        dto.setGlobalMessage(getGlobalMessage());
+        dto.setShowGlobalMessage(isShowGlobalMessage());
+        dto.setPaymentValue(getPaymentValue());
         return dto;
     }
 
@@ -468,5 +482,64 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
 
     public void setFeatures(List<AccountFeature> features) {
         this.features = features;
+    }
+
+    public BigDecimal getBalance() {
+        if (balance == null) {
+            balance = BigDecimal.ZERO;
+        }
+        return balance;
+    }
+
+    public void setBalance(BigDecimal balance) {
+        this.balance = balance;
+    }
+
+
+    public BigDecimal getFixedPaymentValue() {
+        return fixedPaymentValue;
+    }
+
+    public void setFixedPaymentValue(BigDecimal fixedPaymentValue) {
+        this.fixedPaymentValue = fixedPaymentValue;
+    }
+
+    public Date getStartDate() {
+        int day = getPaymentDay();
+        int month = DateTimeUtils.getMonth(getCreationDate());
+        int year = DateTimeUtils.getYear(getCreationDate());
+        return DateTimeUtils.createDate(year, month, day);
+    }
+
+    public Date getLastChargeDate() {
+        return lastChargeDate;
+    }
+
+    public void setLastChargeDate(Date lastChargeDate) {
+        this.lastChargeDate = lastChargeDate;
+    }
+
+    public String getGlobalMessageType() {
+        return globalMessageType;
+    }
+
+    public void setGlobalMessageType(String globalMessageType) {
+        this.globalMessageType = globalMessageType;
+    }
+
+    public BigDecimal getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(BigDecimal discount) {
+        this.discount = discount;
+    }
+
+    public Date getDiscountExpire() {
+        return discountExpire;
+    }
+
+    public void setDiscountExpire(Date discountExpire) {
+        this.discountExpire = discountExpire;
     }
 }

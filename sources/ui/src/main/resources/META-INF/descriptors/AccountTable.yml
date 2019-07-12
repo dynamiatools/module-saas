@@ -24,7 +24,7 @@ fields:
         title: name
         subtitle: email
         description: type
-        imageURL: logo.URL
+        imageURL: logo.storedEntityFile.thumbnailUrl
 
   profile:
   remote:
@@ -32,10 +32,12 @@ fields:
       header:
         width: 60px
   status:
+    component: enumlabel
     params:
+      sclassPrefix: account
       header:
         align: center
-        width: 70px
+        width: 80px
   statusDate:
     params:
       converter: converters.Date
@@ -55,12 +57,31 @@ fields:
       header:
         align: center
   paymentDay:
-    label: Payment
     params:
       header:
         align: center
   lastPaymentDate:
     label: Last Payment
+    params:
+      converter: converters.Date
+      header:
+        width: 100px
+  lastChargeDate:
+    label: Last Charge
+    params:
+      converter: converters.Date
+      header:
+        width: 100px
+  balance:
+    params:
+      converter: converters.Currency
+      header:
+        width: 100px
+        align: right
+      footer:
+        function: sum
+  expirationDate:
+    label: Expire
     params:
       converter: converters.Date
       header:
@@ -82,9 +103,35 @@ fields:
       footer:
         function: sum
         functionConverter: converters.Currency
+
+  fixedPaymentValue:
+    params:
+      converter: converters.Currency
+      header:
+        align: right
+      footer:
+        function: sum
+        functionConverter: converters.Currency
+  discount:
+    params:
+      converter: converters.Currency
+      header:
+        align: right
+  discountExpire:
+    params:
+      converter: converters.Date
+  globalMessage:
+    params:
+      header:
+        width: 200px
+  showGlobalMessage:
+    label: Show GM
   id:
     params:
       header:
         width: 30px
 
 
+params:
+  frozenColumns: 2
+  pageSize: 50

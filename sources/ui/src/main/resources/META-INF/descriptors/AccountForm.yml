@@ -24,9 +24,15 @@ fields:
   status:
   profile:
   paymentDay:
-  statusDescription:
+  fixedPaymentValue:
     params:
-      span: 2
+      format: $###,###
+  discount:
+    params:
+      format: $###,###
+  discountExpire:
+  statusDescription:
+
   contact:
     params:
       span: 2
@@ -44,7 +50,10 @@ fields:
   remote:
   globalMessage:
     label: Message
-    span: 4
+    params:
+      span: 2
+  globalMessageType:
+    label: Type
   showGlobalMessage:
     label: Show
 
@@ -62,7 +71,7 @@ groups:
     fields: [contact,phoneNumber,mobileNumber, city, country, address]
 
   notification:
-    fields: [globalMessage,showGlobalMessage]
+    fields: [globalMessage,globalMessageType,showGlobalMessage]
 
 
 layout:

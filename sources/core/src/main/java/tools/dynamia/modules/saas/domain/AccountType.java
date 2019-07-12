@@ -63,6 +63,8 @@ public class AccountType extends SimpleEntity implements Transferable<AccountTyp
     private boolean allowAdditionalUsers;
     private BigDecimal additionalUserPrice;
     private boolean printingSupport;
+    private int allowedOverdueDays = 5;
+
 
     public String getName() {
         return name;
@@ -174,5 +176,13 @@ public class AccountType extends SimpleEntity implements Transferable<AccountTyp
             e.printStackTrace();
         }
         return dto;
+    }
+
+    public int getAllowedOverdueDays() {
+        return allowedOverdueDays;
+    }
+
+    public void setAllowedOverdueDays(int allowedOverdueDays) {
+        this.allowedOverdueDays = allowedOverdueDays;
     }
 }

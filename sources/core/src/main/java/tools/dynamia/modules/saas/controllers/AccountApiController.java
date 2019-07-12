@@ -117,7 +117,7 @@ public class AccountApiController extends AbstractService {
         String value = null;
         Account account = getAccount(uuid);
         if (account != null) {
-            AccountParameter parameter = crudService().findSingle(AccountParameter.class, QueryParameters.with(name, QueryConditions.eq(name)).add("accountId", account.getId()));
+            AccountParameter parameter = crudService().findSingle(AccountParameter.class, QueryParameters.with("name", QueryConditions.eq(name)).add("accountId", account.getId()));
             if (parameter != null) {
                 value = parameter.getValue();
             } else if (defautlValue != null) {

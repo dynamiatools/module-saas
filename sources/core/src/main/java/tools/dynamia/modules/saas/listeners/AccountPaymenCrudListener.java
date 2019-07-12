@@ -11,12 +11,12 @@ package tools.dynamia.modules.saas.listeners;
  * it under the terms of the GNU Lesser General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Lesser Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Lesser Public
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/lgpl-3.0.html>.
@@ -28,21 +28,23 @@ import tools.dynamia.domain.services.CrudService;
 import tools.dynamia.domain.util.CrudServiceListenerAdapter;
 import tools.dynamia.integration.sterotypes.Listener;
 import tools.dynamia.modules.saas.domain.AccountPayment;
+import tools.dynamia.modules.saas.services.AccountService;
 
 /**
- *
  * @author Mario Serrano Leones
  */
 @Listener
 public class AccountPaymenCrudListener extends CrudServiceListenerAdapter<AccountPayment> {
 
     @Autowired
-    private CrudService crudService;
+    private AccountService service;
 
     @Override
     public void afterCreate(AccountPayment payment) {
-        payment.getAccount().setLastPaymentDate(payment.getCreationDate());
-        crudService.update(payment.getAccount());
+        if (payment.getReference() != null && !payment.getReference().equals("DEFAULT")) {
+            payment.getAccount().setLastPaymentDate(payment.getCreationDate());
+            service.checkPayment(payment);
+        }
 
     }
 

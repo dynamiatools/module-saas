@@ -1,4 +1,3 @@
-
 package tools.dynamia.modules.saas.services.impl;
 
 /*-
@@ -11,12 +10,12 @@ package tools.dynamia.modules.saas.services.impl;
  * it under the terms of the GNU Lesser General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Lesser Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Lesser Public
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/lgpl-3.0.html>.
@@ -31,11 +30,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import tools.dynamia.commons.BeanUtils;
+import tools.dynamia.commons.DateTimeUtils;
 import tools.dynamia.commons.logger.LoggingService;
 import tools.dynamia.commons.logger.SLF4JLoggingService;
+import tools.dynamia.domain.query.ApplicationParameters;
 import tools.dynamia.domain.query.QueryConditions;
 import tools.dynamia.domain.query.QueryParameters;
 import tools.dynamia.domain.services.CrudService;
+import tools.dynamia.domain.util.QueryBuilder;
 import tools.dynamia.integration.Containers;
 import tools.dynamia.modules.saas.api.AccountAware;
 import tools.dynamia.modules.saas.api.AccountInitializer;
@@ -44,9 +46,7 @@ import tools.dynamia.modules.saas.api.AccountStatsProvider;
 import tools.dynamia.modules.saas.api.dto.AccountDTO;
 import tools.dynamia.modules.saas.api.enums.AccountPeriodicity;
 import tools.dynamia.modules.saas.api.enums.AccountStatus;
-import tools.dynamia.modules.saas.domain.Account;
-import tools.dynamia.modules.saas.domain.AccountStatsData;
-import tools.dynamia.modules.saas.domain.AccountType;
+import tools.dynamia.modules.saas.domain.*;
 import tools.dynamia.modules.saas.services.AccountService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -80,7 +80,9 @@ public class AccountServiceImpl implements AccountService, ApplicationListener<C
     @Override
     public Account getAccount(String subdomain) {
         return crudService.findSingle(Account.class,
-                QueryParameters.with("subdomain", subdomain).add("status", QueryConditions.isNotNull()));
+                QueryParameters.with("subdomain", subdomain)
+                        .add("status", QueryConditions.isNotNull())
+                        .add("remote", false));
     }
 
     @Override
@@ -174,7 +176,7 @@ public class AccountServiceImpl implements AccountService, ApplicationListener<C
                         }
                     }
                 } catch (Exception e) {
-                    // TODO: handle exception
+                    // ignore
                 }
             }
         }
@@ -265,5 +267,140 @@ public class AccountServiceImpl implements AccountService, ApplicationListener<C
             }
             statsData.load(s);
         });
+    }
+
+    @Override
+    public List<Account> findPayableAccounts() {
+        return crudService.find(Account.class, QueryParameters.with("status", QueryConditions.in(AccountStatus.ACTIVE, AccountStatus.SUSPENDED))
+                .add("type.price", QueryConditions.gt(BigDecimal.ZERO)));
+    }
+
+    @Override
+    public AccountPayment findLastPayment(Account account) {
+        return crudService.findSingle(AccountPayment.class, QueryParameters.with("account", account)
+                .add("finished", true)
+                .orderBy("creationDate", false));
+    }
+
+
+    @Override
+    public boolean isOverdue(Account account) {
+        return account.getExpirationDate() != null && account.getExpirationDate().before(new Date()) || account.getBalance().longValue() < 0;
+    }
+
+    @Override
+    public boolean shouldBeSuspended(Account account) {
+        if (isOverdue(account)) {
+            int allowedOverdueDays = account.getType().getAllowedOverdueDays();
+            return DateTimeUtils.daysBetween(account.getLastChargeDate(), new Date()) >= allowedOverdueDays;
+
+        }
+        return false;
+    }
+
+    @Override
+    @Transactional
+    public boolean chargeAccount(Account account) {
+        if (account.getStatus() == AccountStatus.ACTIVE && account.getType().getPrice().longValue() > 0 && account.getPaymentDay() == DateTimeUtils.getCurrentDay() && account.getBalance().longValue() >= 0) {
+
+            if (account.getLastChargeDate() == null || DateTimeUtils.daysBetween(account.getLastChargeDate(), new Date()) > 10) {
+                AccountCharge charge = new AccountCharge(account);
+                charge.setValue(getPaymentValue(account));
+                account.setBalance(account.getBalance().subtract(charge.getValue()));
+                account.setLastChargeDate(charge.getCreationDate());
+                charge.save();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public void computeExpirationDate(Account account) {
+        AccountPeriodicity periodicity = account.getType().getPeriodicity();
+        if (periodicity != AccountPeriodicity.UNLIMITED) {
+            int incr = 1;
+            Date startDate = account.getStartDate();
+            if (account.getLastChargeDate() != null) {
+                startDate = account.getLastChargeDate();
+            }
+
+            switch (periodicity) {
+                case MONTHLY:
+                    account.setExpirationDate(DateTimeUtils.addMonths(startDate, incr));
+                    break;
+                case YEARLY:
+                    account.setExpirationDate(DateTimeUtils.addYears(startDate, incr));
+                    break;
+            }
+        } else {
+            account.setExpirationDate(null);
+        }
+    }
+
+    @Override
+    @Transactional
+    public void checkPayment(AccountPayment payment) {
+        Account account = crudService.reload(payment.getAccount());
+        account.setLastPaymentDate(payment.getCreationDate());
+        if (payment.isFinished()) {
+            account.setBalance(account.getBalance().add(payment.getValue()));
+            if (account.getBalance().longValue() >= 0) {
+                account.setStatus(AccountStatus.ACTIVE);
+                account.setGlobalMessage(null);
+                account.setShowGlobalMessage(false);
+            }
+            account.save();
+        }
+    }
+
+    @Override
+    @Transactional
+    public void computeBalance(Account account) {
+        QueryBuilder queryCharges = QueryBuilder.select("sum(c.value)").from(AccountCharge.class, "c").where("c.account", QueryConditions.eq(account));
+        QueryBuilder queryPayments = QueryBuilder.select("sum(p.value)").from(AccountPayment.class, "p").where("p.account", QueryConditions.eq(account)).and("p.finished = true");
+
+        BigDecimal charges = crudService.executeProjection(BigDecimal.class, queryCharges.toString(), queryCharges.getQueryParameters());
+        BigDecimal payments = crudService.executeProjection(BigDecimal.class, queryPayments.toString(), queryPayments.getQueryParameters());
+
+
+        BigDecimal balance = BigDecimal.ZERO.add(payments).subtract(charges);
+        account.setBalance(balance);
+    }
+
+
+    @Override
+    public boolean isAboutToExpire(Account account) {
+
+        if (account.getLastPaymentDate() != null && account.getExpirationDate() != null) {
+            if (account.getLastPaymentDate().after(account.getExpirationDate())) {
+                return false;
+            } else if (account.getExpirationDate().after(account.getLastChargeDate())) {
+                final int TIEMPO = Integer.parseInt(ApplicationParameters.get().getValue("ERP_DIAS_NOTIFICACION", "3"));
+                long dias = DateTimeUtils.daysBetween(new Date(), account.getExpirationDate());
+                return dias < TIEMPO;
+            } else if (DateTimeUtils.daysBetween(account.getLastPaymentDate(), account.getExpirationDate()) < 30 && account.getBalance().longValue() == 0) {
+                return false;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public BigDecimal getPaymentValue(Account account) {
+        BigDecimal value = account.getPaymentValue();
+        if (account.getFixedPaymentValue() != null) {
+            value = account.getFixedPaymentValue();
+        }
+
+        if (account.getDiscount() != null && (account.getDiscountExpire() == null || account.getDiscountExpire().after(new Date()))) {
+            value = value.subtract(account.getDiscount());
+        }
+
+        if (value == null) {
+            value = BigDecimal.ZERO;
+        }
+
+        return value;
     }
 }

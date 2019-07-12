@@ -22,7 +22,7 @@ fields:
   active:
   allowAdditionalUsers:
     label: Add User
-
+  allowedOverdueDays:
   publicType:
     label: Public
   printingSupport:

@@ -7,16 +7,17 @@ fields:
   creationTime:
     component: timebox
   account:
-  paymentMethod:
-  reference:
+  type:
+    component: label
   paymentValue:
     component: label
     params:
       converter: converters.Currency
-
+  paymentMethod:
+  reference:
   value:
     params:
-      span: 2
+      format: $###,###
 
   description:
     params:
@@ -31,9 +32,10 @@ fields:
       height: 60px
 
   finished:
-   
-           
-               
+
+
+layout:
+  columns: 4
 
     
         

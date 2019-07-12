@@ -24,21 +24,29 @@ package tools.dynamia.modules.saas.domain;
  */
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import tools.dynamia.commons.DateTimeUtils;
 import tools.dynamia.domain.BaseEntity;
+import tools.dynamia.domain.OrderBy;
 import tools.dynamia.domain.Transferable;
+import tools.dynamia.domain.contraints.NotEmpty;
+import tools.dynamia.integration.Containers;
 import tools.dynamia.modules.saas.api.dto.AccountPaymentDTO;
+import tools.dynamia.modules.saas.services.AccountService;
 
 /**
  * @author Mario Serrano Leones
  */
 @Entity
 @Table(name = "saas_payments")
+@OrderBy("creationDate")
 public class AccountPayment extends BaseEntity implements Transferable<AccountPaymentDTO> {
 
     @OneToOne
@@ -46,6 +54,7 @@ public class AccountPayment extends BaseEntity implements Transferable<AccountPa
     private Account account;
     @OneToOne
     private AccountType type;
+    @NotEmpty(message = "Entrer payment reference")
     private String reference;
     @Column(name = "realValue")
     private BigDecimal value;
@@ -56,7 +65,7 @@ public class AccountPayment extends BaseEntity implements Transferable<AccountPa
     private String description;
     @Column(length = 2000)
     private String paymentMethodDescription;
-    private boolean finished;
+    private boolean finished = true;
     @OneToOne
     @NotNull
     private AccountPaymentMethod paymentMethod;
@@ -136,12 +145,18 @@ public class AccountPayment extends BaseEntity implements Transferable<AccountPa
 
     private void init() {
         if (account != null) {
-            paymentValue = account.getPaymentValue();
+
+            paymentValue = Containers.get().findObject(AccountService.class).getPaymentValue(account);
             activedUsers = account.getActivedUsers();
             users = account.getUsers();
             type = account.getType();
+            value = paymentValue;
+            if (account.getDiscount() != null && account.getDiscountExpire() != null && account.getDiscountExpire().after(new Date())) {
+                description = "Discount: " + DecimalFormat.getCurrencyInstance().format(account.getDiscount()) + " - " + DateTimeUtils.formatDate(account.getDiscountExpire());
+            }
 
             notifyChange("paymentValue", BigDecimal.ZERO, paymentValue);
+            notifyChange("value", BigDecimal.ZERO, value);
         }
     }
 

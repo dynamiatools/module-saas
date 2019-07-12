@@ -4,6 +4,9 @@ autofields: false
 
 fields:
   name:
+  periodicity:
+  price:
+  allowedOverdueDays:
   description:
     params:
       span: 2
@@ -16,12 +19,14 @@ fields:
       height: 100px
   maxUsers:
   allowAdditionalUsers:
-  periodicity:
-  price:
   additionalUserPrice:
   active:
+
   publicType:
     label: Public
   printingSupport:
   restrictions:
     component: crudview
+
+layout:
+  columns: 4

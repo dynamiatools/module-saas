@@ -11,12 +11,12 @@ package tools.dynamia.modules.saas.ui.action;
  * it under the terms of the GNU Lesser General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Lesser Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Lesser Public
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/lgpl-3.0.html>.
@@ -35,40 +35,31 @@ import tools.dynamia.modules.saas.services.AccountService;
 import tools.dynamia.ui.UIMessages;
 
 /**
- *
  * @author Mario Serrano Leones
  */
 @InstallAction
 public class SetDefaultAccountAction extends AbstractCrudAction {
 
-	@Autowired
-	private AccountService accountService;
+    @Autowired
+    private AccountService accountService;
 
-	public SetDefaultAccountAction() {
-		setName("Set as Default Account");
-		setImage("star");
-	}
+    public SetDefaultAccountAction() {
+        setName("Set as Default Account");
+        setImage("star");
+        setApplicableClass(Account.class);
+    }
 
-	@Override
-	public void actionPerformed(CrudActionEvent evt) {
-		Account account = (Account) evt.getData();
-		if (account != null) {
-			UIMessages.showQuestion("Are you sure?", () -> {
-				accountService.setDefaultAccount(account);
-				UIMessages.showMessage(account + " set as default account succefully");
-				evt.getController().doQuery();
-			});
-		}
-	}
+    @Override
+    public void actionPerformed(CrudActionEvent evt) {
+        Account account = (Account) evt.getData();
+        if (account != null) {
+            UIMessages.showQuestion("Are you sure?", () -> {
+                accountService.setDefaultAccount(account);
+                UIMessages.showMessage(account + " set as default account succefully");
+                evt.getController().doQuery();
+            });
+        }
+    }
 
-	@Override
-	public CrudState[] getApplicableStates() {
-		return CrudState.get(CrudState.READ, CrudState.UPDATE);
-	}
-
-	@Override
-	public ApplicableClass[] getApplicableClasses() {
-		return ApplicableClass.get(Account.class);
-	}
 
 }

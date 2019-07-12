@@ -79,7 +79,12 @@ public class AccountDTO implements Serializable {
 
     private String globalMessage;
     private boolean showGlobalMessage;
+    private String globalMessageType;
+    private BigDecimal fixedPaymentValue;
+    private BigDecimal discount;
+    private Date discountExpire;
     private List<AccountFeatureDTO> features = new ArrayList<>();
+    private BigDecimal balance = BigDecimal.ZERO;
 
 
     public Boolean getRequiredInstanceUuid() {
@@ -413,4 +418,43 @@ public class AccountDTO implements Serializable {
     }
 
 
+    public BigDecimal getBalance() {
+        return balance;
+    }
+
+    public void setBalance(BigDecimal balance) {
+        this.balance = balance;
+    }
+
+    public String getGlobalMessageType() {
+        return globalMessageType;
+    }
+
+    public void setGlobalMessageType(String globalMessageType) {
+        this.globalMessageType = globalMessageType;
+    }
+
+    public BigDecimal getFixedPaymentValue() {
+        return fixedPaymentValue;
+    }
+
+    public void setFixedPaymentValue(BigDecimal fixedPaymentValue) {
+        this.fixedPaymentValue = fixedPaymentValue;
+    }
+
+    public BigDecimal getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(BigDecimal discount) {
+        this.discount = discount;
+    }
+
+    public Date getDiscountExpire() {
+        return discountExpire;
+    }
+
+    public void setDiscountExpire(Date discountExpire) {
+        this.discountExpire = discountExpire;
+    }
 }

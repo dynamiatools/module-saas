@@ -20,6 +20,8 @@ fields:
   status:
   profile:
   paymentDay:
+  paymentValue:
+  balance:
   statusDescription:
     params:
       span: 2
