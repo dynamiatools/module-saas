@@ -33,9 +33,7 @@ public class ViewAccountPayments extends AbstractCrudAction {
             List<AccountPayment> payments = crudService().find(AccountPayment.class, "account", account);
 
             Viewer viewer = new Viewer("table", AccountPayment.class, payments);
-            viewer.setHeight("700px");
-            viewer.setWidth("800px");
-            ZKUtil.showDialog(account.toString(), viewer);
+            ZKUtil.showDialog(account.toString(), viewer,"80%","80%");
         } else {
             UIMessages.showMessage("Selecct account", MessageType.WARNING);
         }

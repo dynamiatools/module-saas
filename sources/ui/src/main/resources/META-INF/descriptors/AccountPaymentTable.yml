@@ -48,6 +48,7 @@ fields:
 
 params:
   orderBy: creationDate desc
+  sizedByContent: true
     
         
        

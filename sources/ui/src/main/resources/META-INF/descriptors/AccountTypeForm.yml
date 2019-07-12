@@ -6,7 +6,9 @@ fields:
   name:
   periodicity:
   price:
-  allowedOverdueDays:
+    params:
+      format: $###,###
+  maxUsers:
   description:
     params:
       span: 2
@@ -17,16 +19,21 @@ fields:
       span: 2
       multiline: true
       height: 100px
-  maxUsers:
-  allowAdditionalUsers:
+  allowedOverdueDays:
   additionalUserPrice:
+    params:
+      format: $###,###
   active:
-
+  allowAdditionalUsers:
   publicType:
     label: Public
   printingSupport:
   restrictions:
     component: crudview
+
+groups:
+  configuration:
+    fields: [active,allowAdditionalUsers,publicType,printingSupport]
 
 layout:
   columns: 4
