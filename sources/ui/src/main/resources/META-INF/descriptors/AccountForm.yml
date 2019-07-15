@@ -5,8 +5,8 @@ autofields: false
 fields:
   name:
   identification:
+  idType:
   subdomain:
-  customDomain:
   type:
   email:
   adminUsername:

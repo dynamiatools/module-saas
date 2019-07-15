@@ -64,6 +64,7 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
     private String name;
     @NotEmpty(message = "Ingrese numero de identificacion")
     private String identification;
+    private String idType;
 
     @NotNull
     @Column(unique = true)
@@ -541,5 +542,16 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
 
     public void setDiscountExpire(Date discountExpire) {
         this.discountExpire = discountExpire;
+    }
+
+    public String getIdType() {
+        if (idType == null) {
+            idType = "ID";
+        }
+        return idType;
+    }
+
+    public void setIdType(String idType) {
+        this.idType = idType;
     }
 }
