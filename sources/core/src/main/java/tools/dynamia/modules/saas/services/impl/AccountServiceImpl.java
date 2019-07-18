@@ -328,6 +328,10 @@ public class AccountServiceImpl implements AccountService, ApplicationListener<C
             switch (periodicity) {
                 case MONTHLY:
                     account.setExpirationDate(DateTimeUtils.addMonths(startDate, incr));
+                    int expDay = DateTimeUtils.getDay(account.getExpirationDate());
+                    if (expDay < account.getPaymentDay()) {
+                        account.setExpirationDate(DateTimeUtils.addDays(account.getExpirationDate(), account.getPaymentDay() - expDay));
+                    }
                     break;
                 case YEARLY:
                     account.setExpirationDate(DateTimeUtils.addYears(startDate, incr));

@@ -16,7 +16,7 @@ public class AccountPaymentMethod extends SimpleEntity {
 
     @NotNull
     private String name;
-    private boolean active;
+    private boolean active = true;
 
     public String getName() {
         return name;
