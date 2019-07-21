@@ -1,0 +1,21 @@
+view: table
+beanClass: tools.dynamia.modules.saas.domain.AccountAdditionalService
+autofields: false
+
+fields:
+  name:
+  reference:
+  quantity:
+  price:
+    params:
+      converter: converters.CurrencySimple
+      header:
+        align: right
+  total:
+    params:
+      converter: converters.CurrencySimple
+      header:
+        align: right
+      footer:
+        function: sum
+  description:

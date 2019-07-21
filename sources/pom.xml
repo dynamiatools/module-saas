@@ -49,6 +49,7 @@
 
         <oshi.version>3.10.0</oshi.version>
         <jna.version>5.1.0</jna.version>
+        <hibernate.version>5.4.2.Final</hibernate.version>
     </properties>
 
     <modules>

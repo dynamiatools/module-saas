@@ -32,11 +32,13 @@ import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.BatchSize;
 import tools.dynamia.domain.BaseEntity;
 import tools.dynamia.domain.contraints.NotEmpty;
 
 @Entity
 @Table(name = "saas_profiles")
+@BatchSize(size = 10)
 public class AccountProfile extends BaseEntity {
 
 	/**

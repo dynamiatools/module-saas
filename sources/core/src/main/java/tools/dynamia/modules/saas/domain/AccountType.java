@@ -23,14 +23,7 @@ package tools.dynamia.modules.saas.domain;
  * #L%
  */
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.*;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-
+import org.hibernate.annotations.BatchSize;
 import tools.dynamia.domain.SimpleEntity;
 import tools.dynamia.domain.Transferable;
 import tools.dynamia.domain.contraints.NotEmpty;
@@ -38,11 +31,19 @@ import tools.dynamia.domain.util.DomainUtils;
 import tools.dynamia.modules.saas.api.dto.AccountTypeDTO;
 import tools.dynamia.modules.saas.api.enums.AccountPeriodicity;
 
+import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author Mario Serrano Leones
  */
 @Entity
 @Table(name = "saas_account_types")
+@BatchSize(size = 10)
 public class AccountType extends SimpleEntity implements Transferable<AccountTypeDTO> {
 
     @NotNull
@@ -52,6 +53,7 @@ public class AccountType extends SimpleEntity implements Transferable<AccountTyp
     private String internalDescription;
     private boolean active;
     private boolean publicType;
+    private String publicName;
     @OneToMany(mappedBy = "type", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AccountTypeRestriction> restrictions = new ArrayList<>();
     @Enumerated(EnumType.ORDINAL)
@@ -64,6 +66,7 @@ public class AccountType extends SimpleEntity implements Transferable<AccountTyp
     private BigDecimal additionalUserPrice;
     private boolean printingSupport;
     private int allowedOverdueDays = 5;
+    private String reference;
 
 
     public String getName() {
@@ -184,5 +187,21 @@ public class AccountType extends SimpleEntity implements Transferable<AccountTyp
 
     public void setAllowedOverdueDays(int allowedOverdueDays) {
         this.allowedOverdueDays = allowedOverdueDays;
+    }
+
+    public String getReference() {
+        return reference;
+    }
+
+    public void setReference(String reference) {
+        this.reference = reference;
+    }
+
+    public String getPublicName() {
+        return publicName;
+    }
+
+    public void setPublicName(String publicName) {
+        this.publicName = publicName;
     }
 }

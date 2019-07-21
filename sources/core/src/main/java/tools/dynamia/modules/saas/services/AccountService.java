@@ -51,7 +51,6 @@ public interface AccountService {
 
     Account init();
 
-    void fixAccountAwareEntities();
 
     void computeAccountPaymentValue(Account account);
 

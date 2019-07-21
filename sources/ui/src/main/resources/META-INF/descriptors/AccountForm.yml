@@ -62,8 +62,13 @@ fields:
     params:
       controller: tools.dynamia.modules.saas.ui.controllers.AccountFeatureCrudController
 
+  additionalServices:
+    component: crudview
+
   stats:
     component: crudview
+
+
 
 
 groups:

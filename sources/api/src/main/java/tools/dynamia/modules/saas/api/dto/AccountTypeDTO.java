@@ -37,6 +37,7 @@ import java.util.List;
 public class AccountTypeDTO implements Serializable {
 
     private Long id;
+    private String reference;
     private String name;
     private String description;
     private String internalDescription;
@@ -157,5 +158,13 @@ public class AccountTypeDTO implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getReference() {
+        return reference;
+    }
+
+    public void setReference(String reference) {
+        this.reference = reference;
     }
 }

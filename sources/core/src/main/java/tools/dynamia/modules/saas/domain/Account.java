@@ -23,6 +23,8 @@ package tools.dynamia.modules.saas.domain;
  * #L%
  */
 
+import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import tools.dynamia.commons.DateTimeUtils;
 import tools.dynamia.commons.StringUtils;
 import tools.dynamia.domain.SimpleEntity;
@@ -51,6 +53,9 @@ import java.util.Locale;
  */
 @Entity
 @Table(name = "saas_accounts")
+@BatchSize(size = 10)
+@Cacheable
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Account extends SimpleEntity implements Transferable<AccountDTO> {
 
     /**
@@ -127,6 +132,8 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
     private BigDecimal fixedPaymentValue;
     private BigDecimal discount;
     private Date discountExpire;
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<AccountAdditionalService> additionalServices = new ArrayList<>();
 
 
     public Account() {
@@ -418,6 +425,7 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
 
     @Override
     public AccountDTO toDTO() {
+        System.out.println("Loading Account DTO: " + toString());
         AccountDTO dto = DomainUtils.autoDataTransferObject(this, AccountDTO.class);
 
         String logoURL = null;
@@ -553,5 +561,13 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
 
     public void setIdType(String idType) {
         this.idType = idType;
+    }
+
+    public List<AccountAdditionalService> getAdditionalServices() {
+        return additionalServices;
+    }
+
+    public void setAdditionalServices(List<AccountAdditionalService> additionalServices) {
+        this.additionalServices = additionalServices;
     }
 }

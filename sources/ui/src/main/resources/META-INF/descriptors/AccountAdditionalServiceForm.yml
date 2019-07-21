@@ -1,0 +1,25 @@
+view: form
+beanClass: tools.dynamia.modules.saas.domain.AccountAdditionalService
+autofields: false
+
+fields:
+  name:
+    params:
+      span: 2
+  reference:
+  quantity:
+  price:
+    params:
+      format: "###,###"
+  total:
+    component: label
+    params:
+      converter: converters.CurrencySimple
+  description:
+    params:
+      span: 6
+      multiline: true
+      height: 80px
+
+layout:
+  columns: 6

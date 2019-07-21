@@ -3,7 +3,9 @@ beanClass: tools.dynamia.modules.saas.domain.AccountType
 autofields: false
 
 fields:
+  reference:
   name:
+  publicName:
   periodicity:
   price:
     params:

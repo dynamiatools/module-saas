@@ -1,5 +1,6 @@
 package tools.dynamia.modules.saas.domain;
 
+import org.hibernate.annotations.BatchSize;
 import tools.dynamia.domain.Descriptor;
 import tools.dynamia.domain.OrderBy;
 import tools.dynamia.domain.SimpleEntity;
@@ -12,6 +13,7 @@ import javax.validation.constraints.NotNull;
 @Table(name = "saas_payments_methods")
 @OrderBy("name")
 @Descriptor(fields = {"name", "active"})
+@BatchSize(size = 10)
 public class AccountPaymentMethod extends SimpleEntity {
 
     @NotNull

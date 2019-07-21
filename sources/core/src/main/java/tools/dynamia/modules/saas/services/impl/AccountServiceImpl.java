@@ -152,35 +152,6 @@ public class AccountServiceImpl implements AccountService, ApplicationListener<C
         return account;
     }
 
-    @Transactional
-    @Override
-    public void fixAccountAwareEntities() {
-        logger.info("Fixing AccountAware entities");
-        Account account = crudService.findSingle(Account.class, new QueryParameters());
-
-        if (account != null) {
-            logger.info("Setting account " + account + " to all AccountAware entities with null account ");
-            List<String> entityClasses = entityManagerFactoryInfo.getPersistenceUnitInfo().getManagedClassNames();
-            for (String className : entityClasses) {
-                try {
-                    Object entity = BeanUtils.newInstance(className);
-                    if (entity instanceof AccountAware) {
-                        logger.info("Fixing Account Aware for " + className);
-                        String update = "update " + className
-                                + " a set a.accountId = :account where (a.accountId is null or a.accountId = 0)";
-                        int count = crudService.execute(update, QueryParameters.with("account", account.getId()));
-                        if (count > 0) {
-                            logger.info(" " + count + " " + className + " entities fixed with account " + account);
-                        } else {
-                            logger.info(" Nothing to fix");
-                        }
-                    }
-                } catch (Exception e) {
-                    // ignore
-                }
-            }
-        }
-    }
 
     @Override
     public void computeAccountPaymentValue(Account account) {
@@ -404,6 +375,12 @@ public class AccountServiceImpl implements AccountService, ApplicationListener<C
         if (value == null) {
             value = BigDecimal.ZERO;
         }
+
+        BigDecimal additionalServicesTotal = account.getAdditionalServices().stream()
+                .map(AccountAdditionalService::getTotal)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        value = value.add(additionalServicesTotal);
 
         return value;
     }
