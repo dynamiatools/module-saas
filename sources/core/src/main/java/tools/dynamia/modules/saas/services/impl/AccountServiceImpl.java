@@ -29,7 +29,6 @@ import org.springframework.orm.jpa.EntityManagerFactoryInfo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import tools.dynamia.commons.BeanUtils;
 import tools.dynamia.commons.DateTimeUtils;
 import tools.dynamia.commons.logger.LoggingService;
 import tools.dynamia.commons.logger.SLF4JLoggingService;
@@ -39,7 +38,6 @@ import tools.dynamia.domain.query.QueryParameters;
 import tools.dynamia.domain.services.CrudService;
 import tools.dynamia.domain.util.QueryBuilder;
 import tools.dynamia.integration.Containers;
-import tools.dynamia.modules.saas.api.AccountAware;
 import tools.dynamia.modules.saas.api.AccountInitializer;
 import tools.dynamia.modules.saas.api.AccountStats;
 import tools.dynamia.modules.saas.api.AccountStatsProvider;
@@ -256,7 +254,10 @@ public class AccountServiceImpl implements AccountService, ApplicationListener<C
 
     @Override
     public boolean isOverdue(Account account) {
-        return account.getExpirationDate() != null && account.getExpirationDate().before(new Date()) || account.getBalance().longValue() < 0;
+        if (account.getBalance().longValue() < 0) {
+            return true;
+        }
+        return account.getExpirationDate() != null && account.getExpirationDate().before(new Date());
     }
 
     @Override
@@ -272,10 +273,18 @@ public class AccountServiceImpl implements AccountService, ApplicationListener<C
     @Override
     @Transactional
     public boolean chargeAccount(Account account) {
-        if (account.getStatus() == AccountStatus.ACTIVE && account.getType().getPrice().longValue() > 0 && account.getPaymentDay() == DateTimeUtils.getCurrentDay() && account.getBalance().longValue() >= 0) {
+        long payDay = account.getPaymentDay();
+        if (account.isUseTempPaymentDay()) {
+            payDay = DateTimeUtils.getCurrentDay();
+        }
 
-            if (account.getLastChargeDate() == null || DateTimeUtils.daysBetween(account.getLastChargeDate(), new Date()) > 10) {
+        if (account.getStatus() == AccountStatus.ACTIVE && account.getType().getPrice().longValue() > 0 && payDay == DateTimeUtils.getCurrentDay() && account.getBalance().longValue() >= 0) {
+
+
+            if (account.getLastChargeDate() == null || DateTimeUtils.daysBetween(account.getLastChargeDate(), new Date()) > 15) {
+                Date chargeDate = DateTimeUtils.createDate(account.getPaymentDay());
                 AccountCharge charge = new AccountCharge(account);
+                charge.setCreationDate(chargeDate);
                 charge.setValue(getPaymentValue(account));
                 account.setBalance(account.getBalance().subtract(charge.getValue()));
                 account.setLastChargeDate(charge.getCreationDate());
@@ -363,6 +372,7 @@ public class AccountServiceImpl implements AccountService, ApplicationListener<C
 
     @Override
     public BigDecimal getPaymentValue(Account account) {
+        account = crudService.reload(account);
         BigDecimal value = account.getPaymentValue();
         if (account.getFixedPaymentValue() != null) {
             value = account.getFixedPaymentValue();
