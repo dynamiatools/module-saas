@@ -55,9 +55,7 @@ public class HttpAccountResolver implements AccountResolver {
 
             if (account == null) {
                 account = service.getAccount(request);
-                if (account == null) {
-                    account = service.getDefaultAccount();
-                }
+
                 if (account != null) {
                     request.getSession().setAttribute(ATTRIBUTE_SAAS_ACCOUNT, account);
                 }

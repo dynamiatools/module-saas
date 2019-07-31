@@ -7,6 +7,8 @@ fields:
   creationTime:
     component: timebox
   account:
+    params:
+      popupWidth: 200%
   type:
     component: label
   paymentValue:
@@ -14,6 +16,9 @@ fields:
     params:
       converter: converters.Currency
   paymentMethod:
+    component: combobox
+    params:
+      automodel: true
   reference:
   value:
     params:

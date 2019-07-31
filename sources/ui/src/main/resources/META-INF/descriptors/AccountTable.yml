@@ -3,17 +3,6 @@ beanClass: tools.dynamia.modules.saas.domain.Account
 autofields: false
 
 fields:
-  defaultAccount:
-    label: D
-    description: Default Account
-    component: iconimage
-    params:
-      trueIcon: star
-      falseIcon: staroff
-      width: 32px
-      header:
-        width: 30px
-        align: center
 
   account:
     component: coollabel
@@ -25,6 +14,7 @@ fields:
         subtitle: email
         description: type
         imageURL: logo.storedEntityFile.thumbnailUrl
+        tooltiptext: customerInfo
 
   profile:
   remote:
@@ -61,13 +51,11 @@ fields:
       header:
         align: center
   lastPaymentDate:
-    label: Last Payment
     params:
       converter: converters.Date
       header:
         width: 100px
   lastChargeDate:
-    label: Last Charge
     params:
       converter: converters.Date
       header:
@@ -78,6 +66,9 @@ fields:
       header:
         width: 100px
         align: right
+        sclass: green color-white
+      cell:
+        sclass: green lighten-5
       footer:
         function: sum
   expirationDate:
@@ -133,5 +124,5 @@ fields:
 
 
 params:
-  frozenColumns: 2
+  frozenColumns: 1
   pageSize: 50

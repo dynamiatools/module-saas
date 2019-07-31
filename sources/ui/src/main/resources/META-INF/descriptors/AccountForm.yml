@@ -57,6 +57,12 @@ fields:
   showGlobalMessage:
     label: Show
 
+  customerInfo:
+    params:
+      span: 4
+      multiline: true
+      height: 80px
+
   features:
     component: crudview
     params:
@@ -73,7 +79,7 @@ fields:
 
 groups:
   contactInfo:
-    fields: [contact,phoneNumber,mobileNumber, city, country, address]
+    fields: [contact,phoneNumber,mobileNumber, city, country, address, customerInfo]
 
   notification:
     fields: [globalMessage,globalMessageType,showGlobalMessage]

@@ -13,9 +13,9 @@ import tools.dynamia.zk.util.ZKUtil;
 import tools.dynamia.zk.viewers.ui.Viewer;
 
 @InstallAction
-public class NewAccountPayment extends AbstractCrudAction {
+public class NewAccountPaymentAction extends AbstractCrudAction {
 
-    public NewAccountPayment() {
+    public NewAccountPaymentAction() {
         setName("New Payment");
         setApplicableClass(Account.class);
         setImage("fa-dollar");
@@ -30,6 +30,7 @@ public class NewAccountPayment extends AbstractCrudAction {
     public void actionPerformed(CrudActionEvent evt) {
         Account account = (Account) evt.getData();
         if (account != null) {
+
             AccountPayment payment = new AccountPayment();
             payment.setAccount(account);
             Viewer viewer = new Viewer("form", AccountPayment.class, payment);
