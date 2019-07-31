@@ -1,4 +1,3 @@
-
 package tools.dynamia.modules.saas.domain;
 
 /*-
@@ -23,15 +22,6 @@ package tools.dynamia.modules.saas.domain;
  * #L%
  */
 
-import java.math.BigDecimal;
-import java.text.DecimalFormat;
-import java.util.Date;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-
 import tools.dynamia.commons.DateTimeUtils;
 import tools.dynamia.domain.BaseEntity;
 import tools.dynamia.domain.OrderBy;
@@ -40,6 +30,15 @@ import tools.dynamia.domain.contraints.NotEmpty;
 import tools.dynamia.integration.Containers;
 import tools.dynamia.modules.saas.api.dto.AccountPaymentDTO;
 import tools.dynamia.modules.saas.services.AccountService;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.util.Date;
 
 /**
  * @author Mario Serrano Leones
@@ -145,7 +144,6 @@ public class AccountPayment extends BaseEntity implements Transferable<AccountPa
 
     private void init() {
         if (account != null) {
-
             paymentValue = Containers.get().findObject(AccountService.class).getPaymentValue(account);
             activedUsers = account.getActivedUsers();
             users = account.getUsers();
