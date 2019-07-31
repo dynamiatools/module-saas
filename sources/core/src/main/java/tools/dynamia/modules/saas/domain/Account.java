@@ -1,4 +1,3 @@
-
 package tools.dynamia.modules.saas.domain;
 
 /*-
@@ -134,7 +133,11 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
     private Date discountExpire;
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AccountAdditionalService> additionalServices = new ArrayList<>();
+    @Column(length = 2000)
+    private String customerInfo;
 
+    @Transient
+    private boolean useTempPaymentDay;
 
     public Account() {
         try {
@@ -569,5 +572,21 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
 
     public void setAdditionalServices(List<AccountAdditionalService> additionalServices) {
         this.additionalServices = additionalServices;
+    }
+
+    public boolean isUseTempPaymentDay() {
+        return useTempPaymentDay;
+    }
+
+    public void setUseTempPaymentDay(boolean useTempPaymentDay) {
+        this.useTempPaymentDay = useTempPaymentDay;
+    }
+
+    public String getCustomerInfo() {
+        return customerInfo;
+    }
+
+    public void setCustomerInfo(String customerInfo) {
+        this.customerInfo = customerInfo;
     }
 }
