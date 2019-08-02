@@ -256,6 +256,8 @@ public class AccountServiceImpl implements AccountService, ApplicationListener<C
     public boolean isOverdue(Account account) {
         if (account.getBalance().longValue() < 0) {
             return true;
+        } else if (account.getBalance().longValue() == 0) {
+            return false;
         }
         return account.getExpirationDate() != null && account.getExpirationDate().before(new Date());
     }

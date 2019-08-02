@@ -1,4 +1,3 @@
-
 package tools.dynamia.modules.saas.ui;
 
 /*-
@@ -24,7 +23,6 @@ package tools.dynamia.modules.saas.ui;
  */
 
 import org.springframework.stereotype.Component;
-
 import tools.dynamia.crud.CrudPage;
 import tools.dynamia.modules.saas.domain.*;
 import tools.dynamia.navigation.Module;
@@ -40,6 +38,7 @@ public class SaaSModuleInstaller implements ModuleProvider {
     public Module getModule() {
         Module module = new Module("saas", "SaaS");
         module.setIcon("globe");
+        module.setPosition(-1);
         module.addPage(new CrudPage("accounts", "Accounts", Account.class));
         module.addPage(new CrudPage("accountsType", "Accounts Type", AccountType.class));
         module.addPage(new CrudPage("accountProfile", "Profiles", AccountProfile.class));

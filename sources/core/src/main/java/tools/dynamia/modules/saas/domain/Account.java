@@ -445,6 +445,7 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
         dto.setStatus(getStatus());
         dto.setGlobalMessage(getGlobalMessage());
         dto.setShowGlobalMessage(isShowGlobalMessage());
+        dto.setGlobalMessageType(getGlobalMessageType());
         dto.setPaymentValue(getPaymentValue());
         return dto;
     }

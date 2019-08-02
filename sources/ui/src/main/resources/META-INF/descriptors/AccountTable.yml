@@ -53,18 +53,15 @@ fields:
   lastPaymentDate:
     params:
       converter: converters.Date
-      header:
-        width: 100px
+
   lastChargeDate:
     params:
       converter: converters.Date
-      header:
-        width: 100px
+
   balance:
     params:
       converter: converters.Currency
       header:
-        width: 100px
         align: right
         sclass: green color-white
       cell:
@@ -75,8 +72,7 @@ fields:
     label: Expire
     params:
       converter: converters.Date
-      header:
-        width: 80px
+
   type.price:
     label: Base Payment
     params:
