@@ -198,6 +198,9 @@ public class AccountType extends SimpleEntity implements Transferable<AccountTyp
     }
 
     public String getPublicName() {
+        if(publicName==null){
+            return getName();
+        }
         return publicName;
     }
 
