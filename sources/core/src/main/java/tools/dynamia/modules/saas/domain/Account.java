@@ -130,11 +130,16 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
     private BigDecimal balance = BigDecimal.ZERO;
     private BigDecimal fixedPaymentValue;
     private BigDecimal discount;
+    @Temporal(TemporalType.DATE)
     private Date discountExpire;
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AccountAdditionalService> additionalServices = new ArrayList<>();
     @Column(length = 2000)
     private String customerInfo;
+
+    @Temporal(TemporalType.DATE)
+    private Date lastInvoiceDate;
+
 
     @Transient
     private boolean useTempPaymentDay;
@@ -589,5 +594,13 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
 
     public void setCustomerInfo(String customerInfo) {
         this.customerInfo = customerInfo;
+    }
+
+    public Date getLastInvoiceDate() {
+        return lastInvoiceDate;
+    }
+
+    public void setLastInvoiceDate(Date lastInvoiceDate) {
+        this.lastInvoiceDate = lastInvoiceDate;
     }
 }

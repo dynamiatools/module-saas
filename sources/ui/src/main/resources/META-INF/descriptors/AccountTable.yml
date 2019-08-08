@@ -50,6 +50,9 @@ fields:
     params:
       header:
         align: center
+  lastInvoiceDate:
+    params:
+      converter: converters.Date
   lastPaymentDate:
     params:
       converter: converters.Date
