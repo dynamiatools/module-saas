@@ -42,7 +42,6 @@ public class AccountPaymenCrudListener extends CrudServiceListenerAdapter<Accoun
     @Override
     public void afterCreate(AccountPayment payment) {
         if (payment.getReference() != null && !payment.getReference().equals("DEFAULT")) {
-            payment.getAccount().setLastPaymentDate(payment.getCreationDate());
             service.checkPayment(payment);
         }
 
