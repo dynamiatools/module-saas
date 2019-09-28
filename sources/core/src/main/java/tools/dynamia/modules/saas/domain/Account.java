@@ -32,6 +32,7 @@ import tools.dynamia.domain.contraints.Email;
 import tools.dynamia.domain.contraints.NotEmpty;
 import tools.dynamia.domain.util.DomainUtils;
 import tools.dynamia.modules.entityfile.domain.EntityFile;
+import tools.dynamia.modules.saas.AccountStatusCache;
 import tools.dynamia.modules.saas.api.dto.AccountDTO;
 import tools.dynamia.modules.saas.api.enums.AccountStatus;
 
@@ -42,10 +43,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 /**
  * @author Mario Serrano Leones
@@ -86,6 +84,9 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
     private AccountStatus status = AccountStatus.NEW;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date statusDate;
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date oldStatusDate;
+
     private String statusDescription;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date creationDate = new Date();
@@ -143,6 +144,7 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
 
     @Transient
     private boolean useTempPaymentDay;
+    private AccountStatus oldStatus;
 
     public Account() {
         try {
@@ -396,10 +398,15 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
     }
 
     public void setStatus(AccountStatus status) {
+
         if (status != this.status) {
-            setStatusDate(new Date());
+            this.oldStatusDate = statusDate;
+            this.statusDate = new Date();
+            this.oldStatus = this.status;
+            AccountStatusCache.statusChanged(this);
         }
         this.status = status;
+
     }
 
     public Date getStatusDate() {
@@ -602,5 +609,28 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
 
     public void setLastInvoiceDate(Date lastInvoiceDate) {
         this.lastInvoiceDate = lastInvoiceDate;
+    }
+
+    public AccountStatus getOldStatus() {
+        if (oldStatus == null) {
+            oldStatus = status;
+        }
+        return oldStatus;
+    }
+
+    public void setOldStatus(AccountStatus oldStatus) {
+        this.oldStatus = oldStatus;
+    }
+
+
+    public Date getOldStatusDate() {
+        if (oldStatusDate == null) {
+            oldStatusDate = statusDate;
+        }
+        return oldStatusDate;
+    }
+
+    public void setOldStatusDate(Date oldStatusDate) {
+        this.oldStatusDate = oldStatusDate;
     }
 }

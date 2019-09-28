@@ -45,7 +45,7 @@ public class AccountDTO implements Serializable {
     private String subdomain;
     private String customDomain;
     private String email;
-    private AccountTypeDTO type;
+    private AccountTypeDTO type = new AccountTypeDTO();
 
     private Date expirationDate;
     private AccountStatus status = AccountStatus.NEW;
@@ -304,7 +304,9 @@ public class AccountDTO implements Serializable {
     }
 
     public void setType(AccountTypeDTO type) {
-        this.type = type;
+        if (type != null) {
+            this.type = type;
+        }
     }
 
     public Date getExpirationDate() {

@@ -60,5 +60,7 @@ public interface AccountServiceAPI {
         return true;
     }
 
+    List<Long> findAccountsIdByFeature(String featureId);
+
     ;
 }

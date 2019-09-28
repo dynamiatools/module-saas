@@ -362,9 +362,9 @@ public class AccountServiceImpl implements AccountService, ApplicationListener<C
             if (account.getLastPaymentDate().after(account.getExpirationDate())) {
                 return false;
             } else if (account.getExpirationDate().after(account.getLastChargeDate())) {
-                final int TIEMPO = Integer.parseInt(ApplicationParameters.get().getValue("ERP_DIAS_NOTIFICACION", "3"));
-                long dias = DateTimeUtils.daysBetween(new Date(), account.getExpirationDate());
-                return dias < TIEMPO;
+                final int MAX_DAYS = Integer.parseInt(ApplicationParameters.get().getValue("ACCOUNTS_ABOUT_TO_EXPIRE_MAX_DAYS", "4"));
+                long daysBetween = DateTimeUtils.daysBetween(new Date(), account.getExpirationDate());
+                return daysBetween < MAX_DAYS;
             } else if (DateTimeUtils.daysBetween(account.getLastPaymentDate(), account.getExpirationDate()) < 30 && account.getBalance().longValue() == 0) {
                 return false;
             }

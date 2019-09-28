@@ -28,6 +28,7 @@ import tools.dynamia.modules.saas.api.AccountServiceAPI;
 import tools.dynamia.modules.saas.api.dto.AccountDTO;
 import tools.dynamia.modules.saas.api.dto.AccountLogDTO;
 import tools.dynamia.modules.saas.api.dto.AccountPaymentDTO;
+import tools.dynamia.modules.saas.api.dto.AccountTypeDTO;
 import tools.dynamia.modules.saas.api.enums.AccountPeriodicity;
 import tools.dynamia.modules.saas.api.enums.AccountStatus;
 
@@ -52,6 +53,9 @@ public class NoOpAccountServiceAPI extends CrudServiceListenerAdapter<AccountAwa
         CURRENT_ACCOUNT.setAdminUsername("admin");
         CURRENT_ACCOUNT.setMaxUsers(1000);
         CURRENT_ACCOUNT.setInstanceUuid("UUID");
+        AccountTypeDTO noOpType = new AccountTypeDTO();
+        noOpType.setName("NoOp");
+        CURRENT_ACCOUNT.setType(noOpType);
     }
 
     @Override
@@ -117,5 +121,10 @@ public class NoOpAccountServiceAPI extends CrudServiceListenerAdapter<AccountAwa
     @Override
     public void setParameter(String name, String value) {
 //do nothin
+    }
+
+    @Override
+    public List<Long> findAccountsIdByFeature(String featureId) {
+        return Collections.emptyList();
     }
 }

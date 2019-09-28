@@ -26,6 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import tools.dynamia.domain.query.ApplicationParameters;
+import tools.dynamia.domain.query.QueryCondition;
 import tools.dynamia.domain.query.QueryConditions;
 import tools.dynamia.domain.query.QueryParameters;
 import tools.dynamia.domain.services.AbstractService;
@@ -41,6 +42,8 @@ import tools.dynamia.modules.saas.domain.AccountFeature;
 import tools.dynamia.modules.saas.jpa.AccountParameter;
 import tools.dynamia.modules.saas.services.AccountService;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.Date;
 import java.util.List;
 
@@ -48,7 +51,11 @@ import java.util.List;
 public class AccountServiceAPIImpl extends AbstractService implements AccountServiceAPI {
 
 
+    @Autowired
     private AccountService service;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Autowired
     public AccountServiceAPIImpl(AccountService service) {
@@ -177,5 +184,14 @@ public class AccountServiceAPIImpl extends AbstractService implements AccountSer
             enabled = true;
         }
         return enabled;
+    }
+
+    @Override
+    public List<Long> findAccountsIdByFeature(String featureId) {
+        String jpql = "select af.account.id from AccountFeature af where af.providerId = :feature and af.enabled = true and af.account.status = :status";
+        return entityManager.createQuery(jpql)
+                .setParameter("feature", featureId)
+                .setParameter("status", AccountStatus.ACTIVE)
+                .getResultList();
     }
 }
