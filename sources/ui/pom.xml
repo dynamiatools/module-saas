@@ -10,7 +10,7 @@
     <artifactId>tools.dynamia.modules.saas.ui</artifactId>
     <version>2.4.0</version>
     <name>DynamiaModules - SaaS UI</name>
-    <url>http://www.dynamia.tools/modules/saas</url>
+    <url>https://www.dynamia.tools/modules/saas</url>
 
 
     <build>
