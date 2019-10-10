@@ -61,7 +61,7 @@ public class AccountSessionHolder implements LocaleProvider {
     }
     @Override
     public int getPriority() {
-        return 0;
+        return 10;
     }
 
     @Override

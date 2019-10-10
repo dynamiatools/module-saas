@@ -33,6 +33,7 @@ import tools.dynamia.commons.DateTimeUtils;
 import tools.dynamia.commons.logger.LoggingService;
 import tools.dynamia.commons.logger.SLF4JLoggingService;
 import tools.dynamia.domain.query.ApplicationParameters;
+import tools.dynamia.domain.query.QueryCondition;
 import tools.dynamia.domain.query.QueryConditions;
 import tools.dynamia.domain.query.QueryParameters;
 import tools.dynamia.domain.services.CrudService;
@@ -78,7 +79,7 @@ public class AccountServiceImpl implements AccountService, ApplicationListener<C
     @Override
     public Account getAccount(String subdomain) {
         return crudService.findSingle(Account.class,
-                QueryParameters.with("subdomain", subdomain)
+                QueryParameters.with("subdomain", QueryConditions.eq(subdomain))
                         .add("status", QueryConditions.isNotNull())
                         .add("remote", false));
     }
@@ -86,7 +87,7 @@ public class AccountServiceImpl implements AccountService, ApplicationListener<C
     @Override
     public Account getAccountByCustomDomain(String domain) {
         return crudService.findSingle(Account.class,
-                QueryParameters.with("customDomain", domain).add("status", QueryConditions.isNotNull())
+                QueryParameters.with("customDomain", QueryConditions.eq(domain)).add("status", QueryConditions.isNotNull())
                         .add("remote", false));
     }
 
