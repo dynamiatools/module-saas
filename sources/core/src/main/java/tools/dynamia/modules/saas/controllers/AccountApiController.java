@@ -23,6 +23,7 @@ package tools.dynamia.modules.saas.controllers;
  */
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.bind.annotation.*;
 import tools.dynamia.domain.query.QueryConditions;
 import tools.dynamia.domain.query.QueryParameters;
@@ -41,7 +42,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
 @RestController
-@RequestMapping("/api/saas")
+@RequestMapping(value = "/api/saas", produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 public class AccountApiController extends AbstractService {
 
     private static final AccountDTO NO_ACCOUNT;
