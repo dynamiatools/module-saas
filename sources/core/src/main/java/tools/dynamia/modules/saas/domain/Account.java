@@ -112,8 +112,13 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
     private String mobileNumber;
     private String address;
     private String city;
+    private String region;
     private String country;
     private String contact;
+    private String contactFirstName;
+    private String contactLastName;
+    @Email(message = "Email valido")
+    private String contactEmail;
     private String uuid = StringUtils.randomString();
     private String instanceUuid;
     private Boolean requiredInstanceUuid = Boolean.FALSE;
@@ -227,11 +232,28 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
     }
 
     public String getContact() {
+        if (contact == null && contactFirstName != null) {
+            contact = contactFirstName;
+            if (contactLastName != null) {
+                contact = contact + " " + contactLastName;
+            }
+        }
         return contact;
     }
 
     public void setContact(String contact) {
         this.contact = contact;
+    }
+
+    public String getContactFirstName() {
+        if (contactFirstName == null && contact != null) {
+            contactFirstName = contact;
+        }
+        return contactFirstName;
+    }
+
+    public String getContactLastName() {
+        return contactLastName;
     }
 
     public String getIdentification() {
@@ -632,5 +654,29 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
 
     public void setOldStatusDate(Date oldStatusDate) {
         this.oldStatusDate = oldStatusDate;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
+    }
+
+    public String getContactEmail() {
+        return contactEmail;
+    }
+
+    public void setContactEmail(String contactEmail) {
+        this.contactEmail = contactEmail;
+    }
+
+    public void setContactFirstName(String contactFirstName) {
+        this.contactFirstName = contactFirstName;
+    }
+
+    public void setContactLastName(String contactLastName) {
+        this.contactLastName = contactLastName;
     }
 }

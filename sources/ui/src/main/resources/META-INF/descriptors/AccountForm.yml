@@ -33,16 +33,17 @@ fields:
   discountExpire:
   statusDescription:
 
-  contact:
-    params:
-      span: 2
+  contactFirstName:
+  contactLastName:
+  contactEmail:
   phoneNumber:
   mobileNumber:
   city:
+  region:
   country:
   address:
     params:
-      span: 2
+      span: 4
   uuid:
   instanceUuid:
   requiredInstanceUuid:
@@ -79,7 +80,7 @@ fields:
 
 groups:
   contactInfo:
-    fields: [contact,phoneNumber,mobileNumber, city, country, address, customerInfo]
+    fields: [contactFirstName, contactLastName,phoneNumber,mobileNumber,contactEmail, city,region, country, address, customerInfo]
 
   notification:
     fields: [globalMessage,globalMessageType,showGlobalMessage]
