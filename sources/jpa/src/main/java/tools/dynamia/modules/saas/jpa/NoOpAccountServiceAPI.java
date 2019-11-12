@@ -49,7 +49,7 @@ public class NoOpAccountServiceAPI extends CrudServiceListenerAdapter<AccountAwa
         CURRENT_ACCOUNT.setTimeZone(TimeZone.getDefault().getDisplayName());
         CURRENT_ACCOUNT.setLocale(Locale.getDefault().toString());
         CURRENT_ACCOUNT.setCreationDate(new Date());
-        CURRENT_ACCOUNT.setIdentification("1");
+        CURRENT_ACCOUNT.setIdentification("111111111");
         CURRENT_ACCOUNT.setAdminUsername("admin");
         CURRENT_ACCOUNT.setMaxUsers(1000);
         CURRENT_ACCOUNT.setInstanceUuid("UUID");
