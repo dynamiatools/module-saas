@@ -39,8 +39,10 @@ import tools.dynamia.modules.saas.api.dto.AccountPaymentDTO;
 import tools.dynamia.modules.saas.api.enums.AccountStatus;
 import tools.dynamia.modules.saas.domain.Account;
 import tools.dynamia.modules.saas.domain.AccountFeature;
+import tools.dynamia.modules.saas.domain.AccountLog;
 import tools.dynamia.modules.saas.jpa.AccountParameter;
 import tools.dynamia.modules.saas.services.AccountService;
+import tools.dynamia.web.util.HttpUtils;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -193,5 +195,18 @@ public class AccountServiceAPIImpl extends AbstractService implements AccountSer
                 .setParameter("feature", featureId)
                 .setParameter("status", AccountStatus.ACTIVE)
                 .getResultList();
+    }
+
+    @Override
+    public void log(Long accountId, String message) {
+        if (accountId != null && message != null && !message.isEmpty()) {
+            AccountLog log = new AccountLog();
+            Account account = new Account();
+            account.setId(accountId);
+            log.setAccount(account);
+            log.setMessage(message);
+            log.setIp(HttpUtils.getClientIp());
+            log.save();
+        }
     }
 }

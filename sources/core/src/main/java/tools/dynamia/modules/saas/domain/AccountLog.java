@@ -22,7 +22,7 @@ package tools.dynamia.modules.saas.domain;
  * #L%
  */
 
-import tools.dynamia.domain.SimpleEntity;
+import tools.dynamia.domain.BaseEntity;
 import tools.dynamia.domain.Transferable;
 import tools.dynamia.modules.saas.api.dto.AccountLogDTO;
 
@@ -32,7 +32,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "saas_logs")
-public class AccountLog extends SimpleEntity implements Transferable<AccountLogDTO> {
+public class AccountLog extends BaseEntity implements Transferable<AccountLogDTO> {
 
 
     @Temporal(TemporalType.TIMESTAMP)

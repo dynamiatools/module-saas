@@ -62,5 +62,7 @@ public interface AccountServiceAPI {
 
     List<Long> findAccountsIdByFeature(String featureId);
 
+    void log(Long accountId, String message);
+
     ;
 }

@@ -127,4 +127,9 @@ public class NoOpAccountServiceAPI extends CrudServiceListenerAdapter<AccountAwa
     public List<Long> findAccountsIdByFeature(String featureId) {
         return Collections.emptyList();
     }
+
+    @Override
+    public void log(Long accountId, String message) {
+        System.out.println("[LOG ACCOUNT " + accountId + "]  " + message);
+    }
 }

@@ -4,10 +4,24 @@ autofields: false
 
 fields:
   date:
-  ip:
-  pathInfo:
-  message:
-  clientInfo:
     params:
       header:
-        width: '40%'
+        width: 140px
+  creator:
+    params:
+      header:
+        width: 80px
+  message:
+    params:
+      header:
+        width: '400px'
+  ip:
+    params:
+      header:
+        width: 90px
+  pathInfo:
+    params:
+      header:
+        width: 120px
+
+  clientInfo:

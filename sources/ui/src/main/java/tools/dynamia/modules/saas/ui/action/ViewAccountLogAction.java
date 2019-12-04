@@ -66,7 +66,7 @@ public class ViewAccountLogAction extends AbstractCrudAction {
                 Viewer viewer = new Viewer("table", AccountLog.class);
                 viewer.setValue(logs);
 
-                ZKUtil.showDialog("Logs: " + account, viewer, "60%", "60%");
+                ZKUtil.showDialog("Logs: " + account, viewer, "80%", "70%");
             }
 
 

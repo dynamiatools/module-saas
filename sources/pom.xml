@@ -39,7 +39,7 @@
     </scm>
 
     <properties>
-        <dynamiatools.version>4.0.0.Beta</dynamiatools.version>
+        <dynamiatools.version>4.0.0.RC</dynamiatools.version>
         <entityfiles.version>6.2.2</entityfiles.version>
 
         <java.version>11</java.version>
