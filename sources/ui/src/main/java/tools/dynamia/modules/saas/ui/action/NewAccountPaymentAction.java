@@ -34,6 +34,8 @@ public class NewAccountPaymentAction extends AbstractCrudAction {
             AccountPayment payment = new AccountPayment();
             payment.setAccount(account);
             Viewer viewer = new Viewer("form", AccountPayment.class, payment);
+            viewer.setVflex("1");
+            viewer.setContentVflex("0");
             viewer.addAction(new FastAction("Create Payment", e -> {
                 crudService().save(payment);
                 UIMessages.showMessage("Payment created successfully");

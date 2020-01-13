@@ -46,9 +46,11 @@ fields:
       span: 4
   uuid:
   instanceUuid:
+  category:
+  reseller:
   requiredInstanceUuid:
-
   remote:
+
   globalMessage:
     label: Message
     params:

@@ -28,6 +28,7 @@ import org.springframework.stereotype.Component;
 import tools.dynamia.commons.logger.LoggingService;
 import tools.dynamia.commons.logger.SLF4JLoggingService;
 import tools.dynamia.integration.Containers;
+import tools.dynamia.modules.saas.api.dto.AccountDTO;
 import tools.dynamia.modules.saas.domain.Account;
 import tools.dynamia.modules.saas.services.AccountService;
 import tools.dynamia.web.util.HttpUtils;
@@ -60,6 +61,9 @@ public class AccountContext {
 
         if (HttpUtils.isInWebScope()) {
             account = AccountSessionHolder.get().getCurrent();
+            if (account != null) {
+                return account;
+            }
         }
 
         if (account == null) {
@@ -73,8 +77,24 @@ public class AccountContext {
 
         if (account != null && HttpUtils.isInWebScope()) {
             AccountSessionHolder.get().setCurrent(account);
+            account = AccountSessionHolder.get().getCurrent();
         }
         return account;
+    }
+
+    public AccountDTO toDTO() {
+        AccountDTO dto = null;
+        if (HttpUtils.isInWebScope()) {
+            dto = AccountSessionHolder.get().toDTO();
+        }
+
+        if (dto == null) {
+            Account account = getAccount();
+            if (account != null) {
+                dto = account.toDTO();
+            }
+        }
+        return dto;
     }
 
     public boolean isAdminAccount() {

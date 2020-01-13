@@ -40,6 +40,8 @@ public interface AccountServiceAPI {
 
     Long getCurrentAccountId();
 
+    AccountDTO getCurrentAccount();
+
     void updateAccountUsers(Long accountId, long users, long activedUsers);
 
     List<AccountPaymentDTO> getPayments(Long accountId);

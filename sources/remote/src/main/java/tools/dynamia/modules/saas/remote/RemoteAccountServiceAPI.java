@@ -132,6 +132,11 @@ public class RemoteAccountServiceAPI extends CrudServiceListenerAdapter<AccountA
     }
 
     @Override
+    public AccountDTO getCurrentAccount() {
+        return accountDTO;
+    }
+
+    @Override
     public void updateAccountUsers(Long accountId, long users, long activedUsers) {
 
     }

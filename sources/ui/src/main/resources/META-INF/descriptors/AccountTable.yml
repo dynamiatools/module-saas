@@ -17,10 +17,7 @@ fields:
         tooltiptext: customerInfo
 
   profile:
-  remote:
-    params:
-      header:
-        width: 60px
+
   status:
     component: enumlabel
     params:
@@ -28,6 +25,24 @@ fields:
       header:
         align: center
         width: 80px
+
+  balance:
+    params:
+      converter: converters.Currency
+      header:
+        align: right
+        sclass: green color-white
+      cell:
+        sclass: green lighten-5
+      footer:
+        function: sum
+  category:
+  reseller:
+  remote:
+    params:
+      header:
+        width: 60px
+
   statusDate:
     params:
       converter: converters.Date
@@ -61,16 +76,7 @@ fields:
     params:
       converter: converters.Date
 
-  balance:
-    params:
-      converter: converters.Currency
-      header:
-        align: right
-        sclass: green color-white
-      cell:
-        sclass: green lighten-5
-      footer:
-        function: sum
+
   expirationDate:
     label: Expire
     params:
@@ -123,5 +129,4 @@ fields:
 
 
 params:
-  frozenColumns: 1
   pageSize: 50

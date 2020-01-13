@@ -151,6 +151,12 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
     private boolean useTempPaymentDay;
     private AccountStatus oldStatus;
 
+    @OneToOne
+    private AccountCategory category;
+
+    @OneToOne
+    private AccountReseller reseller;
+
     public Account() {
         try {
             Locale current = Locale.getDefault();
@@ -678,5 +684,21 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
 
     public void setContactLastName(String contactLastName) {
         this.contactLastName = contactLastName;
+    }
+
+    public AccountCategory getCategory() {
+        return category;
+    }
+
+    public void setCategory(AccountCategory category) {
+        this.category = category;
+    }
+
+    public AccountReseller getReseller() {
+        return reseller;
+    }
+
+    public void setReseller(AccountReseller reseller) {
+        this.reseller = reseller;
     }
 }

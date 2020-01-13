@@ -60,6 +60,9 @@ public class AccountServiceAPIImpl extends AbstractService implements AccountSer
     private EntityManager entityManager;
 
     @Autowired
+    private AccountContext accountContext;
+
+    @Autowired
     public AccountServiceAPIImpl(AccountService service) {
         this.service = service;
     }
@@ -110,24 +113,21 @@ public class AccountServiceAPIImpl extends AbstractService implements AccountSer
 
     @Override
     public Long getCurrentAccountId() {
-        try {
-            Account account = null;
-            AccountContext accountContext = AccountContext.getCurrent();
-            if (accountContext != null) {
-                account = accountContext.getAccount();
-            } else {
-                log("No account context found");
-            }
-
-            if (account != null) {
-                return account.getId();
-            } else {
-                log("No current account found");
-            }
-        } catch (Exception e) {
-            log("Error getting current account id, returning null", e);
+        AccountDTO accountDTO = getCurrentAccount();
+        if (accountDTO != null) {
+            return accountDTO.getId();
         }
         return null;
+    }
+
+    @Override
+    public AccountDTO getCurrentAccount() {
+        try {
+            return accountContext.toDTO();
+        } catch (Exception e) {
+            log("Error loading current account", e);
+            return null;
+        }
     }
 
     @Override

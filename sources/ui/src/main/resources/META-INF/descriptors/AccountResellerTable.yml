@@ -1,0 +1,11 @@
+view: table
+beanClass: tools.dynamia.modules.saas.domain.AccountReseller
+autofields: false
+
+fields:
+  name:
+  identification:
+  idType:
+    label: ID Type
+  mainAccount:
+  enabled:

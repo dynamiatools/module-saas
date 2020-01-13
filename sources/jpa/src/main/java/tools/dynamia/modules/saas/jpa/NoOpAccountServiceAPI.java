@@ -79,6 +79,11 @@ public class NoOpAccountServiceAPI extends CrudServiceListenerAdapter<AccountAwa
     }
 
     @Override
+    public AccountDTO getCurrentAccount() {
+        return CURRENT_ACCOUNT;
+    }
+
+    @Override
     public void updateAccountUsers(Long accountId, long users, long activedUsers) {
 
     }

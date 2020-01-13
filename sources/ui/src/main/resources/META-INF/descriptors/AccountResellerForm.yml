@@ -1,0 +1,18 @@
+view: form
+beanClass: tools.dynamia.modules.saas.domain.AccountReseller
+autofields: false
+
+fields:
+  name:
+  identification:
+  idType:
+    label: ID Type
+  mainAccount:
+
+  contactInfo:
+  externalId:
+  enabled:
+
+
+layout:
+  columns: 4
