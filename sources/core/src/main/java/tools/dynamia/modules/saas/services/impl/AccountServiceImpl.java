@@ -283,8 +283,13 @@ public class AccountServiceImpl implements AccountService, ApplicationListener<C
 
         if (account.getStatus() == AccountStatus.ACTIVE && account.getType().getPrice().longValue() > 0 && payDay == DateTimeUtils.getCurrentDay() && account.getBalance().longValue() >= 0) {
 
+            int days = 20;
+            if (account.getType().getPeriodicity() == AccountPeriodicity.YEARLY) {
+                days = 359;
+            }
 
-            if (account.getLastChargeDate() == null || DateTimeUtils.daysBetween(account.getLastChargeDate(), new Date()) > 15) {
+
+            if (account.getLastChargeDate() == null || DateTimeUtils.daysBetween(account.getLastChargeDate(), new Date()) > days) {
                 Date chargeDate = DateTimeUtils.createDate(account.getPaymentDay());
                 AccountCharge charge = new AccountCharge(account);
                 charge.setCreationDate(chargeDate);

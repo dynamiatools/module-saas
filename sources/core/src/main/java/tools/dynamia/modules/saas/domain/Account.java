@@ -157,6 +157,9 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
     @OneToOne
     private AccountReseller reseller;
 
+    private long openTicketsCount;
+    private long closedTicketsCount;
+
     public Account() {
         try {
             Locale current = Locale.getDefault();
@@ -463,7 +466,7 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
 
     @Override
     public String toString() {
-        return String.format("%s (%s)", getName(), getEmail());
+        return getName();
     }
 
     @Override
@@ -700,5 +703,21 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
 
     public void setReseller(AccountReseller reseller) {
         this.reseller = reseller;
+    }
+
+    public long getOpenTicketsCount() {
+        return openTicketsCount;
+    }
+
+    public void setOpenTicketsCount(long openTicketsCount) {
+        this.openTicketsCount = openTicketsCount;
+    }
+
+    public long getClosedTicketsCount() {
+        return closedTicketsCount;
+    }
+
+    public void setClosedTicketsCount(long closedTicketCount) {
+        this.closedTicketsCount = closedTicketCount;
     }
 }
