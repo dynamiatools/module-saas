@@ -9,6 +9,7 @@ import tools.dynamia.modules.saas.domain.Account;
 import tools.dynamia.modules.saas.domain.AccountPayment;
 import tools.dynamia.ui.MessageType;
 import tools.dynamia.ui.UIMessages;
+import tools.dynamia.web.util.HttpUtils;
 import tools.dynamia.zk.util.ZKUtil;
 import tools.dynamia.zk.viewers.ui.Viewer;
 
@@ -34,8 +35,10 @@ public class NewAccountPaymentAction extends AbstractCrudAction {
             AccountPayment payment = new AccountPayment();
             payment.setAccount(account);
             Viewer viewer = new Viewer("form", AccountPayment.class, payment);
-            viewer.setVflex("1");
-            viewer.setContentVflex("0");
+            if (HttpUtils.isSmartphone()) {
+                viewer.setVflex("1");
+                viewer.setContentVflex("0");
+            }
             viewer.addAction(new FastAction("Create Payment", e -> {
                 crudService().save(payment);
                 UIMessages.showMessage("Payment created successfully");
