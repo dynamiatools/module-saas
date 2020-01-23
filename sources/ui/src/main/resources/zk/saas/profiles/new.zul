@@ -1,59 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" root="./per" ?>
 <?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver" ?>
 
+<zk>
+    <window id="per" apply="${accountProfile}" hflex="1" vflex="1">
 
-<window xmlns="http://www.zkoss.org/2005/zul" id="per" apply="${accountProfile}" hflex="1" vflex="1">
+        <borderlayout>
+            <north>
+                <div>
+                    <grid>
+                        <columns>
+                            <column width="90px"/>
+                            <column/>
+                            <column width="90px"/>
+                            <column/>
+                        </columns>
+                        <rows>
+                            <row>
+                                <label value="Nombre"/>
+                                <textbox id="name" hflex="1"/>
+                                <label value="Descripcion"/>
+                                <textbox id="description" hflex="1"/>
+                            </row>
+                        </rows>
+                    </grid>
+                </div>
+            </north>
+            <west width="300px" splittable="true" title="Modulos">
+                <listbox id="modules" vflex="1" hflex="1"/>
 
-	<borderlayout>
-		<north>
-			<div>
-				<grid>
-					<columns>
-						<column width="90px" />
-						<column />
-					</columns>
-					<rows>
-						<row>
-							<label value="Nombre" />
-							<textbox value="@{per$composer.entity.name}"  hflex="1"  />
-						</row>
-						<row>
-							<label value="Descripcion" />
-							<textbox value="@{per$composer.entity.description}" hflex="1" />
-						</row>
-					</rows>
-				</grid>
-			</div>
-		</north>
-		<west width="300px" splittable="true"   title="Modulos">
-			<listbox id="modules" vflex="true" hflex="true" />
+            </west>
+            <center title="Modulos Asignados">
+                <listbox id="restrictions" vflex="true" width="100%" emptyMessage="No modules added">
+                    <listhead>
+                        <listheader label="Nombre"/>
+                        <listheader label="Valor"/>
+                        <listheader label="Tipo" width="200px"/>
+                    </listhead>
+                    <template name="model">
+                        <listitem>
+                            <listcell label="${each.name}"/>
+                            <listcell label="${each.value}"/>
+                            <listcell label="${each.type}"/>
+                        </listitem>
+                    </template>
+                </listbox>
+            </center>
+            <south>
+                <div style="margin-top: 4px">
+                    <hlayout style="float:left">
+                        <a id="add" label="Asignar Permiso" sclass="btn btn-primary" iconSclass="fa fa-arrow-right"/>
+                        <a id="remove" label=" Remover Permiso" sclass="btn btn-danger" iconSclass="fa fa-times"/>
+                    </hlayout>
+                    <a style="float:right" id="save" label="Save" sclass="btn btn-success" iconSclass="fa fa-check"/>
+                </div>
+            </south>
 
-		</west>
-		<center title="Modulos Asignados">
-			<listbox id="permisos" vflex="true" width="100%"  model="@{per$composer.entity.restrictions}">
-				<listhead>
-					<listheader label="Tipo" width="200px" />
-					<listheader label="Nombre" />
-					<listheader label="Valor" />
-				</listhead>
-				<listitem self="@{each='p'}" value="@{p}">
-					<listcell label="@{p.type}" />
-					<listcell label="@{p.name}" />
-					<listcell label="@{p.value}" />
-				</listitem>
-			</listbox>
-		</center>
-		<south>
-			<div style="margin-top: 4px">
-				<hlayout style="float:left">
-					<a id="asignar" label=" Asignar Permiso" onClick="per$composer.addAccessRestriction()" sclass="btn btn-primary"/>
-					<a id="remover" label=" Remover Permiso" onClick="per$composer.removeAccessRestriction()" sclass="btn btn-danger"/>
-				</hlayout>
-				<a style="float:right" id="save" label="Save" sclass="btn btn-success" />
-			</div>
-		</south>
+        </borderlayout>
 
-	</borderlayout>
-
-</window>
+    </window>
+</zk>
