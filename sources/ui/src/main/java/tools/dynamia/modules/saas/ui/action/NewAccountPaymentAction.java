@@ -3,6 +3,7 @@ package tools.dynamia.modules.saas.ui.action;
 import tools.dynamia.actions.ActionGroup;
 import tools.dynamia.actions.FastAction;
 import tools.dynamia.actions.InstallAction;
+import tools.dynamia.actions.PrimaryAction;
 import tools.dynamia.crud.AbstractCrudAction;
 import tools.dynamia.crud.CrudActionEvent;
 import tools.dynamia.modules.saas.domain.Account;
@@ -14,6 +15,7 @@ import tools.dynamia.zk.util.ZKUtil;
 import tools.dynamia.zk.viewers.ui.Viewer;
 
 @InstallAction
+@PrimaryAction
 public class NewAccountPaymentAction extends AbstractCrudAction {
 
     public NewAccountPaymentAction() {
@@ -21,10 +23,10 @@ public class NewAccountPaymentAction extends AbstractCrudAction {
         setApplicableClass(Account.class);
         setImage("fa-dollar");
         setColor("white");
-        setBackground("#00b19d");
+        setBackground(".green");
         setMenuSupported(true);
         setAttribute("showLabel", true);
-        setGroup(ActionGroup.get("PAY"));
+        setGroup(ActionGroup.get("CRUD"));
     }
 
     @Override
