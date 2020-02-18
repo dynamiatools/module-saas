@@ -58,22 +58,23 @@ public class AccountContext {
     public Account getAccount() {
         Account account = null;
 
-
-        if (HttpUtils.isInWebScope()) {
+        try {
             account = AccountSessionHolder.get().getCurrent();
             if (account != null) {
                 return account;
             }
+        } catch (Exception e) {
+            //no session holder
         }
 
-        if (account == null) {
-            for (AccountResolver resolver : resolvers) {
-                account = resolver.resolve();
-                if (account != null) {
-                    break;
-                }
+
+        for (AccountResolver resolver : resolvers) {
+            account = resolver.resolve();
+            if (account != null) {
+                break;
             }
         }
+
 
         if (account != null && HttpUtils.isInWebScope()) {
             AccountSessionHolder.get().setCurrent(account);

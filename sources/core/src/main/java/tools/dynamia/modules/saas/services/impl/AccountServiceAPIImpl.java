@@ -32,6 +32,7 @@ import tools.dynamia.domain.query.QueryParameters;
 import tools.dynamia.domain.services.AbstractService;
 import tools.dynamia.integration.sterotypes.Service;
 import tools.dynamia.modules.saas.AccountContext;
+import tools.dynamia.modules.saas.AccountSessionHolder;
 import tools.dynamia.modules.saas.api.AccountServiceAPI;
 import tools.dynamia.modules.saas.api.dto.AccountDTO;
 import tools.dynamia.modules.saas.api.dto.AccountLogDTO;
@@ -113,11 +114,24 @@ public class AccountServiceAPIImpl extends AbstractService implements AccountSer
 
     @Override
     public Long getCurrentAccountId() {
-        AccountDTO accountDTO = getCurrentAccount();
-        if (accountDTO != null) {
-            return accountDTO.getId();
+        Long id = null;
+
+        try {
+            id = AccountSessionHolder.get().getCurrent().getId();
+        } catch (Exception e) {
+            //ignore
         }
-        return null;
+
+
+        try {
+            if (id == null) {
+                id = accountContext.getAccount().getId();
+            }
+        } catch (Exception e) {
+            id = null;
+        }
+
+        return id;
     }
 
     @Override
