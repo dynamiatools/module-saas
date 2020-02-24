@@ -24,6 +24,7 @@ package tools.dynamia.modules.saas.ui;
  */
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -33,27 +34,47 @@ import tools.dynamia.modules.saas.domain.Account;
 import tools.dynamia.modules.saas.domain.AccountProfileRestriction;
 import tools.dynamia.navigation.Module;
 import tools.dynamia.navigation.NavigationElement;
+import tools.dynamia.navigation.Page;
+import tools.dynamia.navigation.PageGroup;
 
 /**
  * @author Mario Serrano Leones
  */
 @Component
-@Scope("session")
 public class AccountNavigationRestriction implements tools.dynamia.navigation.NavigationRestriction, Serializable {
 
+    /**
+     * Check if navigation element is a/from module with access permission
+     *
+     * @param element
+     * @return
+     */
     @Override
     public Boolean allowAccess(NavigationElement element) {
+
+        Module module = null;
+
         if (element instanceof Module) {
+            module = (Module) element;
+        } else if (element instanceof PageGroup) {
+            module = ((PageGroup) element).getParentModule();
+        } else if (element instanceof Page) {
+            module = ((Page) element).getPageGroup().getParentModule();
+        }
+
+        if (module != null) {
             Account account = AccountContext.getCurrent().getAccount();
             if (account != null && account.getProfile() != null) {
-                for (AccountProfileRestriction permiso : account.getProfile().getRestrictions()) {
-                    if (permiso.getValue().equals(element.getId())) {
-                        return true;
-                    }
+                String moduleId = module.getId();
+                boolean allowed = account.getProfile().getRestrictions().stream().anyMatch(r -> Objects.equals(r.getValue(), moduleId));
+                if (element instanceof Module) {
+                    return allowed;
+                } else if (!allowed) {
+                    return false;
                 }
-                return false;
             }
         }
+
         return null;
 
     }
