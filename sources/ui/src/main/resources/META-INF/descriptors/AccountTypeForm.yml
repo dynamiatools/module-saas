@@ -28,6 +28,7 @@ fields:
 
   active:
   allowAdditionalUsers:
+  paymentRequired:
   publicType:
     label: Public
   printingSupport:
@@ -36,7 +37,7 @@ fields:
 
 groups:
   configuration:
-    fields: [active,allowAdditionalUsers,publicType,printingSupport]
+    fields: [active,paymentRequired,allowAdditionalUsers,publicType,printingSupport]
 
 layout:
   columns: 4

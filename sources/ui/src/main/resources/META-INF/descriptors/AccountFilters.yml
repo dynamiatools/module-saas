@@ -10,6 +10,14 @@ fields:
   type:
   email:
   adminUsername:
+  status:
+  profile:
+  type.paymentRequired:
+    label: Payment Required
+  creationDate:
+  category:
+  type.periodicity:
+    label: Periodicity
   locale:
     component: localebox
   timeZone:
@@ -17,8 +25,7 @@ fields:
 
   skin:
     component: skincombobox
-  status:
-  profile:
+
   paymentDay:
   paymentValue:
   balance:

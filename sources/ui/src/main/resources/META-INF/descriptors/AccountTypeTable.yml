@@ -22,6 +22,8 @@ fields:
       converter: converters.Currency
   maxUsers:
   active:
+  paymentRequired:
+    label: Pay
   allowAdditionalUsers:
     label: Add User
   allowedOverdueDays:

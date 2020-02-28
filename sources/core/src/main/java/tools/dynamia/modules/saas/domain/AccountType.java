@@ -67,6 +67,7 @@ public class AccountType extends SimpleEntity implements Transferable<AccountTyp
     private boolean printingSupport;
     private int allowedOverdueDays = 5;
     private String reference;
+    private boolean paymentRequired;
 
 
     public String getName() {
@@ -206,5 +207,13 @@ public class AccountType extends SimpleEntity implements Transferable<AccountTyp
 
     public void setPublicName(String publicName) {
         this.publicName = publicName;
+    }
+
+    public boolean isPaymentRequired() {
+        return paymentRequired;
+    }
+
+    public void setPaymentRequired(boolean paymentRequired) {
+        this.paymentRequired = paymentRequired;
     }
 }
