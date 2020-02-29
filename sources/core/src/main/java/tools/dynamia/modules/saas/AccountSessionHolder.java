@@ -24,10 +24,12 @@ package tools.dynamia.modules.saas;
  */
 
 import org.springframework.context.annotation.Scope;
-import tools.dynamia.commons.LocaleProvider;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
 import tools.dynamia.domain.util.DomainUtils;
 import tools.dynamia.integration.Containers;
 import tools.dynamia.integration.sterotypes.Component;
+import tools.dynamia.modules.saas.api.AccountException;
 import tools.dynamia.modules.saas.api.dto.AccountDTO;
 import tools.dynamia.modules.saas.domain.Account;
 
@@ -38,14 +40,27 @@ import java.util.Locale;
  */
 @Component("accountSessionHolder")
 @Scope("session")
-public class AccountSessionHolder implements LocaleProvider {
+public class AccountSessionHolder {
 
     private Locale accountLocale;
     private Account current;
     private AccountDTO currentDTO;
 
     public static AccountSessionHolder get() {
-        return Containers.get().findObject(AccountSessionHolder.class);
+        AccountSessionHolder accountSessionHolder = null;
+        try {
+            accountSessionHolder = Containers.get().findObject(AccountSessionHolder.class);
+        } catch (Exception e) {
+            RequestAttributes attributes = RequestContextHolder.getRequestAttributes();
+            if (attributes != null) {
+                accountSessionHolder = (AccountSessionHolder) attributes.getAttribute("accountSessionHolder", RequestAttributes.SCOPE_SESSION);
+            }
+        }
+
+        if (accountSessionHolder == null) {
+            throw new AccountException("Cannot found instance of " + AccountSessionHolder.class + " in current thread.");
+        }
+        return accountSessionHolder;
     }
 
     public Account getCurrent() {
@@ -61,31 +76,26 @@ public class AccountSessionHolder implements LocaleProvider {
                     current.getAdditionalServices().size();
                     current.getStats().size();
                     current.getType().getRestrictions().size();
-                    accountLocale = current.getLocale() != null ? Locale.forLanguageTag(current.getLocale()) : Locale.getDefault();
+                    accountLocale = current.getLocale() != null ? Locale.forLanguageTag(current.getLocale()) : null;
 
                     currentDTO = null;
                     toDTO();
                 });
             } catch (Exception e) {
-                accountLocale = Locale.getDefault();
+                //ignore
             }
         }
     }
 
-    @Override
-    public int getPriority() {
-        return 10;
-    }
-
-    @Override
-    public Locale getDefaultLocale() {
-        return accountLocale;
-    }
 
     public AccountDTO toDTO() {
         if (currentDTO == null && current != null) {
             currentDTO = current.toDTO();
         }
         return currentDTO;
+    }
+
+    public Locale getAccountLocale() {
+        return accountLocale;
     }
 }
