@@ -313,6 +313,10 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
     }
 
     public BigDecimal getPaymentValue() {
+        if ((paymentValue == null || paymentValue.longValue() == 0) && type != null) {
+            paymentValue = type.getPrice();
+        }
+
         return paymentValue;
     }
 

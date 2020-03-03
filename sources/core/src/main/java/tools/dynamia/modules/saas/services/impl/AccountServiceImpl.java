@@ -242,7 +242,8 @@ public class AccountServiceImpl implements AccountService, ApplicationListener<C
     @Override
     public List<Account> findPayableAccounts() {
         return crudService.find(Account.class, QueryParameters.with("status", QueryConditions.in(AccountStatus.ACTIVE, AccountStatus.SUSPENDED))
-                .add("type.price", QueryConditions.gt(BigDecimal.ZERO)));
+                .add("type.price", QueryConditions.gt(BigDecimal.ZERO))
+                .add("type.paymentRequired", true));
     }
 
     @Override
