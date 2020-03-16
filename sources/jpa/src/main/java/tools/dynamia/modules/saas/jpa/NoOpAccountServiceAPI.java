@@ -55,6 +55,8 @@ public class NoOpAccountServiceAPI extends CrudServiceListenerAdapter<AccountAwa
         CURRENT_ACCOUNT.setInstanceUuid("UUID");
         AccountTypeDTO noOpType = new AccountTypeDTO();
         noOpType.setName("NoOp");
+        noOpType.setAllowAdditionalUsers(true);
+        noOpType.setMaxUsers(1000);
         CURRENT_ACCOUNT.setType(noOpType);
     }
 
