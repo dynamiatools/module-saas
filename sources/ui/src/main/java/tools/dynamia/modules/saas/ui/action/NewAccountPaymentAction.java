@@ -4,6 +4,7 @@ import tools.dynamia.actions.ActionGroup;
 import tools.dynamia.actions.FastAction;
 import tools.dynamia.actions.InstallAction;
 import tools.dynamia.actions.PrimaryAction;
+import tools.dynamia.commons.ClassMessages;
 import tools.dynamia.crud.AbstractCrudAction;
 import tools.dynamia.crud.CrudActionEvent;
 import tools.dynamia.modules.saas.domain.Account;
@@ -18,8 +19,9 @@ import tools.dynamia.zk.viewers.ui.Viewer;
 @PrimaryAction
 public class NewAccountPaymentAction extends AbstractCrudAction {
 
+
     public NewAccountPaymentAction() {
-        setName("New Payment");
+        setName(msg("newPayment"));
         setApplicableClass(Account.class);
         setImage("fa-dollar");
         setColor("white");
@@ -41,15 +43,17 @@ public class NewAccountPaymentAction extends AbstractCrudAction {
                 viewer.setVflex("1");
                 viewer.setContentVflex("0");
             }
-            viewer.addAction(new FastAction("Create Payment", e -> {
-                crudService().save(payment);
-                UIMessages.showMessage("Payment created successfully");
-                viewer.getParent().detach();
-                evt.getController().doQuery();
+            viewer.addAction(new FastAction(msg("createPayment"), e -> {
+                UIMessages.showQuestion(msg("confirmNewPayment"), () -> {
+                    crudService().save(payment);
+                    UIMessages.showMessage(msg("paymentCreated"));
+                    viewer.getParent().detach();
+                    evt.getController().doQuery();
+                });
             }));
             ZKUtil.showDialog(account.toString(), viewer);
         } else {
-            UIMessages.showMessage("Selecct account", MessageType.WARNING);
+            UIMessages.showMessage(msg("selectAccount"), MessageType.WARNING);
         }
     }
 }
