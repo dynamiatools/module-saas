@@ -117,7 +117,9 @@ public class AccountServiceAPIImpl extends AbstractService implements AccountSer
         Long id = null;
 
         try {
-            id = AccountSessionHolder.get().getCurrent().getId();
+            if(HttpUtils.isInWebScope() && AccountSessionHolder.get().getCurrent()!=null) {
+                id = AccountSessionHolder.get().getCurrent().getId();
+            }
         } catch (Exception e) {
             //ignore
         }

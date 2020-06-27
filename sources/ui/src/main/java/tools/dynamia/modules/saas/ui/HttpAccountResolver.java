@@ -24,6 +24,7 @@ package tools.dynamia.modules.saas.ui;
  */
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -47,17 +48,23 @@ public class HttpAccountResolver implements AccountResolver {
 
     @Override
     public Account resolve() {
+
         try {
-
+            Account account = null;
             HttpServletRequest request = getHttpRequest();
+            if (request != null) {
+                HttpSession session = request.getSession(true);
 
-            Account account = (Account) request.getSession().getAttribute(ATTRIBUTE_SAAS_ACCOUNT);
+                if(session!=null) {
+                    account = (Account) session.getAttribute(ATTRIBUTE_SAAS_ACCOUNT);
+                }
 
-            if (account == null) {
-                account = service.getAccount(request);
+                if (account == null) {
+                    account = service.getAccount(request);
 
-                if (account != null) {
-                    request.getSession().setAttribute(ATTRIBUTE_SAAS_ACCOUNT, account);
+                    if (account != null) {
+                        session.setAttribute(ATTRIBUTE_SAAS_ACCOUNT, account);
+                    }
                 }
             }
 

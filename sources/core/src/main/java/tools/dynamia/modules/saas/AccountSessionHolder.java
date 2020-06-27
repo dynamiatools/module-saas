@@ -96,6 +96,9 @@ public class AccountSessionHolder {
     }
 
     public Locale getAccountLocale() {
+        if (accountLocale == null) {
+            accountLocale = Locale.getDefault();
+        }
         return accountLocale;
     }
 }
