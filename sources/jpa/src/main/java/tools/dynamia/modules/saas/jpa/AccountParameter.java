@@ -39,9 +39,6 @@ import javax.persistence.UniqueConstraint;
  * @author Mario Serrano Leones
  */
 @Entity
-@Table(uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"accountId", "param_name"})
-})
 public class AccountParameter extends JpaParameter implements AccountAware {
 
 
