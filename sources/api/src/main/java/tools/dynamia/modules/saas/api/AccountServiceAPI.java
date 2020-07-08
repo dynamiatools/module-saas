@@ -25,6 +25,7 @@ package tools.dynamia.modules.saas.api;
 import tools.dynamia.modules.saas.api.dto.AccountDTO;
 import tools.dynamia.modules.saas.api.dto.AccountLogDTO;
 import tools.dynamia.modules.saas.api.dto.AccountPaymentDTO;
+import tools.dynamia.modules.saas.api.dto.AccountStatusDTO;
 import tools.dynamia.modules.saas.api.enums.AccountStatus;
 
 import java.util.Date;
@@ -66,5 +67,11 @@ public interface AccountServiceAPI {
 
     void log(Long accountId, String message);
 
-    ;
+    default AccountStatusDTO getAccountStatusDetails(Long accountId) {
+        AccountDTO dto = getAccount(accountId);
+        return new AccountStatusDTO(dto.getId(), dto.getName(), dto.getStatus(), dto.getStatusDate(),
+                dto.getStatusDescription(), dto.getGlobalMessage(), dto.isShowGlobalMessage(), dto.getGlobalMessageType());
+    }
+
+    Long getAccountIdByDomain(String domain);
 }

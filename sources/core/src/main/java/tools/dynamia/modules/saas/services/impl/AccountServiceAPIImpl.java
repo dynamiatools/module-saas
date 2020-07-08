@@ -25,11 +25,13 @@ package tools.dynamia.modules.saas.services.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import tools.dynamia.commons.SimpleCache;
 import tools.dynamia.domain.query.ApplicationParameters;
 import tools.dynamia.domain.query.QueryCondition;
 import tools.dynamia.domain.query.QueryConditions;
 import tools.dynamia.domain.query.QueryParameters;
 import tools.dynamia.domain.services.AbstractService;
+import tools.dynamia.domain.util.QueryBuilder;
 import tools.dynamia.integration.sterotypes.Service;
 import tools.dynamia.modules.saas.AccountContext;
 import tools.dynamia.modules.saas.AccountSessionHolder;
@@ -37,6 +39,7 @@ import tools.dynamia.modules.saas.api.AccountServiceAPI;
 import tools.dynamia.modules.saas.api.dto.AccountDTO;
 import tools.dynamia.modules.saas.api.dto.AccountLogDTO;
 import tools.dynamia.modules.saas.api.dto.AccountPaymentDTO;
+import tools.dynamia.modules.saas.api.dto.AccountStatusDTO;
 import tools.dynamia.modules.saas.api.enums.AccountStatus;
 import tools.dynamia.modules.saas.domain.Account;
 import tools.dynamia.modules.saas.domain.AccountFeature;
@@ -63,16 +66,20 @@ public class AccountServiceAPIImpl extends AbstractService implements AccountSer
     @Autowired
     private AccountContext accountContext;
 
+    private final SimpleCache<Long, AccountDTO> accountCache = new SimpleCache<>();
+    private final SimpleCache<String, Long> domainCache = new SimpleCache<>();
+
     @Autowired
     public AccountServiceAPIImpl(AccountService service) {
         this.service = service;
     }
 
+
     @Override
     public AccountStatus getAccountStatus(Long accountId) {
         try {
-            Account account = crudService().find(Account.class, accountId);
-            return account.getStatus();
+            AccountStatusDTO dto = getAccountStatusDetails(accountId);
+            return dto.getStatus();
         } catch (Exception e) {
             log("Error getting account status, returning null", e);
             return null;
@@ -82,19 +89,24 @@ public class AccountServiceAPIImpl extends AbstractService implements AccountSer
     @Override
     @Transactional
     public AccountDTO getAccount(Long accountId) {
+        AccountDTO dto = null;
+
         try {
-            Account account = crudService().findSingle(Account.class,
-                    QueryParameters.with("id", accountId).add("status", QueryConditions.isNotNull()));
-            if (account != null) {
-                return account.toDTO();
-            } else {
-                log("No account found with id " + accountId);
-                return null;
+            dto = accountCache.get(accountId);
+            if (dto == null) {
+                Account account = crudService().findSingle(Account.class,
+                        QueryParameters.with("id", accountId).add("status", QueryConditions.isNotNull()));
+                if (account != null) {
+                    dto = account.toDTO();
+                    accountCache.add(accountId, dto);
+                } else {
+                    log("No account found with id " + accountId);
+                }
             }
         } catch (Exception e) {
             log("Error getting account info, returning null", e);
-            return null;
         }
+        return dto;
     }
 
     @Override
@@ -117,7 +129,7 @@ public class AccountServiceAPIImpl extends AbstractService implements AccountSer
         Long id = null;
 
         try {
-            if(HttpUtils.isInWebScope() && AccountSessionHolder.get().getCurrent()!=null) {
+            if (HttpUtils.isInWebScope() && AccountSessionHolder.get().getCurrent() != null) {
                 id = AccountSessionHolder.get().getCurrent().getId();
             }
         } catch (Exception e) {
@@ -224,5 +236,46 @@ public class AccountServiceAPIImpl extends AbstractService implements AccountSer
             log.setIp(HttpUtils.getClientIp());
             log.save();
         }
+    }
+
+    @Override
+    public AccountStatusDTO getAccountStatusDetails(Long accountId) {
+        List<AccountStatusDTO> result = crudService().executeQuery(QueryBuilder.select("id", "name", "status", "statusDate",
+                "statusDescription", "globalMessage", "showGlobalMessage", "globalMessageType")
+                .from(Account.class, "a").where("id", QueryConditions.eq(accountId))
+                .resultType(AccountStatusDTO.class));
+
+        return result.stream().findFirst().
+                orElse(new AccountStatusDTO(accountId, "unknow",
+                        AccountStatus.CANCELED, new Date(),
+                        null, null,
+                        false, null));
+    }
+
+    @Override
+    public Long getAccountIdByDomain(String domain) {
+        Long accountId = domainCache.get(domain);
+        if (accountId == null) {
+            Account account = service.getAccount(domain);
+            if (account != null) {
+                accountId = account.getId();
+            } else {
+                account = service.getAccountByCustomDomain(domain);
+                if (account != null) {
+                    accountId = account.getId();
+                }
+            }
+            domainCache.add(domain, accountId);
+        }
+
+        return accountId;
+    }
+
+    public SimpleCache<Long, AccountDTO> getAccountCache() {
+        return accountCache;
+    }
+
+    public SimpleCache<String, Long> getDomainCache() {
+        return domainCache;
     }
 }

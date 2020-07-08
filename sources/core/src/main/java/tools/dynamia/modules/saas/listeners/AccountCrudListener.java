@@ -1,4 +1,3 @@
-
 package tools.dynamia.modules.saas.listeners;
 
 /*-
@@ -24,14 +23,16 @@ package tools.dynamia.modules.saas.listeners;
  */
 
 import org.springframework.beans.factory.annotation.Autowired;
-
 import tools.dynamia.domain.query.QueryConditions;
 import tools.dynamia.domain.query.QueryParameters;
 import tools.dynamia.domain.util.CrudServiceListenerAdapter;
+import tools.dynamia.integration.Containers;
 import tools.dynamia.integration.sterotypes.Listener;
+import tools.dynamia.modules.saas.api.AccountServiceAPI;
 import tools.dynamia.modules.saas.api.enums.AccountStatus;
 import tools.dynamia.modules.saas.domain.Account;
 import tools.dynamia.modules.saas.services.AccountService;
+import tools.dynamia.modules.saas.services.impl.AccountServiceAPIImpl;
 
 /**
  * @author Mario Serrano Leones
@@ -45,6 +46,16 @@ public class AccountCrudListener extends CrudServiceListenerAdapter<Account> {
     @Override
     public void afterCreate(Account entity) {
         service.initAccount(entity);
+    }
+
+    @Override
+    public void afterUpdate(Account entity) {
+        AccountServiceAPI accountServiceAPI = Containers.get().findObject(AccountServiceAPI.class);
+        if (accountServiceAPI instanceof AccountServiceAPIImpl) {
+            ((AccountServiceAPIImpl) accountServiceAPI).getAccountCache().remove(entity.getId());
+            ((AccountServiceAPIImpl) accountServiceAPI).getDomainCache().remove(entity.getSubdomain());
+            ((AccountServiceAPIImpl) accountServiceAPI).getDomainCache().remove(entity.getCustomDomain());
+        }
     }
 
     @Override

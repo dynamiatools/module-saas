@@ -139,4 +139,9 @@ public class NoOpAccountServiceAPI extends CrudServiceListenerAdapter<AccountAwa
     public void log(Long accountId, String message) {
         System.out.println("[LOG ACCOUNT " + accountId + "]  " + message);
     }
+
+    @Override
+    public Long getAccountIdByDomain(String domain) {
+        return ACCOUNT_ID;
+    }
 }

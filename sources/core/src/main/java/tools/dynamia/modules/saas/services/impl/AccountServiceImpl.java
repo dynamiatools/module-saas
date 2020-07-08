@@ -47,6 +47,7 @@ import tools.dynamia.modules.saas.api.enums.AccountPeriodicity;
 import tools.dynamia.modules.saas.api.enums.AccountStatus;
 import tools.dynamia.modules.saas.domain.*;
 import tools.dynamia.modules.saas.services.AccountService;
+import tools.dynamia.web.util.HttpUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
@@ -95,9 +96,7 @@ public class AccountServiceImpl implements AccountService, ApplicationListener<C
     public Account getAccount(HttpServletRequest request) {
         String host = request.getServerName();
         String subdomain = host.substring(0, host.indexOf("."));
-        if (request.getParameter("a") != null) {
-            subdomain = request.getParameter("a");
-        }
+
         Account account = getAccount(subdomain);
         if (account == null) {
             account = getAccountByCustomDomain(host);

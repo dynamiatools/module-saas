@@ -342,4 +342,9 @@ public class RemoteAccountServiceAPI extends CrudServiceListenerAdapter<AccountA
     public void log(Long accountId, String message) {
         System.out.println("[LOG ACCOUNT " + accountId + "]  " + message);
     }
+
+    @Override
+    public Long getAccountIdByDomain(String domain) {
+        return getCurrentAccountId();
+    }
 }
