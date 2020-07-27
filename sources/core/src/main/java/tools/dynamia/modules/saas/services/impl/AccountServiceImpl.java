@@ -144,6 +144,7 @@ public class AccountServiceImpl implements AccountService, ApplicationListener<C
         account.setStatus(AccountStatus.ACTIVE);
         account.setStatusDate(new Date());
         account.setIdentification(System.currentTimeMillis() + "");
+        account.setAutoInit(false);
         account = crudService.save(account);
 
         logger.info("Default Account created Succcesfull: " + account);
@@ -178,7 +179,7 @@ public class AccountServiceImpl implements AccountService, ApplicationListener<C
 
     @Override
     public void initAccount(Account account) {
-        if (!account.isRemote()) {
+        if (!account.isRemote() && account.isAutoInit()) {
             AccountDTO accountDTO = account.toDTO();
             Collection<AccountInitializer> initializers = Containers.get().findObjects(AccountInitializer.class);
             initializers.stream().sorted(Comparator.comparingInt(AccountInitializer::getPriority)).forEach(initializer -> {

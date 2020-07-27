@@ -159,6 +159,7 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
 
     private long openTicketsCount;
     private long closedTicketsCount;
+    private boolean autoInit = true;
 
     public Account() {
         try {
@@ -723,5 +724,13 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
 
     public void setClosedTicketsCount(long closedTicketCount) {
         this.closedTicketsCount = closedTicketCount;
+    }
+
+    public boolean isAutoInit() {
+        return autoInit;
+    }
+
+    public void setAutoInit(boolean autoInit) {
+        this.autoInit = autoInit;
     }
 }

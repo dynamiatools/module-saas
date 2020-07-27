@@ -50,7 +50,8 @@ fields:
   reseller:
   requiredInstanceUuid:
   remote:
-
+  autoInit:
+    label: Auto Init.
   globalMessage:
     label: Message
     params:
