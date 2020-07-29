@@ -265,7 +265,9 @@ public class AccountServiceAPIImpl extends AbstractService implements AccountSer
                     accountId = account.getId();
                 }
             }
-            domainCache.add(domain, accountId);
+            if (accountId != null) {
+                domainCache.add(domain, accountId);
+            }
         }
 
         return accountId;
