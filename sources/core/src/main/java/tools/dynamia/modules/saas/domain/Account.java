@@ -35,6 +35,7 @@ import tools.dynamia.modules.entityfile.domain.EntityFile;
 import tools.dynamia.modules.saas.AccountStatusCache;
 import tools.dynamia.modules.saas.api.dto.AccountDTO;
 import tools.dynamia.modules.saas.api.enums.AccountStatus;
+import tools.dynamia.web.util.HttpUtils;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
@@ -488,13 +489,22 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
         try {
             getFeatures().forEach(f -> dto.getFeatures().add(f.toDTO()));
         } catch (Exception e) {
-            e.printStackTrace();
+            var reloadF = DomainUtils.lookupCrudService().find(AccountFeature.class, "account", this);
+            reloadF.forEach(f -> dto.getFeatures().add(f.toDTO()));
         }
         dto.setStatus(getStatus());
         dto.setGlobalMessage(getGlobalMessage());
         dto.setShowGlobalMessage(isShowGlobalMessage());
         dto.setGlobalMessageType(getGlobalMessageType());
         dto.setPaymentValue(getPaymentValue());
+        try {
+            if (HttpUtils.isInWebScope()) {
+                dto.setUrl(HttpUtils.getServerPath().replace("admin.", subdomain + "."));
+            }
+        } catch (Exception e) {
+
+        }
+
         return dto;
     }
 

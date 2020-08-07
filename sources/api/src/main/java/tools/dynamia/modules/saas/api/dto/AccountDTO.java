@@ -71,7 +71,7 @@ public class AccountDTO implements Serializable {
     private String city;
     private String country;
     private String contact;
-    private String uuid = StringUtils.randomString();
+    private String uuid;
     private String instanceUuid;
     private Boolean requiredInstanceUuid = Boolean.FALSE;
     private boolean remote;
@@ -85,6 +85,7 @@ public class AccountDTO implements Serializable {
     private Date discountExpire;
     private List<AccountFeatureDTO> features = new ArrayList<>();
     private BigDecimal balance = BigDecimal.ZERO;
+    private String url;
 
 
     public Boolean getRequiredInstanceUuid() {
@@ -356,6 +357,9 @@ public class AccountDTO implements Serializable {
 
 
     public String getAdminUsername() {
+        if (adminUsername == null) {
+            adminUsername = "admin";
+        }
         return adminUsername;
     }
 
@@ -458,5 +462,13 @@ public class AccountDTO implements Serializable {
 
     public void setDiscountExpire(Date discountExpire) {
         this.discountExpire = discountExpire;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }
