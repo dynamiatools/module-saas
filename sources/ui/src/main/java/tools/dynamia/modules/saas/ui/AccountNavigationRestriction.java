@@ -29,9 +29,12 @@ import java.util.Objects;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import org.springframework.web.servlet.ModelAndView;
 import tools.dynamia.modules.saas.AccountContext;
 import tools.dynamia.modules.saas.domain.Account;
 import tools.dynamia.modules.saas.domain.AccountProfileRestriction;
+import tools.dynamia.modules.saas.domain.AccountTypeRestriction;
+import tools.dynamia.modules.saas.domain.enums.AccessControl;
 import tools.dynamia.navigation.Module;
 import tools.dynamia.navigation.NavigationElement;
 import tools.dynamia.navigation.Page;
@@ -52,31 +55,31 @@ public class AccountNavigationRestriction implements tools.dynamia.navigation.Na
     @Override
     public Boolean allowAccess(NavigationElement element) {
 
-        Module module = null;
+        Account account = AccountContext.getCurrent().getAccount();
+        if (account != null && account.getProfile() != null) {
 
-        if (element instanceof Module) {
-            module = (Module) element;
-        } else if (element instanceof PageGroup) {
-            module = ((PageGroup) element).getParentModule();
-        } else if (element instanceof Page) {
-            module = ((Page) element).getPageGroup().getParentModule();
-        }
+            var restrictions = account.getProfile().getRestrictions();
 
-        if (module != null) {
-            Account account = AccountContext.getCurrent().getAccount();
-            if (account != null && account.getProfile() != null) {
-                String moduleId = module.getId();
-                boolean allowed = account.getProfile().getRestrictions().stream().anyMatch(r -> Objects.equals(r.getValue(), moduleId));
-                if (element instanceof Module) {
-                    return allowed;
-                } else if (!allowed) {
-                    return false;
+            var rest = restrictions.stream().filter(r -> r.getValue().equalsIgnoreCase(element.getVirtualPath())).findFirst();
+
+            if (rest.isEmpty() && !(element instanceof Module)) {
+                return null;
+            }
+
+            if (rest.isPresent()) {
+                var accessControl = rest.get().getAccessControl();
+                switch (accessControl) {
+                    case ALLOWED:
+                        return true;
+                    case DENIED:
+                        return false;
+                    case DELEGATE:
+                        return null;
                 }
             }
         }
 
-        return null;
-
+        return false;
     }
 
     @Override

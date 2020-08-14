@@ -48,6 +48,10 @@ fields:
   instanceUuid:
   category:
   reseller:
+  maxUsers:
+    description: Override Account Type Config
+    params:
+      placeholder: Default
   requiredInstanceUuid:
   remote:
   autoInit:

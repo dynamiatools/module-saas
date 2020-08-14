@@ -27,7 +27,6 @@
             </north>
             <west width="300px" splittable="true" title="Modulos">
                 <listbox id="modules" vflex="1" hflex="1"/>
-
             </west>
             <center title="Modulos Asignados">
                 <listbox id="restrictions" vflex="true" width="100%" emptyMessage="No modules added">

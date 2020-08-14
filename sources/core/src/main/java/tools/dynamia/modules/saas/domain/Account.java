@@ -101,6 +101,7 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
     private AccountProfile profile;
     private long users;
     private long activedUsers;
+    private Integer maxUsers;
     @Min(value = 1, message = "Enter valid day")
     @Max(value = 31, message = "Enter valid day")
     private int paymentDay = 1;
@@ -497,6 +498,7 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
         dto.setShowGlobalMessage(isShowGlobalMessage());
         dto.setGlobalMessageType(getGlobalMessageType());
         dto.setPaymentValue(getPaymentValue());
+        dto.setMaxUsers(maxUsers);
         try {
             if (HttpUtils.isInWebScope()) {
                 dto.setUrl(HttpUtils.getServerPath().replace("admin.", subdomain + "."));
@@ -742,5 +744,13 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
 
     public void setAutoInit(boolean autoInit) {
         this.autoInit = autoInit;
+    }
+
+    public Integer getMaxUsers() {
+        return maxUsers;
+    }
+
+    public void setMaxUsers(Integer maxUsers) {
+        this.maxUsers = maxUsers;
     }
 }

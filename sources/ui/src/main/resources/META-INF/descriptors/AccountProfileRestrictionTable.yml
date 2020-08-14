@@ -4,6 +4,7 @@ autofields: false
 
 fields:
   name:
+  accessControl:
   type:
   value: 
 

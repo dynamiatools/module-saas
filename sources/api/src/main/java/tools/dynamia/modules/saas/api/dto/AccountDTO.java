@@ -23,7 +23,6 @@ package tools.dynamia.modules.saas.api.dto;
  * #L%
  */
 
-import tools.dynamia.commons.StringUtils;
 import tools.dynamia.modules.saas.api.enums.AccountStatus;
 
 import java.io.Serializable;
@@ -62,6 +61,7 @@ public class AccountDTO implements Serializable {
     private String profile;
     private long users;
     private long activedUsers;
+    private Integer maxUsers;
     private int paymentDay = 1;
     private BigDecimal paymentValue;
     private Date lastPaymentDate;
@@ -407,11 +407,11 @@ public class AccountDTO implements Serializable {
         }
     }
 
-    public void setMaxUsers(int maxUsers) {
-        type.setMaxUsers(maxUsers);
-    }
 
     public int getMaxUsers() {
+        if (maxUsers != null && maxUsers > 0) {
+            return maxUsers;
+        }
         return type.getMaxUsers();
     }
 
@@ -471,4 +471,10 @@ public class AccountDTO implements Serializable {
     public void setUrl(String url) {
         this.url = url;
     }
+
+    public void setMaxUsers(Integer maxUsers) {
+        this.maxUsers = maxUsers;
+    }
+
+
 }

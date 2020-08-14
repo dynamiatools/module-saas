@@ -37,7 +37,7 @@ import tools.dynamia.ui.UIMessages;
  *
  * @author Mario Serrano Leones
  */
-@InstallAction
+//@InstallAction
 public class EditProfileAction extends EditAction {
 
 	@Override

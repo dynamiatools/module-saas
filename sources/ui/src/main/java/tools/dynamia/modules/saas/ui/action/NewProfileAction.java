@@ -35,7 +35,7 @@ import tools.dynamia.modules.saas.ui.controllers.AccountProfileController;
  *
  * @author Mario Serrano Leones
  */
-@InstallAction
+//@InstallAction
 public class NewProfileAction extends NewAction {
 
 	@Override
