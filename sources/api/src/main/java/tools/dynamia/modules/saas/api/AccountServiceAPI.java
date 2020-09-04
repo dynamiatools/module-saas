@@ -74,4 +74,12 @@ public interface AccountServiceAPI {
     }
 
     Long getAccountIdByDomain(String domain);
+
+    default void clearCache() {
+        //do nothing
+    }
+
+    default void clearCache(Long accountId, String accountDomain) {
+        //do nothing
+    }
 }

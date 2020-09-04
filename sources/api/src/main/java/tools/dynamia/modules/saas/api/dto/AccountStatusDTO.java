@@ -46,6 +46,9 @@ public class AccountStatusDTO implements Serializable {
     }
 
     public String getStatusDescription() {
+        if (statusDescription == null) {
+            statusDescription = "";
+        }
         return statusDescription;
     }
 

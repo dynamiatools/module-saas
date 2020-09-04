@@ -51,11 +51,8 @@ public class AccountCrudListener extends CrudServiceListenerAdapter<Account> {
     @Override
     public void afterUpdate(Account entity) {
         AccountServiceAPI accountServiceAPI = Containers.get().findObject(AccountServiceAPI.class);
-        if (accountServiceAPI instanceof AccountServiceAPIImpl) {
-            ((AccountServiceAPIImpl) accountServiceAPI).getAccountCache().remove(entity.getId());
-            ((AccountServiceAPIImpl) accountServiceAPI).getDomainCache().remove(entity.getSubdomain());
-            ((AccountServiceAPIImpl) accountServiceAPI).getDomainCache().remove(entity.getCustomDomain());
-        }
+        accountServiceAPI.clearCache(entity.getId(), entity.getSubdomain());
+        accountServiceAPI.clearCache(entity.getId(), entity.getCustomDomain());
     }
 
     @Override

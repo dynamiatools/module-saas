@@ -273,11 +273,19 @@ public class AccountServiceAPIImpl extends AbstractService implements AccountSer
         return accountId;
     }
 
-    public SimpleCache<Long, AccountDTO> getAccountCache() {
-        return accountCache;
+    @Override
+    public void clearCache() {
+        domainCache.clear();
+        accountCache.clear();
     }
 
-    public SimpleCache<String, Long> getDomainCache() {
-        return domainCache;
+    @Override
+    public void clearCache(Long accountId, String accountDomain) {
+        if (accountId != null) {
+            accountCache.remove(accountId);
+        }
+        if (accountDomain != null) {
+            domainCache.remove(accountDomain);
+        }
     }
 }
