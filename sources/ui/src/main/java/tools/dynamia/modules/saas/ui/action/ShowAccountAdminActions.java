@@ -63,6 +63,7 @@ public class ShowAccountAdminActions extends AbstractCrudAction {
     public void actionPerformed(CrudActionEvent evt) {
         Account account = (Account) evt.getData();
         if (account != null) {
+            account = crudService().reload(account);
             AccountDTO info = account.toDTO();
             ActionEventBuilder evtBuilder = (source, params) -> new ActionEvent(info, this);
 
