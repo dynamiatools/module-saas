@@ -11,12 +11,12 @@ package tools.dynamia.modules.saas.listeners;
  * it under the terms of the GNU Lesser General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Lesser Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Lesser Public
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/lgpl-3.0.html>.
@@ -55,13 +55,10 @@ public class AccountAwareCrudServiceListener extends CrudServiceListenerAdapter<
     public void beforeQuery(QueryParameters params) {
         if (!params.containsKey(ACCOUNT_ID) || params.get(ACCOUNT_ID) == null || params.get(ACCOUNT_ID).equals(0L)) {
             Class paramsType = params.getType();
-            if (paramsType != null) {
-                Object obj = BeanUtils.newInstance(paramsType);
-                if (obj instanceof AccountAware) {
-                    Account account = AccountContext.getCurrent().getAccount();
-                    if (account != null) {
-                        params.add(ACCOUNT_ID, account.getId());
-                    }
+            if (params != null && BeanUtils.isAssignable(paramsType, AccountAware.class)) {
+                Account account = AccountContext.getCurrent().getAccount();
+                if (account != null) {
+                    params.add(ACCOUNT_ID, account.getId());
                 }
             }
         }
