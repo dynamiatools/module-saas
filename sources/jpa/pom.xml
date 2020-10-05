@@ -5,7 +5,7 @@
     <parent>
         <artifactId>tools.dynamia.modules.saas.parent</artifactId>
         <groupId>tools.dynamia.modules</groupId>
-        <version>2.4.0</version>
+        <version>2.4.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <name>DynamiaModules - SaaS JPA</name>
@@ -16,7 +16,7 @@
         <dependency>
             <groupId>tools.dynamia.modules</groupId>
             <artifactId>tools.dynamia.modules.saas.api</artifactId>
-            <version>2.4.0</version>
+            <version>2.4.1</version>
         </dependency>
         <dependency>
             <groupId>tools.dynamia</groupId>
