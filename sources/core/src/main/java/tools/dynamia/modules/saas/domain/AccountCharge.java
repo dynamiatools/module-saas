@@ -1,6 +1,6 @@
 package tools.dynamia.modules.saas.domain;
 
-import tools.dynamia.domain.BaseEntity;
+import tools.dynamia.domain.jpa.BaseEntity;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;

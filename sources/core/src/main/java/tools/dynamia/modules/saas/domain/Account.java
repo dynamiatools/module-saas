@@ -26,7 +26,7 @@ import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import tools.dynamia.commons.DateTimeUtils;
 import tools.dynamia.commons.StringUtils;
-import tools.dynamia.domain.SimpleEntity;
+import tools.dynamia.domain.jpa.SimpleEntity;
 import tools.dynamia.domain.Transferable;
 import tools.dynamia.domain.contraints.Email;
 import tools.dynamia.domain.contraints.NotEmpty;

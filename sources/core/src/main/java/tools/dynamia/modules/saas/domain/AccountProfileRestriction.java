@@ -27,7 +27,7 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import tools.dynamia.domain.SimpleEntity;
+import tools.dynamia.domain.jpa.SimpleEntity;
 import tools.dynamia.domain.contraints.NotEmpty;
 import tools.dynamia.modules.saas.domain.enums.AccessControl;
 

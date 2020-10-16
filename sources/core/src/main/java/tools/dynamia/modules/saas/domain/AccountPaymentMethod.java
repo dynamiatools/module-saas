@@ -3,7 +3,7 @@ package tools.dynamia.modules.saas.domain;
 import org.hibernate.annotations.BatchSize;
 import tools.dynamia.domain.Descriptor;
 import tools.dynamia.domain.OrderBy;
-import tools.dynamia.domain.SimpleEntity;
+import tools.dynamia.domain.jpa.SimpleEntity;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;

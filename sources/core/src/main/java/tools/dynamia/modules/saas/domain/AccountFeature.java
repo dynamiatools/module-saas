@@ -22,7 +22,7 @@ package tools.dynamia.modules.saas.domain;
  * #L%
  */
 
-import tools.dynamia.domain.SimpleEntity;
+import tools.dynamia.domain.jpa.SimpleEntity;
 import tools.dynamia.domain.Transferable;
 import tools.dynamia.domain.contraints.NotEmpty;
 import tools.dynamia.modules.saas.api.dto.AccountFeatureDTO;

@@ -33,7 +33,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.BatchSize;
-import tools.dynamia.domain.BaseEntity;
+import tools.dynamia.domain.jpa.BaseEntity;
 import tools.dynamia.domain.contraints.NotEmpty;
 
 @Entity

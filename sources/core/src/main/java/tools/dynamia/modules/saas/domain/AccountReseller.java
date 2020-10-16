@@ -1,8 +1,8 @@
 package tools.dynamia.modules.saas.domain;
 
-import tools.dynamia.domain.BaseEntity;
+import tools.dynamia.domain.jpa.BaseEntity;
 import tools.dynamia.domain.contraints.NotEmpty;
-import tools.dynamia.domain.util.ContactInfo;
+import tools.dynamia.domain.jpa.ContactInfo;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;

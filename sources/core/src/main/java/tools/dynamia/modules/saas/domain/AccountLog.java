@@ -22,7 +22,7 @@ package tools.dynamia.modules.saas.domain;
  * #L%
  */
 
-import tools.dynamia.domain.BaseEntity;
+import tools.dynamia.domain.jpa.BaseEntity;
 import tools.dynamia.domain.Transferable;
 import tools.dynamia.modules.saas.api.dto.AccountLogDTO;
 

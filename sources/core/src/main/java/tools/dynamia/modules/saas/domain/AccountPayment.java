@@ -23,7 +23,7 @@ package tools.dynamia.modules.saas.domain;
  */
 
 import tools.dynamia.commons.DateTimeUtils;
-import tools.dynamia.domain.BaseEntity;
+import tools.dynamia.domain.jpa.BaseEntity;
 import tools.dynamia.domain.OrderBy;
 import tools.dynamia.domain.Transferable;
 import tools.dynamia.domain.contraints.NotEmpty;

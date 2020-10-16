@@ -24,7 +24,7 @@ package tools.dynamia.modules.saas.domain;
  */
 
 import org.hibernate.annotations.BatchSize;
-import tools.dynamia.domain.SimpleEntity;
+import tools.dynamia.domain.jpa.SimpleEntity;
 import tools.dynamia.domain.Transferable;
 import tools.dynamia.domain.contraints.NotEmpty;
 import tools.dynamia.domain.util.DomainUtils;

@@ -26,7 +26,7 @@ package tools.dynamia.modules.saas.jpa;
 import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotNull;
 
-import tools.dynamia.domain.SimpleEntity;
+import tools.dynamia.domain.jpa.SimpleEntity;
 import tools.dynamia.modules.saas.api.AccountAware;
 
 /**

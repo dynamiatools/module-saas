@@ -25,7 +25,7 @@ package tools.dynamia.modules.saas.domain;
 import tools.dynamia.commons.BeanUtils;
 import tools.dynamia.domain.Descriptor;
 import tools.dynamia.domain.OrderBy;
-import tools.dynamia.domain.SimpleEntity;
+import tools.dynamia.domain.jpa.SimpleEntity;
 import tools.dynamia.modules.saas.api.AccountStats;
 
 import javax.persistence.*;

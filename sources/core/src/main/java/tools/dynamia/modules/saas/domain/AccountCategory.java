@@ -1,7 +1,7 @@
 package tools.dynamia.modules.saas.domain;
 
 import tools.dynamia.domain.Descriptor;
-import tools.dynamia.domain.SimpleEntity;
+import tools.dynamia.domain.jpa.SimpleEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
