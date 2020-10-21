@@ -199,7 +199,7 @@ public class AccountType extends SimpleEntity implements Transferable<AccountTyp
     }
 
     public String getPublicName() {
-        if(publicName==null){
+        if (publicName == null) {
             return getName();
         }
         return publicName;
@@ -215,5 +215,9 @@ public class AccountType extends SimpleEntity implements Transferable<AccountTyp
 
     public void setPaymentRequired(boolean paymentRequired) {
         this.paymentRequired = paymentRequired;
+    }
+
+    public boolean isAdmin() {
+        return "admin".equals(name);
     }
 }

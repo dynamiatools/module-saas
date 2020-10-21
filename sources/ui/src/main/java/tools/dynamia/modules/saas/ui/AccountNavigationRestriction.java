@@ -56,7 +56,12 @@ public class AccountNavigationRestriction implements tools.dynamia.navigation.Na
     public Boolean allowAccess(NavigationElement element) {
 
         Account account = AccountContext.getCurrent().getAccount();
-        if (account != null && account.getProfile() != null) {
+        if (account == null) {
+            return false;
+        }
+
+
+        if (account.getProfile() != null) {
 
             var restrictions = account.getProfile().getRestrictions();
 
@@ -77,6 +82,10 @@ public class AccountNavigationRestriction implements tools.dynamia.navigation.Na
                         return null;
                 }
             }
+        }
+
+        if (account.getType().isAdmin()) {
+            return true;
         }
 
         return false;
