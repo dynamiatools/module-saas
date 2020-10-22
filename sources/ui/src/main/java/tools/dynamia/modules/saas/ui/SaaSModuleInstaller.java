@@ -39,13 +39,13 @@ public class SaaSModuleInstaller implements ModuleProvider {
         Module module = new Module("saas", "SaaS");
         module.setIcon("globe");
         module.setPosition(-1);
-        module.addPage(new CrudPage("accounts", "Accounts", Account.class));
-        module.addPage(new CrudPage("accountsType", "Accounts Type", AccountType.class));
-        module.addPage(new CrudPage("accountProfile", "Profiles", AccountProfile.class));
-        module.addPage(new CrudPage("accountPayments", "Payments", AccountPayment.class));
+        module.addPage(new CrudPage("accounts", "Accounts", Account.class).icon("network").featured(1));
+        module.addPage(new CrudPage("accountsType", "Accounts Type", AccountType.class).icon("list").featured(2));
+        module.addPage(new CrudPage("accountProfile", "Profiles", AccountProfile.class).icon("diagram").featured(5));
+        module.addPage(new CrudPage("accountPayments", "Payments", AccountPayment.class).icon("payment").featured(3));
         module.addPage(new CrudPage("accountPaymentsMethods", "Payments Methods", AccountPaymentMethod.class));
         module.addPage(new CrudPage("accountCategories", "Categories", AccountCategory.class));
-        module.addPage(new CrudPage("accountResellers", "Resellers", AccountReseller.class));
+        module.addPage(new CrudPage("accountResellers", "Resellers", AccountReseller.class).icon("users").featured(4));
 
         return module;
     }

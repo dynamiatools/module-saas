@@ -1,4 +1,3 @@
-
 package tools.dynamia.modules.saas.ui;
 
 /*-
@@ -23,22 +22,13 @@ package tools.dynamia.modules.saas.ui;
  * #L%
  */
 
-import java.io.Serializable;
-import java.util.Objects;
-
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-
-import org.springframework.web.servlet.ModelAndView;
 import tools.dynamia.modules.saas.AccountContext;
 import tools.dynamia.modules.saas.domain.Account;
-import tools.dynamia.modules.saas.domain.AccountProfileRestriction;
-import tools.dynamia.modules.saas.domain.AccountTypeRestriction;
-import tools.dynamia.modules.saas.domain.enums.AccessControl;
 import tools.dynamia.navigation.Module;
 import tools.dynamia.navigation.NavigationElement;
-import tools.dynamia.navigation.Page;
-import tools.dynamia.navigation.PageGroup;
+
+import java.io.Serializable;
 
 /**
  * @author Mario Serrano Leones
@@ -82,9 +72,7 @@ public class AccountNavigationRestriction implements tools.dynamia.navigation.Na
                         return null;
                 }
             }
-        }
-
-        if (account.getType().isAdmin()) {
+        } else if (account.getType().isAdmin()) {
             return true;
         }
 
