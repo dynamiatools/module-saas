@@ -4,7 +4,6 @@ import tools.dynamia.actions.ActionGroup;
 import tools.dynamia.actions.FastAction;
 import tools.dynamia.actions.InstallAction;
 import tools.dynamia.actions.PrimaryAction;
-import tools.dynamia.commons.ClassMessages;
 import tools.dynamia.crud.AbstractCrudAction;
 import tools.dynamia.crud.CrudActionEvent;
 import tools.dynamia.modules.saas.domain.Account;
@@ -23,7 +22,7 @@ public class NewAccountPaymentAction extends AbstractCrudAction {
     public NewAccountPaymentAction() {
         setName(msg("newPayment"));
         setApplicableClass(Account.class);
-        setImage("fa-dollar");
+        setImage("payment");
         setColor("white");
         setBackground(".green");
         setMenuSupported(true);
