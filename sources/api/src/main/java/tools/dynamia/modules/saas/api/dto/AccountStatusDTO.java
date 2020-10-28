@@ -3,9 +3,11 @@ package tools.dynamia.modules.saas.api.dto;
 import tools.dynamia.modules.saas.api.enums.AccountStatus;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class AccountStatusDTO implements Serializable {
+
 
     private Long id;
     private String name;
@@ -15,10 +17,11 @@ public class AccountStatusDTO implements Serializable {
     private String globalMessage;
     private boolean showGlobalMessage;
     private String globalMessageType;
+    private final BigDecimal balance;
 
 
     public AccountStatusDTO(Long id, String name, AccountStatus status, Date statusDate, String statusDescription,
-                            String globalMessage, boolean showGlobalMessage, String globalMessageType) {
+                            String globalMessage, boolean showGlobalMessage, String globalMessageType, BigDecimal balance) {
         this.id = id;
         this.name = name;
         this.status = status;
@@ -27,6 +30,7 @@ public class AccountStatusDTO implements Serializable {
         this.globalMessage = globalMessage;
         this.showGlobalMessage = showGlobalMessage;
         this.globalMessageType = globalMessageType;
+        this.balance = balance;
     }
 
     public Long getId() {
@@ -62,5 +66,9 @@ public class AccountStatusDTO implements Serializable {
 
     public String getGlobalMessageType() {
         return globalMessageType;
+    }
+
+    public BigDecimal getBalance() {
+        return balance;
     }
 }

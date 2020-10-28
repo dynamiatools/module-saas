@@ -27,7 +27,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import tools.dynamia.commons.SimpleCache;
 import tools.dynamia.domain.query.ApplicationParameters;
-import tools.dynamia.domain.query.QueryCondition;
 import tools.dynamia.domain.query.QueryConditions;
 import tools.dynamia.domain.query.QueryParameters;
 import tools.dynamia.domain.services.AbstractService;
@@ -50,6 +49,7 @@ import tools.dynamia.web.util.HttpUtils;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -241,7 +241,7 @@ public class AccountServiceAPIImpl extends AbstractService implements AccountSer
     @Override
     public AccountStatusDTO getAccountStatusDetails(Long accountId) {
         List<AccountStatusDTO> result = crudService().executeQuery(QueryBuilder.select("id", "name", "status", "statusDate",
-                "statusDescription", "globalMessage", "showGlobalMessage", "globalMessageType")
+                "statusDescription", "globalMessage", "showGlobalMessage", "globalMessageType", "balance")
                 .from(Account.class, "a").where("id", QueryConditions.eq(accountId))
                 .resultType(AccountStatusDTO.class));
 
@@ -249,7 +249,7 @@ public class AccountServiceAPIImpl extends AbstractService implements AccountSer
                 orElse(new AccountStatusDTO(accountId, "unknow",
                         AccountStatus.CANCELED, new Date(),
                         null, null,
-                        false, null));
+                        false, null, BigDecimal.ZERO));
     }
 
     @Override

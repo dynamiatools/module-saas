@@ -28,6 +28,7 @@ import tools.dynamia.modules.saas.api.dto.AccountPaymentDTO;
 import tools.dynamia.modules.saas.api.dto.AccountStatusDTO;
 import tools.dynamia.modules.saas.api.enums.AccountStatus;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -70,7 +71,7 @@ public interface AccountServiceAPI {
     default AccountStatusDTO getAccountStatusDetails(Long accountId) {
         AccountDTO dto = getAccount(accountId);
         return new AccountStatusDTO(dto.getId(), dto.getName(), dto.getStatus(), dto.getStatusDate(),
-                dto.getStatusDescription(), dto.getGlobalMessage(), dto.isShowGlobalMessage(), dto.getGlobalMessageType());
+                dto.getStatusDescription(), dto.getGlobalMessage(), dto.isShowGlobalMessage(), dto.getGlobalMessageType(), BigDecimal.ZERO);
     }
 
     Long getAccountIdByDomain(String domain);
