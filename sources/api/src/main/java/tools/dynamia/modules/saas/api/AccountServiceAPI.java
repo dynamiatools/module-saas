@@ -29,8 +29,10 @@ import tools.dynamia.modules.saas.api.dto.AccountStatusDTO;
 import tools.dynamia.modules.saas.api.enums.AccountStatus;
 
 import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public interface AccountServiceAPI {
 
@@ -82,5 +84,13 @@ public interface AccountServiceAPI {
 
     default void clearCache(Long accountId, String accountDomain) {
         //do nothing
+    }
+
+    default List<Long> findAccountsId(Map<String, Object> params) {
+        return Collections.emptyList();
+    }
+
+    default List<Long> findActivePaymentRequiredAccounts() {
+        return findAccountsId(Map.of("status", AccountStatus.ACTIVE, "type.paymentRequired", true));
     }
 }

@@ -52,6 +52,8 @@ import javax.persistence.PersistenceContext;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service("accountServiceAPI")
 public class AccountServiceAPIImpl extends AbstractService implements AccountServiceAPI {
@@ -287,5 +289,13 @@ public class AccountServiceAPIImpl extends AbstractService implements AccountSer
         if (accountDomain != null) {
             domainCache.remove(accountDomain);
         }
+    }
+
+    @Override
+    public List<Long> findAccountsId(Map<String, Object> params) {
+        var queryParams = new QueryParameters();
+        queryParams.putAll(params);
+        var query = QueryBuilder.select("id").from(Account.class, "a").where(queryParams);
+        return crudService().executeQuery(query);
     }
 }
