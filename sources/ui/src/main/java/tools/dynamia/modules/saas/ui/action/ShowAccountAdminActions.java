@@ -25,7 +25,6 @@ package tools.dynamia.modules.saas.ui.action;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zul.Button;
 import org.zkoss.zul.Vlayout;
-
 import tools.dynamia.actions.*;
 import tools.dynamia.commons.ApplicableClass;
 import tools.dynamia.crud.AbstractCrudAction;
@@ -72,6 +71,7 @@ public class ShowAccountAdminActions extends AbstractCrudAction {
             Vlayout layout = new Vlayout();
             layout.setHflex("1");
             ButtonActionRenderer defaultRenderer = new ButtonActionRenderer();
+            defaultRenderer.setStyle("text-align: left");
 
             var actions = loader.load();
             actions.sort(Comparator.comparing(Action::getName));
@@ -79,12 +79,16 @@ public class ShowAccountAdminActions extends AbstractCrudAction {
                 ActionRenderer renderer = a.getRenderer() == null ? defaultRenderer : a.getRenderer();
                 Object component = renderer.render(a, evtBuilder);
                 if (component instanceof Button) {
-                    ((Button) component).setZclass("btn btn-primary btn-block");
+                    if (a.getAttribute("type") != null) {
+                        ((Button) component).setZclass("btn btn-" + a.getAttribute("type") + " btn-block");
+                    } else {
+                        ((Button) component).setZclass("btn btn-default btn-block");
+                    }
                 }
                 layout.appendChild((Component) component);
             });
 
-            ZKUtil.showDialog("Actions for " + info.getName(), layout, "600px", "500px");
+            ZKUtil.showDialog("Actions for " + info.getName(), layout, "400px", "500px");
 
         } else {
             UIMessages.showMessage("Select account", MessageType.WARNING);
