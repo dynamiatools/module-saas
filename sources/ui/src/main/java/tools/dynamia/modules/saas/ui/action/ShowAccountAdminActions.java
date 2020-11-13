@@ -88,7 +88,8 @@ public class ShowAccountAdminActions extends AbstractCrudAction {
                 layout.appendChild((Component) component);
             });
 
-            ZKUtil.showDialog("Actions for " + info.getName(), layout, "400px", "500px");
+            var win = ZKUtil.showDialog("Actions for " + info.getName(), layout, "400px", "500px");
+            win.setContentStyle("overflow: auto");
 
         } else {
             UIMessages.showMessage("Select account", MessageType.WARNING);
