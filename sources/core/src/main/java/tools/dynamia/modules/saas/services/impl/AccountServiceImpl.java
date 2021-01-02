@@ -33,7 +33,6 @@ import tools.dynamia.commons.DateTimeUtils;
 import tools.dynamia.commons.logger.LoggingService;
 import tools.dynamia.commons.logger.SLF4JLoggingService;
 import tools.dynamia.domain.query.ApplicationParameters;
-import tools.dynamia.domain.query.QueryCondition;
 import tools.dynamia.domain.query.QueryConditions;
 import tools.dynamia.domain.query.QueryParameters;
 import tools.dynamia.domain.services.CrudService;
@@ -47,7 +46,6 @@ import tools.dynamia.modules.saas.api.enums.AccountPeriodicity;
 import tools.dynamia.modules.saas.api.enums.AccountStatus;
 import tools.dynamia.modules.saas.domain.*;
 import tools.dynamia.modules.saas.services.AccountService;
-import tools.dynamia.web.util.HttpUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
@@ -68,6 +66,7 @@ public class AccountServiceImpl implements AccountService, ApplicationListener<C
     private EntityManagerFactoryInfo entityManagerFactoryInfo;
 
 
+    @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public Account init() {
         if (crudService.count(Account.class) == 0 && crudService.count(AccountType.class) == 0) {
@@ -258,7 +257,7 @@ public class AccountServiceImpl implements AccountService, ApplicationListener<C
     public boolean isOverdue(Account account) {
         if (account.getBalance().longValue() < 0) {
             return true;
-        } else if (account.getBalance().longValue() == 0) {
+        } else if (account.getBalance().longValue() >= 0) {
             return false;
         }
         return account.getExpirationDate() != null && account.getExpirationDate().before(new Date());
