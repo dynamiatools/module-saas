@@ -12,13 +12,14 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "saas_payments_methods")
 @OrderBy("name")
-@Descriptor(fields = {"name", "active"})
+@Descriptor(fields = {"name", "active", "comissionable"})
 @BatchSize(size = 10)
 public class AccountPaymentMethod extends SimpleEntity {
 
     @NotNull
     private String name;
     private boolean active = true;
+    private boolean comissionable;
 
     public String getName() {
         return name;
@@ -39,5 +40,13 @@ public class AccountPaymentMethod extends SimpleEntity {
     @Override
     public String toString() {
         return name;
+    }
+
+    public boolean isComissionable() {
+        return comissionable;
+    }
+
+    public void setComissionable(boolean comissionable) {
+        this.comissionable = comissionable;
     }
 }

@@ -1,7 +1,7 @@
 package tools.dynamia.modules.saas.domain;
 
-import tools.dynamia.domain.jpa.BaseEntity;
 import tools.dynamia.domain.contraints.NotEmpty;
+import tools.dynamia.domain.jpa.BaseEntity;
 import tools.dynamia.domain.jpa.ContactInfo;
 
 import javax.persistence.Entity;
@@ -21,6 +21,7 @@ public class AccountReseller extends BaseEntity {
     private Long externalId;
     @OneToOne
     private Account mainAccount;
+    private double comissionRate;
 
 
     public String getName() {
@@ -79,7 +80,17 @@ public class AccountReseller extends BaseEntity {
         this.mainAccount = mainAccount;
     }
 
+    public double getComissionRate() {
+        return comissionRate;
+    }
+
+    public void setComissionRate(double comissionRate) {
+        this.comissionRate = comissionRate;
+    }
+
+    @Override
     public String toString() {
         return name;
     }
+
 }

@@ -12,6 +12,7 @@ fields:
   adminUsername:
   status:
   profile:
+  reseller:
   type.paymentRequired:
     label: Payment Required
   creationDate:

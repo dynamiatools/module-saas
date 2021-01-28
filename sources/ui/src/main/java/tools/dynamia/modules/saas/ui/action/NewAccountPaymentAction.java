@@ -44,6 +44,7 @@ public class NewAccountPaymentAction extends AbstractCrudAction {
             }
             viewer.addAction(new FastAction(msg("createPayment"), e -> {
                 UIMessages.showQuestion(msg("confirmNewPayment"), () -> {
+                    payment.computeComission();
                     crudService().save(payment);
                     UIMessages.showMessage(msg("paymentCreated"));
                     viewer.getParent().detach();

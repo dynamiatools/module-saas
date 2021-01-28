@@ -8,7 +8,7 @@ fields:
   idType:
     label: ID Type
   mainAccount:
-
+  comissionRate:
   contactInfo:
   externalId:
   enabled:

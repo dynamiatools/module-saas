@@ -8,4 +8,8 @@ fields:
   idType:
     label: ID Type
   mainAccount:
+  comissionRate:
+    params:
+      header:
+        align: center
   enabled:

@@ -22,13 +22,15 @@ package tools.dynamia.modules.saas.domain;
  * #L%
  */
 
+import tools.dynamia.commons.BigDecimalUtils;
 import tools.dynamia.commons.DateTimeUtils;
-import tools.dynamia.domain.jpa.BaseEntity;
 import tools.dynamia.domain.OrderBy;
 import tools.dynamia.domain.Transferable;
 import tools.dynamia.domain.contraints.NotEmpty;
+import tools.dynamia.domain.jpa.BaseEntity;
 import tools.dynamia.integration.Containers;
 import tools.dynamia.modules.saas.api.dto.AccountPaymentDTO;
+import tools.dynamia.modules.saas.domain.enums.ResellerComissionStatus;
 import tools.dynamia.modules.saas.services.AccountService;
 
 import javax.persistence.Column;
@@ -68,6 +70,9 @@ public class AccountPayment extends BaseEntity implements Transferable<AccountPa
     @OneToOne
     @NotNull
     private AccountPaymentMethod paymentMethod;
+    private BigDecimal resellerComission;
+    private double comissionRate;
+    private ResellerComissionStatus comissionStatus;
 
     public Account getAccount() {
         return account;
@@ -172,5 +177,42 @@ public class AccountPayment extends BaseEntity implements Transferable<AccountPa
 
     public void setReference(String reference) {
         this.reference = reference;
+    }
+
+    public BigDecimal getResellerComission() {
+        return resellerComission;
+    }
+
+    public void setResellerComission(BigDecimal resellerComission) {
+        this.resellerComission = resellerComission;
+    }
+
+    public double getComissionRate() {
+        return comissionRate;
+    }
+
+    public void setComissionRate(double comissionRate) {
+        this.comissionRate = comissionRate;
+    }
+
+    public ResellerComissionStatus getComissionStatus() {
+        return comissionStatus;
+    }
+
+    public void setComissionStatus(ResellerComissionStatus comissionStatus) {
+        this.comissionStatus = comissionStatus;
+    }
+
+
+    public void computeComission() {
+        if (paymentMethod != null && paymentMethod.isComissionable() && account != null && account.getReseller() != null) {
+            comissionRate = account.getReseller().getComissionRate();
+            comissionStatus = ResellerComissionStatus.PENDING;
+            if (comissionRate > 0) {
+                resellerComission = BigDecimalUtils.computePercent(value, comissionRate, false);
+            } else {
+                resellerComission = BigDecimal.ZERO;
+            }
+        }
     }
 }
