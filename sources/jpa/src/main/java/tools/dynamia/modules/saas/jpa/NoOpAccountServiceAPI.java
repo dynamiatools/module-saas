@@ -29,24 +29,22 @@ import tools.dynamia.modules.saas.api.dto.AccountDTO;
 import tools.dynamia.modules.saas.api.dto.AccountLogDTO;
 import tools.dynamia.modules.saas.api.dto.AccountPaymentDTO;
 import tools.dynamia.modules.saas.api.dto.AccountTypeDTO;
-import tools.dynamia.modules.saas.api.enums.AccountPeriodicity;
 import tools.dynamia.modules.saas.api.enums.AccountStatus;
 
 import java.util.*;
-import java.util.zip.CRC32;
 
 public class NoOpAccountServiceAPI extends CrudServiceListenerAdapter<AccountAware> implements AccountServiceAPI {
 
     private static final Long ACCOUNT_ID = 1L;
-    private static final AccountDTO CURRENT_ACCOUNT;
+    private static AccountDTO CURRENT_ACCOUNT;
 
-    static {
+    private void init() {
         CURRENT_ACCOUNT = new AccountDTO();
         CURRENT_ACCOUNT.setId(ACCOUNT_ID);
         CURRENT_ACCOUNT.setName("NoOp");
         CURRENT_ACCOUNT.setEmail("account@account.com");
         CURRENT_ACCOUNT.setStatus(AccountStatus.ACTIVE);
-        CURRENT_ACCOUNT.setTimeZone(TimeZone.getDefault().getDisplayName());
+        CURRENT_ACCOUNT.setTimeZone(TimeZone.getDefault().getID());
         CURRENT_ACCOUNT.setLocale(Locale.getDefault().toString());
         CURRENT_ACCOUNT.setCreationDate(new Date());
         CURRENT_ACCOUNT.setIdentification("111111111");
@@ -67,7 +65,7 @@ public class NoOpAccountServiceAPI extends CrudServiceListenerAdapter<AccountAwa
 
     @Override
     public AccountDTO getAccount(Long accountId) {
-        return CURRENT_ACCOUNT;
+        return getCurrentAccount();
     }
 
     @Override
@@ -82,6 +80,9 @@ public class NoOpAccountServiceAPI extends CrudServiceListenerAdapter<AccountAwa
 
     @Override
     public AccountDTO getCurrentAccount() {
+        if (CURRENT_ACCOUNT == null) {
+            init();
+        }
         return CURRENT_ACCOUNT;
     }
 
