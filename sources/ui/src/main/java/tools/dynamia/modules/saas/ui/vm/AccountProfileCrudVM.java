@@ -1,13 +1,18 @@
 /*
- * Copyright (C) 2009 - 2018 - Dynamia Soluciones IT SAS (NIT 900302344-1).
+ * Copyright (C) 2021 Dynamia Soluciones IT S.A.S - NIT 900302344-1
+ * Colombia / South America
  *
- * Licenciado bajo la licencia de código propietario de software de Dynamia Soluciones IT. Prohibida la copia
- * o distribución de este archivo de forma parcial o completa sin autorización previa de los autores.
- * Si desea conocer los detalles de esta licencia ingrese al sitio web:
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * http://www.dynamiasoluciones.com/licencia
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
- * Todos los derechos reservados
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 /*
