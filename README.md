@@ -108,3 +108,6 @@ public class Person implements AccountAware {
 
 ```
 
+## License
+
+DynamiaTools SaaS is available under Apache 2 License
