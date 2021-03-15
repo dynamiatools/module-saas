@@ -1,6 +1,8 @@
-# SaaS modules for DynamiaTools
+[![Maven Central](https://img.shields.io/maven-central/v/tools.dynamia.modules/tools.dynamia.modules.saas)](https://search.maven.org/search?q=tools.dynamia.modules.saas)
 
-This extension allow you to create modules with multi tenant support por SaaS applications. Its manage accounts,
+# SaaS Module
+
+This [DynamiaTools](https://dynamia.tools) extension allow you to create modules with multi tenant support por SaaS applications. Its manage accounts,
 payments, account status, data isolation by account and mor
 
 ## Modules
@@ -21,7 +23,7 @@ Add the following dependencies to project classpath
 <dependency>
     <groupId>tools.dynamia.modules</groupId>
     <artifactId>tools.dynamia.modules.saas</artifactId>
-    <version>2.5.0</version>
+    <version>2.6.0</version>
 </dependency>
 ```
 
@@ -29,7 +31,7 @@ Add the following dependencies to project classpath
 <dependency>
     <groupId>tools.dynamia.modules</groupId>
     <artifactId>tools.dynamia.modules.saas.ui</artifactId>
-    <version>2.5.0</version>
+    <version>2.6.0</version>
 </dependency>
 
 ```
@@ -37,8 +39,8 @@ Add the following dependencies to project classpath
 **Gradle**
 
 ```groovy
-compile 'tools.dynamia.modules:tools.dynamia.modules.saas:2.5.0'
-compile 'tools.dynamia.modules:tools.dynamia.modules.saas.ui:2.5.0'
+compile 'tools.dynamia.modules:tools.dynamia.modules.saas:2.6.0'
+compile 'tools.dynamia.modules:tools.dynamia.modules.saas.ui:2.6.0'
 ```
 
 ## Usage
@@ -77,7 +79,7 @@ For your modules you only require the API dependency
 <dependency>
     <groupId>tools.dynamia.modules</groupId>
     <artifactId>tools.dynamia.modules.saas.api</artifactId>
-    <version>2.5.0</version>
+    <version>2.6.0</version>
 </dependency>
 ```
 
