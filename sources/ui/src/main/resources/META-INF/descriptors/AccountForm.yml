@@ -23,6 +23,7 @@ fields:
     component: skincombobox
   status:
   profile:
+  creationDate:
   paymentDay:
   fixedPaymentValue:
     params:
@@ -47,6 +48,8 @@ fields:
   uuid:
   instanceUuid:
   category:
+  parentAccount:
+  freeTrial:
   reseller:
   maxUsers:
     description: Override Account Type Config
@@ -87,10 +90,10 @@ fields:
 
 groups:
   contactInfo:
-    fields: [contactFirstName, contactLastName,phoneNumber,mobileNumber,contactEmail, city,region, country, address, customerInfo]
+    fields: [ contactFirstName, contactLastName,phoneNumber,mobileNumber,contactEmail, city,region, country, address, customerInfo ]
 
   notification:
-    fields: [globalMessage,globalMessageType,showGlobalMessage]
+    fields: [ globalMessage,globalMessageType,showGlobalMessage ]
 
 
 layout:

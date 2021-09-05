@@ -59,15 +59,13 @@ public class NewAccountPaymentAction extends AbstractCrudAction {
                 viewer.setVflex("1");
                 viewer.setContentVflex("0");
             }
-            viewer.addAction(new FastAction(msg("createPayment"), e -> {
-                UIMessages.showQuestion(msg("confirmNewPayment"), () -> {
-                    payment.computeComission();
-                    crudService().save(payment);
-                    UIMessages.showMessage(msg("paymentCreated"));
-                    viewer.getParent().detach();
-                    evt.getController().doQuery();
-                });
-            }));
+            viewer.addAction(new FastAction(msg("createPayment"), e -> UIMessages.showQuestion(msg("confirmNewPayment"), () -> {
+                payment.computeComission();
+                crudService().save(payment);
+                UIMessages.showMessage(msg("paymentCreated"));
+                viewer.getParent().detach();
+                evt.getController().doQuery();
+            })));
             ZKUtil.showDialog(account.toString(), viewer);
         } else {
             UIMessages.showMessage(msg("selectAccount"), MessageType.WARNING);

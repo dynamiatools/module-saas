@@ -71,6 +71,10 @@ public interface AccountServiceAPI {
                 dto.getStatusDescription(), dto.getGlobalMessage(), dto.isShowGlobalMessage(), dto.getGlobalMessageType(), BigDecimal.ZERO);
     }
 
+    default Long getParentAccountId(Long accountId) {
+        return null;
+    }
+
     Long getAccountIdByDomain(String domain);
 
     default void clearCache() {

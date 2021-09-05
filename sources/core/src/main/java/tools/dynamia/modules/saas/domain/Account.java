@@ -21,10 +21,10 @@ import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import tools.dynamia.commons.DateTimeUtils;
 import tools.dynamia.commons.StringUtils;
-import tools.dynamia.domain.jpa.SimpleEntity;
 import tools.dynamia.domain.Transferable;
 import tools.dynamia.domain.contraints.Email;
 import tools.dynamia.domain.contraints.NotEmpty;
+import tools.dynamia.domain.jpa.SimpleEntity;
 import tools.dynamia.domain.util.DomainUtils;
 import tools.dynamia.modules.entityfile.domain.EntityFile;
 import tools.dynamia.modules.saas.AccountStatusCache;
@@ -39,7 +39,10 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.time.ZoneId;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * @author Mario Serrano Leones
@@ -157,6 +160,10 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
     private long openTicketsCount;
     private long closedTicketsCount;
     private boolean autoInit = true;
+
+    @ManyToOne
+    private Account parentAccount;
+    private int freeTrial;
 
     public Account() {
         try {
@@ -747,5 +754,37 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
 
     public void setMaxUsers(Integer maxUsers) {
         this.maxUsers = maxUsers;
+    }
+
+    public Account getParentAccount() {
+        return parentAccount;
+    }
+
+    public void setParentAccount(Account parentAccount) {
+        if (parentAccount != null && parentAccount.equals(this)) {
+            return;
+        }
+        this.parentAccount = parentAccount;
+    }
+
+    public int getFreeTrial() {
+        return freeTrial;
+    }
+
+    public void setFreeTrial(int freeTrial) {
+        this.freeTrial = freeTrial;
+    }
+
+    public int getFreeTrialLeft() {
+        int left = 0;
+        if (freeTrial > 0) {
+            long diff = DateTimeUtils.daysBetween(new Date(), creationDate);
+            left = freeTrial - (int) diff;
+        }
+        return left;
+    }
+
+    public boolean isInFreeTrial() {
+        return freeTrial > 0 && getFreeTrialLeft() > 0;
     }
 }

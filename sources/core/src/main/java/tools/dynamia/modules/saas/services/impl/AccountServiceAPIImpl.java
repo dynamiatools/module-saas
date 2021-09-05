@@ -48,7 +48,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service("accountServiceAPI")
 public class AccountServiceAPIImpl extends AbstractService implements AccountServiceAPI {
@@ -236,10 +235,18 @@ public class AccountServiceAPIImpl extends AbstractService implements AccountSer
     }
 
     @Override
-    public AccountStatusDTO getAccountStatusDetails(Long accountId) {
+    public AccountStatusDTO getAccountStatusDetails(final Long accountId) {
+        Long targetAccountId = accountId;
+
+        Long parentAccountId = getParentAccountId(accountId);
+        if (parentAccountId != null) {
+            targetAccountId = parentAccountId;
+        }
+
+
         List<AccountStatusDTO> result = crudService().executeQuery(QueryBuilder.select("id", "name", "status", "statusDate",
-                "statusDescription", "globalMessage", "showGlobalMessage", "globalMessageType", "balance")
-                .from(Account.class, "a").where("id", QueryConditions.eq(accountId))
+                        "statusDescription", "globalMessage", "showGlobalMessage", "globalMessageType", "balance")
+                .from(Account.class, "a").where("id", QueryConditions.eq(targetAccountId))
                 .resultType(AccountStatusDTO.class));
 
         return result.stream().findFirst().
@@ -247,6 +254,15 @@ public class AccountServiceAPIImpl extends AbstractService implements AccountSer
                         AccountStatus.CANCELED, new Date(),
                         null, null,
                         false, null, BigDecimal.ZERO));
+    }
+
+
+    @Override
+    public Long getParentAccountId(Long accountId) {
+        return crudService().executeProjection(Long.class,
+                QueryBuilder.select("a.parentAccount.id").from(Account.class, "a")
+                        .where("a.id = :accountId").toString(),
+                QueryParameters.with("accountId", accountId));
     }
 
     @Override

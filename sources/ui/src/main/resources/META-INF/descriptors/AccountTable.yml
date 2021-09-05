@@ -36,8 +36,13 @@ fields:
         sclass: green lighten-5
       footer:
         function: sum
+  subdomain:
+  parentAccount:
+    label: Parent
   category:
   reseller:
+  freeTrialLeft:
+    label: Free Trial
   remote:
     params:
       header:
