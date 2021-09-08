@@ -210,4 +210,13 @@ public class AccountPayment extends BaseEntity implements Transferable<AccountPa
             }
         }
     }
+
+    @Override
+    public String toString() {
+        if (paymentMethod != null) {
+            return getPaymentMethod().getName() + " - " + getReference() + ": " + DecimalFormat.getCurrencyInstance().format(getValue());
+        } else {
+            return DecimalFormat.getCurrencyInstance().format(getValue());
+        }
+    }
 }
