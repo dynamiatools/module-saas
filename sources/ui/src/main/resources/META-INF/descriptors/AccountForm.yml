@@ -21,9 +21,11 @@ fields:
       shared: true
   skin:
     component: skincombobox
-  status:
   profile:
+  reseller:
   creationDate:
+  category:
+  parentAccount:
   paymentDay:
   fixedPaymentValue:
     params:
@@ -47,10 +49,9 @@ fields:
       span: 4
   uuid:
   instanceUuid:
-  category:
-  parentAccount:
   freeTrial:
-  reseller:
+    component: spiner
+  status:
   maxUsers:
     description: Override Account Type Config
     params:
@@ -91,6 +92,9 @@ fields:
 groups:
   contactInfo:
     fields: [ contactFirstName, contactLastName,phoneNumber,mobileNumber,contactEmail, city,region, country, address, customerInfo ]
+
+  configuration:
+    fields: [ locale, timeZone,skin, maxUsers,statusDescription,uuid,instanceUuid,creationDate,remote,autoInit,requiredInstanceUuid ]
 
   notification:
     fields: [ globalMessage,globalMessageType,showGlobalMessage ]
