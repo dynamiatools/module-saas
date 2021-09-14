@@ -236,24 +236,31 @@ public class AccountServiceAPIImpl extends AbstractService implements AccountSer
 
     @Override
     public AccountStatusDTO getAccountStatusDetails(final Long accountId) {
-        Long targetAccountId = accountId;
-
-        Long parentAccountId = getParentAccountId(accountId);
-        if (parentAccountId != null) {
-            targetAccountId = parentAccountId;
-        }
 
 
         List<AccountStatusDTO> result = crudService().executeQuery(QueryBuilder.select("id", "name", "status", "statusDate",
                         "statusDescription", "globalMessage", "showGlobalMessage", "globalMessageType", "balance")
-                .from(Account.class, "a").where("id", QueryConditions.eq(targetAccountId))
+                .from(Account.class, "a").where("id", QueryConditions.eq(accountId))
                 .resultType(AccountStatusDTO.class));
 
-        return result.stream().findFirst().
+        var accountStatus = result.stream().findFirst().
                 orElse(new AccountStatusDTO(accountId, "unknow",
                         AccountStatus.CANCELED, new Date(),
                         null, null,
                         false, null, BigDecimal.ZERO));
+
+        Long parentAccountId = getParentAccountId(accountId);
+        if (parentAccountId != null && !parentAccountId.equals(accountId)) {
+            var parentStatus = getAccountStatusDetails(parentAccountId);
+            if (parentStatus != null) {
+                accountStatus = new AccountStatusDTO(accountStatus.getId(), accountStatus.getName(),
+                        parentStatus.getStatus(), parentStatus.getStatusDate(), parentStatus.getStatusDescription(),
+                        parentStatus.getGlobalMessage(), parentStatus.isShowGlobalMessage(), parentStatus.getGlobalMessageType(), parentStatus.getBalance());
+            }
+        }
+
+
+        return accountStatus;
     }
 
 
