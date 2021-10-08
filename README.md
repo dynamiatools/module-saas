@@ -4,8 +4,8 @@
 
 # SaaS Module
 
-This [DynamiaTools](https://dynamia.tools) extension allow you to create modules with multi tenant support por SaaS applications. Its manage accounts,
-payments, account status, data isolation by account and mor
+This [DynamiaTools](https://www.dynamia.tools) extension allow you to create modules with multi tenant support por SaaS applications. Its manage accounts,
+payments, account status, data isolation by account and more
 
 ## Modules
 
