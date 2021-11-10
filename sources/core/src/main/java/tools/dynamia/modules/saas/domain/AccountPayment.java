@@ -68,6 +68,7 @@ public class AccountPayment extends BaseEntity implements Transferable<AccountPa
     private BigDecimal resellerComission;
     private double comissionRate;
     private ResellerComissionStatus comissionStatus;
+    private String couponCode;
 
     public Account getAccount() {
         return account;
@@ -218,5 +219,13 @@ public class AccountPayment extends BaseEntity implements Transferable<AccountPa
         } else {
             return DecimalFormat.getCurrencyInstance().format(getValue());
         }
+    }
+
+    public String getCouponCode() {
+        return couponCode;
+    }
+
+    public void setCouponCode(String couponCode) {
+        this.couponCode = couponCode;
     }
 }

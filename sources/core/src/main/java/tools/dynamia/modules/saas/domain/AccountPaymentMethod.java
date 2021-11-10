@@ -29,7 +29,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "saas_payments_methods")
 @OrderBy("name")
-@Descriptor(fields = {"name", "active", "comissionable"})
+@Descriptor(fields = {"name", "active", "comissionable","coupon"})
 @BatchSize(size = 10)
 public class AccountPaymentMethod extends SimpleEntity {
 
@@ -37,6 +37,7 @@ public class AccountPaymentMethod extends SimpleEntity {
     private String name;
     private boolean active = true;
     private boolean comissionable;
+    private boolean coupon;
 
     public String getName() {
         return name;
@@ -65,5 +66,13 @@ public class AccountPaymentMethod extends SimpleEntity {
 
     public void setComissionable(boolean comissionable) {
         this.comissionable = comissionable;
+    }
+
+    public boolean isCoupon() {
+        return coupon;
+    }
+
+    public void setCoupon(boolean coupon) {
+        this.coupon = coupon;
     }
 }

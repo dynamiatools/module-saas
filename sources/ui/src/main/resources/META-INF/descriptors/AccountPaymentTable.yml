@@ -64,6 +64,7 @@ fields:
 
   description:
   paymentMethodDescription:
+  couponCode:
   finished:
 
 
@@ -71,7 +72,7 @@ fields:
 params:
   orderBy: creationDate desc
   sizedByContent: true
-    
-        
-       
-     
+
+
+
+
