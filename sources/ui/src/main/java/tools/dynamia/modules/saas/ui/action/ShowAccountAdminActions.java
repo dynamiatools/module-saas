@@ -65,6 +65,7 @@ public class ShowAccountAdminActions extends AbstractCrudAction {
             loader.setIgnoreRestrictions(true);
             Vlayout layout = new Vlayout();
             layout.setHflex("1");
+            layout.setStyle("overflow: auto");
             ButtonActionRenderer defaultRenderer = new ButtonActionRenderer();
             defaultRenderer.setStyle("text-align: left");
 
@@ -84,7 +85,8 @@ public class ShowAccountAdminActions extends AbstractCrudAction {
             });
 
             var win = ZKUtil.showDialog("Actions for " + info.getName(), layout, "400px", "500px");
-            win.setContentStyle("overflow: auto");
+
+
 
         } else {
             UIMessages.showMessage("Select account", MessageType.WARNING);
