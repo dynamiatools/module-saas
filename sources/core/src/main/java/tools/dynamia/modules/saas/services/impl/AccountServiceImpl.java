@@ -20,6 +20,7 @@ package tools.dynamia.modules.saas.services.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.core.env.Environment;
 import org.springframework.orm.jpa.EntityManagerFactoryInfo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -60,6 +61,9 @@ public class AccountServiceImpl implements AccountService, ApplicationListener<C
     @Autowired
     private EntityManagerFactoryInfo entityManagerFactoryInfo;
 
+    @Autowired
+    private Environment environment;
+
 
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
@@ -89,11 +93,14 @@ public class AccountServiceImpl implements AccountService, ApplicationListener<C
     @Override
     public Account getAccount(HttpServletRequest request) {
         String host = request.getServerName();
-        String subdomain = host.substring(0, host.indexOf("."));
+        String subdomain = host.contains(".") ? host.substring(0, host.indexOf(".")) : host;
 
         Account account = getAccount(subdomain);
         if (account == null) {
             account = getAccountByCustomDomain(host);
+        }
+        if (account == null && "true".equals(environment.getProperty("useDefaultAccount"))) {
+            account = getDefaultAccount();
         }
         return account;
     }

@@ -18,6 +18,7 @@
 package tools.dynamia.modules.saas.services.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import tools.dynamia.commons.SimpleCache;
@@ -62,6 +63,9 @@ public class AccountServiceAPIImpl extends AbstractService implements AccountSer
     @Autowired
     private AccountContext accountContext;
 
+    @Autowired
+    private Environment environment;
+
     private final SimpleCache<Long, AccountDTO> accountCache = new SimpleCache<>();
     private final SimpleCache<String, Long> domainCache = new SimpleCache<>();
 
@@ -92,6 +96,8 @@ public class AccountServiceAPIImpl extends AbstractService implements AccountSer
             if (dto == null) {
                 Account account = crudService().findSingle(Account.class,
                         QueryParameters.with("id", accountId).add("status", QueryConditions.isNotNull()));
+
+
                 if (account != null) {
                     dto = account.toDTO();
                     accountCache.add(accountId, dto);
@@ -285,6 +291,12 @@ public class AccountServiceAPIImpl extends AbstractService implements AccountSer
                     accountId = account.getId();
                 }
             }
+            if (account == null && "true".equals(environment.getProperty("useDefaultAccount"))) {
+                account = service.getDefaultAccount();
+                accountId = account.getId();
+            }
+
+
             if (accountId != null) {
                 domainCache.add(domain, accountId);
             }
