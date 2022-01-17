@@ -52,6 +52,9 @@ fields:
   freeTrial:
     component: spiner
   status:
+  customDomain:
+    params:
+      span: 2
   maxUsers:
     description: Override Account Type Config
     params:
@@ -102,6 +105,6 @@ groups:
 
 layout:
   columns: 4
-        
-       
-     
+
+
+
