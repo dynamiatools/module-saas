@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package tools.dynamia.modules.saas;
+package tools.dynamia.modules.saas.api;
 
 public interface AccountFeatureProvider {
 

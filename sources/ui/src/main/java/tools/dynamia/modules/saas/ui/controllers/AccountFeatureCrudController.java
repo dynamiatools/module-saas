@@ -17,11 +17,10 @@
 
 package tools.dynamia.modules.saas.ui.controllers;
 
-import org.zkoss.zul.Checkbox;
 import tools.dynamia.domain.query.QueryConditions;
 import tools.dynamia.domain.query.QueryParameters;
 import tools.dynamia.integration.Containers;
-import tools.dynamia.modules.saas.AccountFeatureProvider;
+import tools.dynamia.modules.saas.api.AccountFeatureProvider;
 import tools.dynamia.modules.saas.domain.Account;
 import tools.dynamia.modules.saas.domain.AccountFeature;
 import tools.dynamia.zk.crud.SubcrudController;
