@@ -778,10 +778,14 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
     public int getFreeTrialLeft() {
         int left = 0;
         if (freeTrial > 0) {
-            long diff = DateTimeUtils.daysBetween(new Date(), creationDate);
-            left = freeTrial - (int) diff;
+            left = computeTrialLeft(freeTrial,new Date());
         }
         return left;
+    }
+
+    public int computeTrialLeft(int trial,Date date) {
+        long diff = DateTimeUtils.daysBetween(creationDate,date);
+        return trial - (int) diff;
     }
 
     public boolean isInFreeTrial() {
