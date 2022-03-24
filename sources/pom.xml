@@ -59,7 +59,7 @@
     </scm>
 
     <properties>
-        <dynamiatools.version>4.0.4</dynamiatools.version>
+        <dynamiatools.version>4.0.6</dynamiatools.version>
         <entityfiles.version>6.4.0</entityfiles.version>
         <java.version>11</java.version>
         <maven.compiler>3.8.1</maven.compiler>
