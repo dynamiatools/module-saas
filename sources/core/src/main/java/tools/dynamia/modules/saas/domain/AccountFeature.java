@@ -17,6 +17,7 @@
 
 package tools.dynamia.modules.saas.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import tools.dynamia.domain.jpa.SimpleEntity;
 import tools.dynamia.domain.Transferable;
 import tools.dynamia.domain.contraints.NotEmpty;
@@ -31,6 +32,7 @@ import javax.persistence.Table;
 public class AccountFeature extends SimpleEntity implements Transferable<AccountFeatureDTO> {
 
     @ManyToOne
+    @JsonIgnore
     private Account account;
 
     @NotEmpty

@@ -27,7 +27,7 @@ public class AccountAPIConfig {
 
 
     @Bean
-    public CustomScopeConfigurer accountScopeConfigurer() {
+    public static CustomScopeConfigurer accountScopeConfigurer() {
         CustomScopeConfigurer configurer = new CustomScopeConfigurer();
         configurer.addScope("account", new AccountScope());
         return configurer;

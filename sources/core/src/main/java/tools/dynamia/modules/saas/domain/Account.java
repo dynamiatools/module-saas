@@ -17,6 +17,7 @@
 
 package tools.dynamia.modules.saas.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import tools.dynamia.commons.DateTimeUtils;
@@ -92,10 +93,12 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
     private boolean defaultAccount;
     private String skin;
     @OneToOne
+    @JsonIgnore
     private EntityFile logo;
     private String locale;
     private String timeZone;
     @OneToOne
+    @JsonIgnore
     private AccountProfile profile;
     private long users;
     private long activedUsers;
@@ -123,6 +126,7 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
     private String instanceUuid;
     private Boolean requiredInstanceUuid = Boolean.FALSE;
     private boolean remote;
+    @JsonIgnore
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AccountStatsData> stats = new ArrayList<>();
     @Size(min = 5, message = "El nombre de usuario debe ser minimo de 5 caracteres")
@@ -162,6 +166,7 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
     private boolean autoInit = true;
 
     @ManyToOne
+    @JsonIgnore
     private Account parentAccount;
     private int freeTrial;
 
@@ -788,6 +793,7 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
         return trial - (int) diff;
     }
 
+    @JsonIgnore
     public boolean isInFreeTrial() {
         return freeTrial > 0 && getFreeTrialLeft() > 0;
     }

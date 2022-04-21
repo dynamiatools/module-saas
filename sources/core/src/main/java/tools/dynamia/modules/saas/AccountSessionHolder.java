@@ -18,7 +18,7 @@
 
 package tools.dynamia.modules.saas;
 
-import org.springframework.context.annotation.Scope;
+import org.springframework.web.context.annotation.SessionScope;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import tools.dynamia.domain.util.DomainUtils;
@@ -28,14 +28,15 @@ import tools.dynamia.modules.saas.api.AccountException;
 import tools.dynamia.modules.saas.api.dto.AccountDTO;
 import tools.dynamia.modules.saas.domain.Account;
 
+import java.io.Serializable;
 import java.util.Locale;
 
 /**
  * @author Mario Serrano Leones
  */
 @Component("accountSessionHolder")
-@Scope("session")
-public class AccountSessionHolder {
+@SessionScope
+public class AccountSessionHolder implements Serializable {
 
     private Locale accountLocale;
     private Account current;
@@ -66,7 +67,7 @@ public class AccountSessionHolder {
         if (account != null) {
             try {
                 DomainUtils.lookupCrudService().executeWithinTransaction(() -> {
-                    this.current = DomainUtils.lookupCrudService().reload(account);
+                    this.current = DomainUtils.lookupCrudService().find(Account.class,account.getId());
                     current.getFeatures().size();
                     current.getAdditionalServices().size();
                     current.getStats().size();

@@ -22,10 +22,10 @@
     <parent>
         <groupId>tools.dynamia.modules</groupId>
         <artifactId>tools.dynamia.modules.saas.parent</artifactId>
-        <version>2.7.2</version>
+        <version>2.7.3</version>
     </parent>
     <artifactId>tools.dynamia.modules.saas.ui</artifactId>
-    <version>2.7.2</version>
+    <version>2.7.3</version>
     <name>DynamiaModules - SaaS UI</name>
     <url>https://www.dynamia.tools/modules/saas</url>
 

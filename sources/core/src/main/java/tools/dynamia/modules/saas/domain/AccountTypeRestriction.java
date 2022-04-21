@@ -23,6 +23,7 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import tools.dynamia.domain.jpa.SimpleEntity;
 import tools.dynamia.domain.Transferable;
 import tools.dynamia.modules.saas.api.dto.AccountTypeRestrictionDTO;
@@ -35,6 +36,7 @@ import tools.dynamia.modules.saas.api.dto.AccountTypeRestrictionDTO;
 public class AccountTypeRestriction extends SimpleEntity implements Transferable<AccountTypeRestrictionDTO> {
 
     @ManyToOne
+    @JsonIgnore
     private AccountType type;
     @Column(name = "rest_name")
     private String name;

@@ -21,7 +21,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>tools.dynamia.modules</groupId>
     <artifactId>tools.dynamia.modules.saas.parent</artifactId>
-    <version>2.7.2</version>
+    <version>2.7.3</version>
     <packaging>pom</packaging>
     <name>DynamiaModules - SaaS</name>
     <description>DynamiaTools extension to create SaaS applications with accounts control and multi tenants in same
@@ -59,18 +59,16 @@
     </scm>
 
     <properties>
-        <dynamiatools.version>4.0.6</dynamiatools.version>
-        <entityfiles.version>6.4.0</entityfiles.version>
+        <dynamiatools.version>4.0.8</dynamiatools.version>
+        <entityfiles.version>6.5.2</entityfiles.version>
         <java.version>11</java.version>
         <maven.compiler>3.8.1</maven.compiler>
         <source.encoding>UTF-8</source.encoding>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <oshi.version>4.4.2</oshi.version>
-        <jna.version>5.5.0</jna.version>
-        <spring.version>5.2.4.RELEASE</spring.version>
-        <hibernate.version>5.4.4.Final</hibernate.version>
-        <jackson.version>2.12.1</jackson.version>
+        <oshi.version>6.1.0</oshi.version>
+        <jna.version>5.11.0</jna.version>
+        <springboot.version>2.6.7</springboot.version>
     </properties>
 
     <modules>
@@ -176,4 +174,16 @@
             </build>
         </profile>
     </profiles>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${springboot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 </project>

@@ -22,6 +22,7 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import tools.dynamia.domain.jpa.SimpleEntity;
 import tools.dynamia.domain.contraints.NotEmpty;
 import tools.dynamia.modules.saas.domain.enums.AccessControl;
@@ -31,6 +32,7 @@ import tools.dynamia.modules.saas.domain.enums.AccessControl;
 public class AccountProfileRestriction extends SimpleEntity {
 
     @ManyToOne
+    @JsonIgnore
     private AccountProfile profile;
 
     @NotEmpty

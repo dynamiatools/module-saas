@@ -61,7 +61,7 @@ public class RemoteAccountServiceAPI extends CrudServiceListenerAdapter<AccountA
     private final int hours = 1;
     protected Long defaultID;
     private int connectionFailCount = 0;
-    private static SystemInfo systemInfo = new SystemInfo();
+
 
     public RemoteAccountServiceAPI(String serverUrl, String accountUuid) {
         this.serverUrl = serverUrl;
@@ -151,17 +151,11 @@ public class RemoteAccountServiceAPI extends CrudServiceListenerAdapter<AccountA
     }
 
     static String getHardwareUUID() {
-        String processorID = systemInfo.getHardware().getProcessor().getProcessorID();
-        String serialHDD = "";
-        HWDiskStore[] diskStores = systemInfo.getHardware().getDiskStores();
-        if (diskStores != null && diskStores.length > 1) {
-            serialHDD = diskStores[0].getSerial();
-        }
-        NetworkIF[] networkIFs = systemInfo.getHardware().getNetworkIFs();
-        String macaddr = "";
-        if (networkIFs != null && networkIFs.length > 1) {
-            macaddr = networkIFs[0].getMacaddr();
-        }
+        var systemInfo = new SystemInfo();
+        var processorID = systemInfo.getHardware().getProcessor().getProcessorIdentifier().getProcessorID();
+        var serialHDD = systemInfo.getHardware().getDiskStores().stream().findFirst().map(HWDiskStore::getSerial).orElse("");
+        var macaddr = systemInfo.getHardware().getNetworkIFs().stream().findFirst().map(NetworkIF::getMacaddr).orElse("");
+
         return StringUtils.hash(processorID + serialHDD + macaddr, "md5");
     }
 
