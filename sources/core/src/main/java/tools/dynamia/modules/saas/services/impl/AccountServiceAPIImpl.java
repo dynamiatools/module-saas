@@ -131,8 +131,17 @@ public class AccountServiceAPIImpl extends AbstractService implements AccountSer
         Long id = null;
 
         try {
-            if (HttpUtils.isInWebScope() && AccountSessionHolder.get().getCurrent() != null) {
-                id = AccountSessionHolder.get().getCurrent().getId();
+            if (HttpUtils.isInWebScope()) {
+                var req = HttpUtils.getCurrentRequest();
+                if (req != null) {
+                    id = (Long) req.getAttribute(CURRENT_ACCOUNT_ID_ATTRIBUTE);
+                }
+
+                if (id == null) {
+                    if (AccountSessionHolder.get().getCurrent() != null) {
+                        id = AccountSessionHolder.get().getCurrent().getId();
+                    }
+                }
             }
         } catch (Exception e) {
             //ignore
@@ -282,17 +291,14 @@ public class AccountServiceAPIImpl extends AbstractService implements AccountSer
     public Long getAccountIdByDomain(String domain) {
         Long accountId = domainCache.get(domain);
         if (accountId == null) {
-            Account account = service.getAccount(domain);
-            if (account != null) {
-                accountId = account.getId();
-            } else {
-                account = service.getAccountByCustomDomain(domain);
-                if (account != null) {
-                    accountId = account.getId();
-                }
+            accountId = service.getAccountId(domain);
+
+            if (accountId == null) {
+                accountId = service.getAccountIdByCustomDomain(domain);
             }
-            if (account == null && "true".equals(environment.getProperty("useDefaultAccount"))) {
-                account = service.getDefaultAccount();
+
+            if (accountId == null && "true".equals(environment.getProperty("useDefaultAccount"))) {
+                var account = service.getDefaultAccount();
                 accountId = account.getId();
             }
 

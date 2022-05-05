@@ -84,6 +84,19 @@ public class AccountServiceImpl implements AccountService, ApplicationListener<C
     }
 
     @Override
+    /**
+     * Find the account id using a subdomain
+     */
+    public Long getAccountId(String subdomain) {
+        var result = crudService.executeQuery(QueryBuilder.select("id").from(Account.class, "a").where(
+                QueryParameters.with("subdomain", QueryConditions.eq(subdomain))
+                        .add("status", QueryConditions.isNotNull())
+                        .add("remote", false)));
+
+        return (Long) result.stream().findFirst().orElse(null);
+    }
+
+    @Override
     public Account getAccountByCustomDomain(String domain) {
         return crudService.findSingle(Account.class,
                 QueryParameters.with("customDomain", QueryConditions.eq(domain)).add("status", QueryConditions.isNotNull())
@@ -403,5 +416,22 @@ public class AccountServiceImpl implements AccountService, ApplicationListener<C
         value = value.add(additionalServicesTotal);
 
         return value;
+    }
+
+    @Override
+    public Account getAccountById(Long accountId) {
+        return crudService.find(Account.class, accountId);
+    }
+
+    @Override
+    public Long getAccountIdByCustomDomain(String domain) {
+        var result = crudService.executeQuery(QueryBuilder.select("id").from(Account.class, "a").where(
+                QueryParameters.with("customDomain", QueryConditions.eq(domain))
+                        .add("status", QueryConditions.isNotNull())
+                        .add("remote", false)));
+
+
+        return (Long) result.stream().findFirst().orElse(null);
+
     }
 }

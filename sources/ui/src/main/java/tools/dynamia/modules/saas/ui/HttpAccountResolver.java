@@ -18,17 +18,16 @@
 
 package tools.dynamia.modules.saas.ui;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import tools.dynamia.modules.saas.AccountResolver;
-import tools.dynamia.modules.saas.AccountSessionHolder;
+import tools.dynamia.modules.saas.api.AccountServiceAPI;
 import tools.dynamia.modules.saas.domain.Account;
 import tools.dynamia.modules.saas.services.AccountService;
 import tools.dynamia.web.util.HttpUtils;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 /**
  * @author Mario Serrano Leones
@@ -48,17 +47,22 @@ public class HttpAccountResolver implements AccountResolver {
             Account account = null;
             HttpServletRequest request = getHttpRequest();
             if (request != null) {
-                HttpSession session = request.getSession(true);
 
-                if(session!=null) {
-                    account = (Account) session.getAttribute(ATTRIBUTE_SAAS_ACCOUNT);
+                Long accountId = (Long) request.getAttribute(AccountServiceAPI.CURRENT_ACCOUNT_ID_ATTRIBUTE);
+                if(accountId!=null){
+                    account = service.getAccountById(accountId);
                 }
 
                 if (account == null) {
-                    account = service.getAccount(request);
-
-                    if (account != null) {
-                        session.setAttribute(ATTRIBUTE_SAAS_ACCOUNT, account);
+                    HttpSession session = request.getSession(false);
+                    if (session != null) {
+                        account = (Account) session.getAttribute(ATTRIBUTE_SAAS_ACCOUNT);
+                        if (account == null) {
+                            account = service.getAccount(request);
+                            if (account != null) {
+                                session.setAttribute(ATTRIBUTE_SAAS_ACCOUNT, account);
+                            }
+                        }
                     }
                 }
             }

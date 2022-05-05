@@ -31,6 +31,8 @@ import java.util.Map;
 
 public interface AccountServiceAPI {
 
+    String CURRENT_ACCOUNT_ID_ATTRIBUTE = "currentAccountId";
+
     AccountStatus getAccountStatus(Long accountId);
 
     AccountDTO getAccount(Long accountId);

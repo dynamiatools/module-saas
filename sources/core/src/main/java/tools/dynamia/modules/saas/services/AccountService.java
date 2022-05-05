@@ -18,14 +18,11 @@
 
 package tools.dynamia.modules.saas.services;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 import tools.dynamia.modules.saas.api.AccountStats;
 import tools.dynamia.modules.saas.domain.Account;
 import tools.dynamia.modules.saas.domain.AccountPayment;
 
+import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -37,6 +34,8 @@ public interface AccountService {
     Account getAccount(String subdomain);
 
     Account getAccount(HttpServletRequest request);
+
+    Long getAccountId(String subdomain);
 
     Account getAccountByCustomDomain(String domain);
 
@@ -81,4 +80,8 @@ public interface AccountService {
     boolean isAboutToExpire(Account account);
 
     BigDecimal getPaymentValue(Account account);
+
+    Account getAccountById(Long accountId);
+
+    Long getAccountIdByCustomDomain(String domain);
 }
