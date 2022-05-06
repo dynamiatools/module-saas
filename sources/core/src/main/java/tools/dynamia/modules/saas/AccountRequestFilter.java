@@ -25,13 +25,15 @@ public class AccountRequestFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         if (request instanceof HttpServletRequest) {
             var req = (HttpServletRequest) request;
-            var accountId = (Long) req.getAttribute(AccountServiceAPI.CURRENT_ACCOUNT_ID_ATTRIBUTE);
-            if (accountId == null) {
-                var accountServiceAPI = Containers.get().findObject(AccountServiceAPI.class);
-                if (accountServiceAPI != null) {
-                    String subdomain = HttpUtils.getSubdomain(req);
-                    accountId = accountServiceAPI.getAccountIdByDomain(subdomain);
-                    req.setAttribute(AccountServiceAPI.CURRENT_ACCOUNT_ID_ATTRIBUTE, accountId);
+            String subdomain = HttpUtils.getSubdomain(req);
+            if (subdomain != null) {
+                var accountId = (Long) req.getAttribute(AccountServiceAPI.CURRENT_ACCOUNT_ID_ATTRIBUTE);
+                if (accountId == null) {
+                    var accountServiceAPI = Containers.get().findObject(AccountServiceAPI.class);
+                    if (accountServiceAPI != null) {
+                        accountId = accountServiceAPI.getAccountIdByDomain(subdomain);
+                        req.setAttribute(AccountServiceAPI.CURRENT_ACCOUNT_ID_ATTRIBUTE, accountId);
+                    }
                 }
             }
         }

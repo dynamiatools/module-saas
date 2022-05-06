@@ -82,6 +82,19 @@ public class AccountDTO implements Serializable {
     private BigDecimal balance = BigDecimal.ZERO;
     private String url;
 
+    public AccountDTO() {
+    }
+
+    public AccountDTO(Long id, String subdomain) {
+        this.id = id;
+        this.subdomain = subdomain;
+    }
+
+    public AccountDTO(Long id, String subdomain, AccountStatus status) {
+        this.id = id;
+        this.subdomain = subdomain;
+        this.status = status;
+    }
 
     public Boolean getRequiredInstanceUuid() {
         return requiredInstanceUuid;

@@ -17,7 +17,7 @@
 
 package tools.dynamia.modules.saas.services.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.core.env.Environment;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +26,7 @@ import tools.dynamia.domain.query.ApplicationParameters;
 import tools.dynamia.domain.query.QueryConditions;
 import tools.dynamia.domain.query.QueryParameters;
 import tools.dynamia.domain.services.AbstractService;
-import tools.dynamia.domain.util.QueryBuilder;
+import tools.dynamia.domain.services.CrudService;
 import tools.dynamia.integration.sterotypes.Service;
 import tools.dynamia.modules.saas.AccountContext;
 import tools.dynamia.modules.saas.AccountSessionHolder;
@@ -43,35 +43,31 @@ import tools.dynamia.modules.saas.jpa.AccountParameter;
 import tools.dynamia.modules.saas.services.AccountService;
 import tools.dynamia.web.util.HttpUtils;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import static tools.dynamia.domain.query.QueryConditions.eq;
+import static tools.dynamia.domain.util.QueryBuilder.select;
+
 @Service("accountServiceAPI")
-public class AccountServiceAPIImpl extends AbstractService implements AccountServiceAPI {
+public class AccountServiceAPIImpl extends AbstractService implements AccountServiceAPI, InitializingBean {
 
+    private final AccountService service;
+    private final AccountContext accountContext;
+    private final CrudService crudService;
+    private final Environment environment;
 
-    @Autowired
-    private AccountService service;
-
-    @PersistenceContext
-    private EntityManager entityManager;
-
-    @Autowired
-    private AccountContext accountContext;
-
-    @Autowired
-    private Environment environment;
 
     private final SimpleCache<Long, AccountDTO> accountCache = new SimpleCache<>();
     private final SimpleCache<String, Long> domainCache = new SimpleCache<>();
 
-    @Autowired
-    public AccountServiceAPIImpl(AccountService service) {
+    public AccountServiceAPIImpl(AccountService service, AccountContext accountContext, CrudService crudService, Environment environment) {
         this.service = service;
+        this.accountContext = accountContext;
+        this.crudService = crudService;
+        this.environment = environment;
     }
 
 
@@ -94,7 +90,7 @@ public class AccountServiceAPIImpl extends AbstractService implements AccountSer
         try {
             dto = accountCache.get(accountId);
             if (dto == null) {
-                Account account = crudService().findSingle(Account.class,
+                Account account = crudService.findSingle(Account.class,
                         QueryParameters.with("id", accountId).add("status", QueryConditions.isNotNull()));
 
 
@@ -114,7 +110,7 @@ public class AccountServiceAPIImpl extends AbstractService implements AccountSer
     @Override
     public Long getSystemAccountId() {
         try {
-            Account account = crudService().findSingle(Account.class, "name", QueryConditions.eq("System"));
+            Account account = crudService.findSingle(Account.class, "name", eq("System"));
             if (account != null) {
                 return account.getId();
             } else {
@@ -172,13 +168,13 @@ public class AccountServiceAPIImpl extends AbstractService implements AccountSer
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void updateAccountUsers(Long accountId, long users, long activedUsers) {
-        Account account = crudService().find(Account.class, accountId);
+        Account account = crudService.find(Account.class, accountId);
         if (account != null) {
             account.setActivedUsers(activedUsers);
             account.setUsers(users);
             account.getIdentification();
             service.computeAccountPaymentValue(account);
-            crudService().update(account);
+            crudService.update(account);
         }
     }
 
@@ -210,15 +206,15 @@ public class AccountServiceAPIImpl extends AbstractService implements AccountSer
 
     @Override
     public boolean hasFeature(Long accountId, String featureId) {
-        AccountFeature feature = crudService().findSingle(AccountFeature.class, QueryParameters.with("account.id", accountId)
-                .add("providerId", QueryConditions.eq(featureId)));
+        AccountFeature feature = crudService.findSingle(AccountFeature.class, QueryParameters.with("account.id", accountId)
+                .add("providerId", eq(featureId)));
 
         return feature != null && feature.isEnabled();
     }
 
     @Override
     public boolean isPrintingEnabled(Long accountId) {
-        Boolean enabled = crudService().executeProjection(Boolean.class, "select a.type.printingSupport from Account a where a.id = :accountId",
+        Boolean enabled = crudService.executeProjection(Boolean.class, "select a.type.printingSupport from Account a where a.id = :accountId",
                 QueryParameters.with("accountId", accountId));
 
         if (enabled == null) {
@@ -230,10 +226,8 @@ public class AccountServiceAPIImpl extends AbstractService implements AccountSer
     @Override
     public List<Long> findAccountsIdByFeature(String featureId) {
         String jpql = "select af.account.id from AccountFeature af where af.providerId = :feature and af.enabled = true and af.account.status = :status";
-        return entityManager.createQuery(jpql)
-                .setParameter("feature", featureId)
-                .setParameter("status", AccountStatus.ACTIVE)
-                .getResultList();
+        return crudService.executeQuery(jpql, QueryParameters.with("feature", eq(featureId))
+                .add("status", AccountStatus.ACTIVE));
     }
 
     @Override
@@ -252,10 +246,9 @@ public class AccountServiceAPIImpl extends AbstractService implements AccountSer
     @Override
     public AccountStatusDTO getAccountStatusDetails(final Long accountId) {
 
-
-        List<AccountStatusDTO> result = crudService().executeQuery(QueryBuilder.select("id", "name", "status", "statusDate",
-                        "statusDescription", "globalMessage", "showGlobalMessage", "globalMessageType", "balance")
-                .from(Account.class, "a").where("id", QueryConditions.eq(accountId))
+        List<AccountStatusDTO> result = crudService.executeQuery(select("id", "name", "status", "statusDate",
+                "statusDescription", "globalMessage", "showGlobalMessage", "globalMessageType", "balance")
+                .from(Account.class, "a").where("id", eq(accountId))
                 .resultType(AccountStatusDTO.class));
 
         var accountStatus = result.stream().findFirst().
@@ -281,14 +274,18 @@ public class AccountServiceAPIImpl extends AbstractService implements AccountSer
 
     @Override
     public Long getParentAccountId(Long accountId) {
-        return crudService().executeProjection(Long.class,
-                QueryBuilder.select("a.parentAccount.id").from(Account.class, "a")
+        return crudService.executeProjection(Long.class,
+                select("a.parentAccount.id").from(Account.class, "a")
                         .where("a.id = :accountId").toString(),
                 QueryParameters.with("accountId", accountId));
     }
 
     @Override
     public Long getAccountIdByDomain(String domain) {
+        if (domain == null) {
+            return null;
+        }
+
         Long accountId = domainCache.get(domain);
         if (accountId == null) {
             accountId = service.getAccountId(domain);
@@ -331,7 +328,29 @@ public class AccountServiceAPIImpl extends AbstractService implements AccountSer
     public List<Long> findAccountsId(Map<String, Object> params) {
         var queryParams = new QueryParameters();
         queryParams.putAll(params);
-        var query = QueryBuilder.select("id").from(Account.class, "a").where(queryParams);
-        return crudService().executeQuery(query);
+        var query = select("id").from(Account.class, "a").where(queryParams);
+        return crudService.executeQuery(query);
+    }
+
+    private void initDomainCache() {
+        log("Loading subdomain cache");
+        var domains = crudService.executeQuery(
+                select("id", "subdomain").from(Account.class, "a")
+                        .where("a.status", eq(AccountStatus.ACTIVE))
+                        .resultType(AccountDTO.class)
+        );
+
+        domains.forEach(o -> {
+            var dto = (AccountDTO) o;
+            domainCache.add(dto.getSubdomain(), dto.getId());
+            log(dto.getId() + "  -> " + dto.getSubdomain());
+        });
+
+
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        initDomainCache();
     }
 }

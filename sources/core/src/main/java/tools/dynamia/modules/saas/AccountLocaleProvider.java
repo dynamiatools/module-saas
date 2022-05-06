@@ -39,7 +39,6 @@ public class AccountLocaleProvider implements LocaleProvider {
         try {
             return AccountSessionHolder.get().getAccountLocale();
         } catch (Exception e) {
-            logger.warn("Cannot get current account locale: " + e.getMessage());
             return null;
         }
     }
