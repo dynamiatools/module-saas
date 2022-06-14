@@ -18,6 +18,7 @@
 
 package tools.dynamia.modules.saas.api.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import tools.dynamia.modules.saas.api.enums.AccountStatus;
 
 import java.io.Serializable;
@@ -36,6 +37,7 @@ public class AccountDTO implements Serializable {
     private Long id;
     private String name;
     private String identification;
+    private String idType;
     private String subdomain;
     private String customDomain;
     private String email;
@@ -66,6 +68,9 @@ public class AccountDTO implements Serializable {
     private String city;
     private String country;
     private String contact;
+    private String contactFirstName;
+    private String contactLastName;
+    private String contactEmail;
     private String uuid;
     private String instanceUuid;
     private Boolean requiredInstanceUuid = Boolean.FALSE;
@@ -81,6 +86,13 @@ public class AccountDTO implements Serializable {
     private List<AccountFeatureDTO> features = new ArrayList<>();
     private BigDecimal balance = BigDecimal.ZERO;
     private String url;
+    private long openTicketsCount;
+    private long closedTicketsCount;
+    private boolean autoInit;
+    private Long parentAccountId;
+    private int freeTrial;
+
+    private String defaultPassword;
 
     public AccountDTO() {
     }
@@ -94,6 +106,78 @@ public class AccountDTO implements Serializable {
         this.id = id;
         this.subdomain = subdomain;
         this.status = status;
+    }
+
+    public String getIdType() {
+        return idType;
+    }
+
+    public void setIdType(String idType) {
+        this.idType = idType;
+    }
+
+    public String getContactFirstName() {
+        return contactFirstName;
+    }
+
+    public void setContactFirstName(String contactFirstName) {
+        this.contactFirstName = contactFirstName;
+    }
+
+    public String getContactLastName() {
+        return contactLastName;
+    }
+
+    public void setContactLastName(String contactLastName) {
+        this.contactLastName = contactLastName;
+    }
+
+    public String getContactEmail() {
+        return contactEmail;
+    }
+
+    public void setContactEmail(String contactEmail) {
+        this.contactEmail = contactEmail;
+    }
+
+    public long getOpenTicketsCount() {
+        return openTicketsCount;
+    }
+
+    public void setOpenTicketsCount(long openTicketsCount) {
+        this.openTicketsCount = openTicketsCount;
+    }
+
+    public long getClosedTicketsCount() {
+        return closedTicketsCount;
+    }
+
+    public void setClosedTicketsCount(long closedTicketsCount) {
+        this.closedTicketsCount = closedTicketsCount;
+    }
+
+    public boolean isAutoInit() {
+        return autoInit;
+    }
+
+    public void setAutoInit(boolean autoInit) {
+        this.autoInit = autoInit;
+    }
+
+    public Long getParentAccountId() {
+        return parentAccountId;
+    }
+
+    public void setParentAccountId(Long parentAccountId) {
+        this.parentAccountId = parentAccountId;
+    }
+
+    public int getFreeTrial() {
+        return freeTrial;
+    }
+
+    public void setFreeTrial(int freeTrial) {
+        this.freeTrial = freeTrial;
     }
 
     public Boolean getRequiredInstanceUuid() {
@@ -485,4 +569,11 @@ public class AccountDTO implements Serializable {
     }
 
 
+    public String getDefaultPassword() {
+        return defaultPassword;
+    }
+
+    public void setDefaultPassword(String defaultPassword) {
+        this.defaultPassword = defaultPassword;
+    }
 }

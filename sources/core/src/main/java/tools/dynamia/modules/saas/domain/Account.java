@@ -170,6 +170,9 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
     private Account parentAccount;
     private int freeTrial;
 
+    @Transient
+    private String defaultPassword;
+
     public Account() {
         try {
             Locale current = Locale.getDefault();
@@ -796,5 +799,13 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
     @JsonIgnore
     public boolean isInFreeTrial() {
         return freeTrial > 0 && getFreeTrialLeft() > 0;
+    }
+
+    public String getDefaultPassword() {
+        return defaultPassword;
+    }
+
+    public void setDefaultPassword(String defaultPassword) {
+        this.defaultPassword = defaultPassword;
     }
 }
