@@ -20,6 +20,7 @@ package tools.dynamia.modules.saas.domain;
 import tools.dynamia.domain.contraints.NotEmpty;
 import tools.dynamia.domain.jpa.BaseEntity;
 import tools.dynamia.domain.jpa.ContactInfo;
+import tools.dynamia.domain.util.DomainUtils;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
@@ -28,6 +29,11 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "saas_resellers")
 public class AccountReseller extends BaseEntity {
+
+
+    public static AccountReseller findByMainAccount(Long accountId){
+        return DomainUtils.lookupCrudService().findSingle(AccountReseller.class,"mainAccount.id",accountId);
+    }
 
     @NotEmpty
     private String name;
@@ -66,6 +72,9 @@ public class AccountReseller extends BaseEntity {
     }
 
     public ContactInfo getContactInfo() {
+        if(contactInfo==null){
+            contactInfo = new ContactInfo();
+        }
         return contactInfo;
     }
 
