@@ -94,6 +94,8 @@ public class AccountDTO implements Serializable {
 
     private String defaultPassword;
 
+    private String activationCoupon;
+
     public AccountDTO() {
     }
 
@@ -575,5 +577,13 @@ public class AccountDTO implements Serializable {
 
     public void setDefaultPassword(String defaultPassword) {
         this.defaultPassword = defaultPassword;
+    }
+
+    public String getActivationCoupon() {
+        return activationCoupon;
+    }
+
+    public void setActivationCoupon(String activationCoupon) {
+        this.activationCoupon = activationCoupon;
     }
 }

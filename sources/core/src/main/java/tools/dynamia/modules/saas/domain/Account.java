@@ -173,6 +173,8 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
     @Transient
     private String defaultPassword;
 
+    private String activationCoupon;
+
     public Account() {
         try {
             Locale current = Locale.getDefault();
@@ -807,5 +809,13 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
 
     public void setDefaultPassword(String defaultPassword) {
         this.defaultPassword = defaultPassword;
+    }
+
+    public String getActivationCoupon() {
+        return activationCoupon;
+    }
+
+    public void setActivationCoupon(String activationCoupon) {
+        this.activationCoupon = activationCoupon;
     }
 }
