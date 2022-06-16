@@ -84,4 +84,6 @@ public interface AccountService {
     Account getAccountById(Long accountId);
 
     Long getAccountIdByCustomDomain(String domain);
+
+    Account getAccountByName(String name);
 }

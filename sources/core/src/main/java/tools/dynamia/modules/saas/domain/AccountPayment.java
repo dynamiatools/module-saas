@@ -70,6 +70,8 @@ public class AccountPayment extends BaseEntity implements Transferable<AccountPa
     private ResellerComissionStatus comissionStatus;
     private String couponCode;
 
+    private boolean silent;
+
     public Account getAccount() {
         return account;
     }
@@ -227,5 +229,13 @@ public class AccountPayment extends BaseEntity implements Transferable<AccountPa
 
     public void setCouponCode(String couponCode) {
         this.couponCode = couponCode;
+    }
+
+    public boolean isSilent() {
+        return silent;
+    }
+
+    public void setSilent(boolean silent) {
+        this.silent = silent;
     }
 }

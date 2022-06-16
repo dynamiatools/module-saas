@@ -434,4 +434,10 @@ public class AccountServiceImpl implements AccountService, ApplicationListener<C
         return (Long) result.stream().findFirst().orElse(null);
 
     }
+
+    @Override
+    public Account getAccountByName(String name) {
+        return crudService.findSingle(Account.class,
+                QueryParameters.with("name", QueryConditions.eq(name)));
+    }
 }
