@@ -17,6 +17,7 @@
 
 package tools.dynamia.modules.saas.domain;
 
+import org.hibernate.annotations.BatchSize;
 import tools.dynamia.domain.contraints.NotEmpty;
 import tools.dynamia.domain.jpa.BaseEntity;
 import tools.dynamia.domain.jpa.ContactInfo;
@@ -28,6 +29,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "saas_resellers")
+@BatchSize(size = 20)
 public class AccountReseller extends BaseEntity {
 
 

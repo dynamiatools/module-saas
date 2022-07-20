@@ -18,6 +18,7 @@
 package tools.dynamia.modules.saas.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.BatchSize;
 import tools.dynamia.domain.jpa.SimpleEntity;
 import tools.dynamia.domain.Transferable;
 import tools.dynamia.domain.contraints.NotEmpty;
@@ -29,6 +30,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "saas_accounts_features")
+@BatchSize(size = 20)
 public class AccountFeature extends SimpleEntity implements Transferable<AccountFeatureDTO> {
 
     @ManyToOne

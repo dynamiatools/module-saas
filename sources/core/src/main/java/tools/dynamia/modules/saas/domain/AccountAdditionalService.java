@@ -18,6 +18,7 @@
 package tools.dynamia.modules.saas.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.BatchSize;
 import tools.dynamia.domain.jpa.SimpleEntity;
 import tools.dynamia.domain.contraints.NotEmpty;
 
@@ -29,6 +30,7 @@ import java.math.BigDecimal;
 
 @Entity
 @Table(name = "saas_add_services")
+@BatchSize(size = 20)
 public class AccountAdditionalService extends SimpleEntity {
 
     @ManyToOne

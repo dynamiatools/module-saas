@@ -50,7 +50,7 @@ import java.util.Locale;
  */
 @Entity
 @Table(name = "saas_accounts")
-@BatchSize(size = 10)
+@BatchSize(size = 20)
 @Cacheable
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Account extends SimpleEntity implements Transferable<AccountDTO> {

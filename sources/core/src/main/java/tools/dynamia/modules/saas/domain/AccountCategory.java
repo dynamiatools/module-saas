@@ -17,6 +17,7 @@
 
 package tools.dynamia.modules.saas.domain;
 
+import org.hibernate.annotations.BatchSize;
 import tools.dynamia.domain.Descriptor;
 import tools.dynamia.domain.jpa.SimpleEntity;
 
@@ -28,6 +29,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "saas_categories")
 @Descriptor(fields = "name")
+@BatchSize(size = 20)
 public class AccountCategory extends SimpleEntity {
 
     @NotNull
