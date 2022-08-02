@@ -39,6 +39,11 @@ public abstract class AccountAdminAction extends AbstractAction implements Actio
         }
     }
 
+    @Override
+    public void afterActionPerformed(ActionEvent evt) {
+        //do nothing
+    }
+
     public boolean isAuthorizationRequired() {
         return authorizationRequired;
     }
