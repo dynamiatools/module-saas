@@ -59,7 +59,10 @@ public class ShowAccountAdminActions extends AbstractCrudAction {
         if (account != null) {
             account = crudService().reload(account);
             AccountDTO info = account.toDTO();
-            ActionEventBuilder evtBuilder = (source, params) -> new ActionEvent(info, this);
+            ActionEventBuilder evtBuilder = (source, params) -> {
+
+                return new ActionEvent(info, this);
+            };
 
             ActionLoader<AccountAdminAction> loader = new ActionLoader<>(AccountAdminAction.class);
             loader.setIgnoreRestrictions(true);
