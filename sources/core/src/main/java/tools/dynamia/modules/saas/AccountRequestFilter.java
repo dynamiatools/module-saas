@@ -45,4 +45,9 @@ public class AccountRequestFilter implements Filter {
     public void init(FilterConfig filterConfig) throws ServletException {
         //do nothing
     }
+
+    @Override
+    public void destroy() {
+        //do nothing
+    }
 }
