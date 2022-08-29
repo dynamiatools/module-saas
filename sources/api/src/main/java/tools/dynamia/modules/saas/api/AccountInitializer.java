@@ -18,7 +18,13 @@
 
 package tools.dynamia.modules.saas.api;
 
+import tools.dynamia.commons.LocalizedMessagesProvider;
+import tools.dynamia.commons.Messages;
+import tools.dynamia.integration.Containers;
 import tools.dynamia.modules.saas.api.dto.AccountDTO;
+
+import java.util.Comparator;
+import java.util.Locale;
 
 /**
  * @author Mario Serrano Leones
@@ -29,10 +35,35 @@ public interface AccountInitializer {
 
     /**
      * Define account initializer priority or order. Lower value is high priority
+     *
      * @return
      */
     default int getPriority() {
         return 0;
+    }
+
+
+    default String localizedMessage(String key, AccountDTO accountDTO) {
+        try {
+            var provider = Containers.get().findObjects(LocalizedMessagesProvider.class)
+                    .stream().min(Comparator.comparingInt(LocalizedMessagesProvider::getPriority))
+                    .orElse(null);
+
+            if (provider != null) {
+                var locale = accountDTO.getLocale() != null ? Locale.forLanguageTag(accountDTO.getLocale()) : Messages.getDefaultLocale();
+                if (locale != null) {
+                    return provider.getMessage(key, "* " + getClass().getSimpleName(), locale, key);
+                } else {
+                    return key;
+                }
+            } else {
+                return key;
+            }
+        } catch (Exception e) {
+            System.err.println("Error loading localized message " + e);
+            e.printStackTrace();
+            return key;
+        }
     }
 
 }
