@@ -175,6 +175,9 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
 
     private String activationCoupon;
 
+    @OneToOne
+    private AccountChannelSale channel;
+
     public Account() {
         try {
             Locale current = Locale.getDefault();
@@ -788,13 +791,13 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
     public int getFreeTrialLeft() {
         int left = 0;
         if (freeTrial > 0) {
-            left = computeTrialLeft(freeTrial,new Date());
+            left = computeTrialLeft(freeTrial, new Date());
         }
         return left;
     }
 
-    public int computeTrialLeft(int trial,Date date) {
-        long diff = DateTimeUtils.daysBetween(creationDate,date);
+    public int computeTrialLeft(int trial, Date date) {
+        long diff = DateTimeUtils.daysBetween(creationDate, date);
         return trial - (int) diff;
     }
 
@@ -817,5 +820,13 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
 
     public void setActivationCoupon(String activationCoupon) {
         this.activationCoupon = activationCoupon;
+    }
+
+    public AccountChannelSale getChannel() {
+        return channel;
+    }
+
+    public void setChannel(AccountChannelSale channel) {
+        this.channel = channel;
     }
 }

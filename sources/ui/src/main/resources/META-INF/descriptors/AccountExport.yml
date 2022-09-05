@@ -23,6 +23,8 @@ fields:
     component: skincombobox
   status:
   profile:
+  reseller:
+  channel:
   paymentDay:
   statusDescription:
     params:
@@ -48,6 +50,7 @@ fields:
     span: 4
   showGlobalMessage:
     label: Show
+  id:
 
 
 groups:

@@ -13,6 +13,7 @@ fields:
   status:
   profile:
   reseller:
+  channel:
   type.paymentRequired:
     label: Payment Required
   creationDate:

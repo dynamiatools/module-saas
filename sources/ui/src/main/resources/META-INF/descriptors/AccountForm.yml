@@ -23,6 +23,7 @@ fields:
     component: skincombobox
   profile:
   reseller:
+  channel:
   creationDate:
   category:
   parentAccount:
