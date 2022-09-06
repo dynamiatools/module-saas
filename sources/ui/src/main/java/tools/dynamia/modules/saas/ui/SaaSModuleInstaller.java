@@ -41,7 +41,7 @@ public class SaaSModuleInstaller implements ModuleProvider {
         module.addPage(new CrudPage("accountPaymentsMethods", "Payments Methods", AccountPaymentMethod.class));
         module.addPage(new CrudPage("accountCategories", "Categories", AccountCategory.class));
         module.addPage(new CrudPage("accountResellers", "Resellers", AccountReseller.class).icon("users").featured(4));
-        module.addPage(new CrudPage("accountChannels", "Sale Channels", AccountReseller.class).icon("tags"));
+        module.addPage(new CrudPage("accountChannels", "Sale Channels", AccountChannelSale.class).icon("tags"));
 
         return module;
     }
