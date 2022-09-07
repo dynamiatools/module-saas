@@ -8,6 +8,7 @@ fields:
       span: 2
   reference:
   quantity:
+
   price:
     params:
       format: "###,###"
@@ -15,11 +16,25 @@ fields:
     component: label
     params:
       converter: converters.CurrencySimple
+
+
   description:
     params:
-      span: 6
-      multiline: true
-      height: 80px
+      span: 4
+
+  quantityCalculator:
+    component: providerpickerbox
+    params:
+      className: tools.dynamia.modules.saas.api.AccountServiceQuantityCalculator
+  autoQtyOp:
+    label: Operation
+  autoQuantity:
+    label: Auto calculate
+
+groups:
+  automaticQuantity:
+    fields: [ quantityCalculator,  autoQtyOp,   autoQuantity ]
+
 
 layout:
-  columns: 6
+  columns: 4

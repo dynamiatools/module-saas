@@ -170,7 +170,7 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
     private Account parentAccount;
     private int freeTrial;
 
-    @Transient
+
     private String defaultPassword;
 
     private String activationCoupon;

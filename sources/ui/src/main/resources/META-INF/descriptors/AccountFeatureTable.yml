@@ -4,6 +4,9 @@ autofields: false
 
 fields:
   name:
+    params:
+      header:
+        width: 200px
   enabled:
     params:
       writable: true

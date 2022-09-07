@@ -32,12 +32,13 @@ fields:
   publicType:
     label: Public
   printingSupport:
+  secured:
   restrictions:
     component: crudview
 
 groups:
   configuration:
-    fields: [active,paymentRequired,allowAdditionalUsers,publicType,printingSupport]
+    fields: [ active,paymentRequired,allowAdditionalUsers,publicType,printingSupport,secured ]
 
 layout:
   columns: 4

@@ -64,6 +64,8 @@ public class AccountType extends SimpleEntity implements Transferable<AccountTyp
     private String reference;
     private boolean paymentRequired;
 
+    private boolean secured;
+
 
     public String getName() {
         return name;
@@ -214,5 +216,13 @@ public class AccountType extends SimpleEntity implements Transferable<AccountTyp
 
     public boolean isAdmin() {
         return "admin".equals(name);
+    }
+
+    public boolean isSecured() {
+        return secured;
+    }
+
+    public void setSecured(boolean secured) {
+        this.secured = secured;
     }
 }

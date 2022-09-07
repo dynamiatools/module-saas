@@ -67,7 +67,7 @@ public class AccountServiceImpl implements AccountService, ApplicationListener<C
 
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public Account init() {
+    public Account initAccount() {
         if (crudService.count(Account.class) == 0 && crudService.count(AccountType.class) == 0) {
             return createDefaults();
         } else {
@@ -195,21 +195,27 @@ public class AccountServiceImpl implements AccountService, ApplicationListener<C
     public void initAccount(Account account) {
         if (!account.isRemote() && account.isAutoInit()) {
             AccountDTO accountDTO = account.toDTO();
-            Collection<AccountInitializer> initializers = Containers.get().findObjects(AccountInitializer.class);
-            initializers.stream().sorted(Comparator.comparingInt(AccountInitializer::getPriority)).forEach(initializer -> {
-                try {
-                    initializer.init(accountDTO);
-                } catch (Exception e) {
-                    logger.error("Error firing account initializer " + initializer.getClass(), e);
-                }
-            });
+            initAccount(accountDTO);
         }
+    }
+
+    @Override
+    public void initAccount(AccountDTO accountDTO) {
+        Collection<AccountInitializer> initializers = Containers.get().findObjects(AccountInitializer.class);
+        initializers.stream().sorted(Comparator.comparingInt(AccountInitializer::getPriority)).forEach(initializer -> {
+            try {
+                logger.info("Executing " + initializer + " for " + accountDTO.getName());
+                initializer.init(accountDTO);
+            } catch (Exception e) {
+                logger.error("Error firing account initializer " + initializer.getClass(), e);
+            }
+        });
     }
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent evt) {
         logger.info("Context Refreshed.. initializing Accounts");
-        init();
+        initAccount();
     }
 
     @Override
@@ -394,6 +400,7 @@ public class AccountServiceImpl implements AccountService, ApplicationListener<C
     }
 
     @Override
+    @Transactional
     public BigDecimal getPaymentValue(Account account) {
         account = crudService.reload(account);
         BigDecimal value = account.getPaymentValue();
@@ -408,6 +415,13 @@ public class AccountServiceImpl implements AccountService, ApplicationListener<C
         if (value == null) {
             value = BigDecimal.ZERO;
         }
+
+        account.getAdditionalServices().stream()
+                .filter(AccountAdditionalService::isAutoQuantity)
+                .forEach(srv -> {
+                    srv.updateQuantity();
+                    srv.save();
+                });
 
         BigDecimal additionalServicesTotal = account.getAdditionalServices().stream()
                 .map(AccountAdditionalService::getTotal)

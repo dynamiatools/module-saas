@@ -19,6 +19,7 @@
 package tools.dynamia.modules.saas.services;
 
 import tools.dynamia.modules.saas.api.AccountStats;
+import tools.dynamia.modules.saas.api.dto.AccountDTO;
 import tools.dynamia.modules.saas.domain.Account;
 import tools.dynamia.modules.saas.domain.AccountPayment;
 
@@ -43,13 +44,15 @@ public interface AccountService {
 
     Account getDefaultAccount();
 
-    Account init();
+    Account initAccount();
 
 
     void computeAccountPaymentValue(Account account);
 
     void initAccount(Account entity);
 
+
+    void initAccount(AccountDTO accountDTO);
 
     void updateStats(Account a);
 

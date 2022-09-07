@@ -46,6 +46,13 @@ public class AccountTypeDTO implements Serializable {
     private BigDecimal additionalUserPrice;
     private boolean printingSupport;
 
+    private int allowedOverdueDays;
+
+    private boolean paymentRequired;
+
+    private boolean secured;
+    
+
     public String getName() {
         return name;
     }
@@ -161,5 +168,29 @@ public class AccountTypeDTO implements Serializable {
 
     public void setReference(String reference) {
         this.reference = reference;
+    }
+
+    public int getAllowedOverdueDays() {
+        return allowedOverdueDays;
+    }
+
+    public void setAllowedOverdueDays(int allowedOverdueDays) {
+        this.allowedOverdueDays = allowedOverdueDays;
+    }
+
+    public boolean isPaymentRequired() {
+        return paymentRequired;
+    }
+
+    public void setPaymentRequired(boolean paymentRequired) {
+        this.paymentRequired = paymentRequired;
+    }
+
+    public boolean isSecured() {
+        return secured;
+    }
+
+    public void setSecured(boolean secured) {
+        this.secured = secured;
     }
 }

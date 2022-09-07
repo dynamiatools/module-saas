@@ -18,4 +18,11 @@ fields:
         align: right
       footer:
         function: sum
+  autoQuantity:
+    label: Auto Qty
+    params:
+      header:
+        align: center
+  quantityCalculator:
+    label: Calculator
   description:

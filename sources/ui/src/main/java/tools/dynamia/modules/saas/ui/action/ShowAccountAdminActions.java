@@ -73,7 +73,7 @@ public class ShowAccountAdminActions extends AbstractCrudAction {
             defaultRenderer.setStyle("text-align: left");
 
             var actions = loader.load();
-            actions.sort(Comparator.comparing(Action::getName));
+            actions.sort(Comparator.comparing(Action::getPosition).thenComparing(Action::getName));
             actions.forEach(a -> {
                 ActionRenderer renderer = a.getRenderer() == null ? defaultRenderer : a.getRenderer();
                 Object component = renderer.render(a, evtBuilder);
@@ -87,8 +87,7 @@ public class ShowAccountAdminActions extends AbstractCrudAction {
                 layout.appendChild((Component) component);
             });
 
-            var win = ZKUtil.showDialog("Actions for " + info.getName(), layout, "400px", "500px");
-
+            var win = ZKUtil.showDialog("Actions for " + info.getName(), layout, "500px", "500px");
 
 
         } else {

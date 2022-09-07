@@ -21,6 +21,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.BatchSize;
 import tools.dynamia.domain.jpa.SimpleEntity;
 import tools.dynamia.domain.contraints.NotEmpty;
+import tools.dynamia.integration.Containers;
+import tools.dynamia.modules.saas.api.AccountServiceQuantityCalculator;
+import tools.dynamia.modules.saas.domain.enums.AutoQuantityOperation;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -45,12 +48,18 @@ public class AccountAdditionalService extends SimpleEntity {
     private int quantity = 1;
     private BigDecimal total = BigDecimal.ZERO;
 
+    private boolean autoQuantity;
+    private String quantityCalculator;
+    private AutoQuantityOperation autoQtyOp;
+
 
     public void compute() {
         if (price != null) {
             BigDecimal old = total;
             total = price.multiply(BigDecimal.valueOf(quantity));
             notifyChange("total", old, total);
+        } else {
+            total = BigDecimal.ZERO;
         }
     }
 
@@ -75,6 +84,9 @@ public class AccountAdditionalService extends SimpleEntity {
     }
 
     public BigDecimal getTotal() {
+        if (total == null) {
+            total = BigDecimal.ZERO;
+        }
         return total;
     }
 
@@ -110,5 +122,54 @@ public class AccountAdditionalService extends SimpleEntity {
 
     public void setReference(String reference) {
         this.reference = reference;
+    }
+
+    public boolean isAutoQuantity() {
+        return autoQuantity;
+    }
+
+    public void setAutoQuantity(boolean autoQuantity) {
+        this.autoQuantity = autoQuantity;
+    }
+
+    public String getQuantityCalculator() {
+        return quantityCalculator;
+    }
+
+    public void setQuantityCalculator(String quantityCalculator) {
+        this.quantityCalculator = quantityCalculator;
+    }
+
+    public void updateQuantity() {
+        if (autoQuantity) {
+            var calculator = Containers.get().findObject(AccountServiceQuantityCalculator.class, s -> s.getId().equals(quantityCalculator));
+            if (calculator != null && account != null && account.getId() != null) {
+                var qty = (int) calculator.calculate(account.getId());
+                if (qty >= 0) {
+                    var op = autoQtyOp == null ? AutoQuantityOperation.REPLACE : autoQtyOp;
+
+                    switch (op) {
+                        case ADD:
+                            setQuantity(this.quantity + qty);
+                            break;
+                        case REPLACE:
+                            setQuantity(qty);
+                            break;
+                        case SUBSTRACT:
+                            setQuantity(Math.abs(this.quantity - qty));
+                            break;
+                    }
+
+                }
+            }
+        }
+    }
+
+    public AutoQuantityOperation getAutoQtyOp() {
+        return autoQtyOp;
+    }
+
+    public void setAutoQtyOp(AutoQuantityOperation autoQtyOp) {
+        this.autoQtyOp = autoQtyOp;
     }
 }

@@ -586,4 +586,14 @@ public class AccountDTO implements Serializable {
     public void setActivationCoupon(String activationCoupon) {
         this.activationCoupon = activationCoupon;
     }
+
+    public boolean hasFeature(String name) {
+        if (features == null) {
+            return false;
+        }
+        return features.stream().filter(f -> f.getProviderId().equals(name))
+                .map(AccountFeatureDTO::isEnabled)
+                .findFirst()
+                .orElse(false);
+    }
 }

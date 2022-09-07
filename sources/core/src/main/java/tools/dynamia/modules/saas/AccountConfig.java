@@ -21,7 +21,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import tools.dynamia.domain.DefaultEntityReferenceRepository;
 import tools.dynamia.domain.EntityReferenceRepository;
-import tools.dynamia.modules.saas.domain.Account;
+import tools.dynamia.modules.saas.domain.*;
 
 @Configuration
 public class AccountConfig {
@@ -29,6 +29,41 @@ public class AccountConfig {
     @Bean
     public EntityReferenceRepository<Long> accountReferenceRepository() {
         DefaultEntityReferenceRepository<Long> repo = new DefaultEntityReferenceRepository<>(Account.class, "name");
+        repo.setCacheable(true);
+        return repo;
+    }
+
+    @Bean
+    public EntityReferenceRepository<Long> accountProfileReferenceRepository() {
+        DefaultEntityReferenceRepository<Long> repo = new DefaultEntityReferenceRepository<>(AccountProfile.class, "name");
+        repo.setCacheable(true);
+        return repo;
+    }
+
+    @Bean
+    public EntityReferenceRepository<Long> accountTypeReferenceRepository() {
+        DefaultEntityReferenceRepository<Long> repo = new DefaultEntityReferenceRepository<>(AccountType.class, "name");
+        repo.setCacheable(true);
+        return repo;
+    }
+
+    @Bean
+    public EntityReferenceRepository<Long> accountChannelReferenceRepository() {
+        DefaultEntityReferenceRepository<Long> repo = new DefaultEntityReferenceRepository<>(AccountChannelSale.class, "name");
+        repo.setCacheable(true);
+        return repo;
+    }
+
+    @Bean
+    public EntityReferenceRepository<Long> accountResellerReferenceRepository() {
+        DefaultEntityReferenceRepository<Long> repo = new DefaultEntityReferenceRepository<>(AccountReseller.class, "name");
+        repo.setCacheable(true);
+        return repo;
+    }
+
+    @Bean
+    public EntityReferenceRepository<Long> accountCategoryReferenceRepository() {
+        DefaultEntityReferenceRepository<Long> repo = new DefaultEntityReferenceRepository<>(AccountCategory.class, "name");
         repo.setCacheable(true);
         return repo;
     }
