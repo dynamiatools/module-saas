@@ -36,7 +36,7 @@ public class AccountTest {
 
         left = account.computeTrialLeft(account.getFreeTrial(), createDate(2022, 1, 20));
         System.out.println("Trial Left 4 = " + left);
-        Assert.assertEquals(-5 + 1, left);
+        Assert.assertEquals(0, left);
 
         Assert.assertFalse(account.isInFreeTrial());
     }

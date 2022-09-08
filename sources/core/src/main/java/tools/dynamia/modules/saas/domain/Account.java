@@ -798,7 +798,12 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
 
     public int computeTrialLeft(int trial, Date date) {
         long diff = DateTimeUtils.daysBetween(creationDate, date);
-        return trial - (int) diff;
+        var left = trial - (int) diff;
+        if (left < 0) {
+            left = 0;
+        }
+
+        return left;
     }
 
     @JsonIgnore
