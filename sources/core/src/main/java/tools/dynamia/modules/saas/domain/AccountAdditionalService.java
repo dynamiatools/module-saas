@@ -142,7 +142,10 @@ public class AccountAdditionalService extends SimpleEntity {
 
     public void updateQuantity() {
         if (autoQuantity) {
-            var calculator = Containers.get().findObject(AccountServiceQuantityCalculator.class, s -> s.getId().equals(quantityCalculator));
+            var calculator = Containers.get().findObjects(AccountServiceQuantityCalculator.class)
+                    .stream().filter(s -> s.getId().equals(quantityCalculator))
+                    .findFirst().orElse(null);
+            
             if (calculator != null && account != null && account.getId() != null) {
                 var qty = (int) calculator.calculate(account.getId());
                 if (qty >= 0) {
