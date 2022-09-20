@@ -25,7 +25,7 @@ Add the following dependencies to project classpath
 <dependency>
     <groupId>tools.dynamia.modules</groupId>
     <artifactId>tools.dynamia.modules.saas</artifactId>
-    <version>2.7.1</version>
+    <version>2.8.0</version>
 </dependency>
 ```
 
@@ -33,7 +33,7 @@ Add the following dependencies to project classpath
 <dependency>
     <groupId>tools.dynamia.modules</groupId>
     <artifactId>tools.dynamia.modules.saas.ui</artifactId>
-    <version>2.7.1</version>
+    <version>2.8.0</version>
 </dependency>
 
 ```
@@ -41,8 +41,8 @@ Add the following dependencies to project classpath
 **Gradle**
 
 ```groovy
-compile 'tools.dynamia.modules:tools.dynamia.modules.saas:2.7.1'
-compile 'tools.dynamia.modules:tools.dynamia.modules.saas.ui:2.7.1'
+compile 'tools.dynamia.modules:tools.dynamia.modules.saas:2.8.0'
+compile 'tools.dynamia.modules:tools.dynamia.modules.saas.ui:2.8.0'
 ```
 
 ## Usage
@@ -81,7 +81,7 @@ For your modules you only require the API dependency
 <dependency>
     <groupId>tools.dynamia.modules</groupId>
     <artifactId>tools.dynamia.modules.saas.api</artifactId>
-    <version>2.7.1</version>
+    <version>2.8.0</version>
 </dependency>
 ```
 
