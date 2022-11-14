@@ -47,6 +47,11 @@ public class AccountLog extends BaseEntity implements Transferable<AccountLogDTO
     public AccountLog() {
     }
 
+    public AccountLog(Account account, String message) {
+        this.account = account;
+        this.message = message;
+    }
+
     public AccountLog(Account account, String ip, String message) {
         this.account = account;
         this.ip = ip;

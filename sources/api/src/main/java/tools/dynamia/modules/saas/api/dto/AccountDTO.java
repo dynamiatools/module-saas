@@ -18,14 +18,11 @@
 
 package tools.dynamia.modules.saas.api.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import tools.dynamia.modules.saas.api.enums.AccountStatus;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author Mario Serrano Leones
@@ -91,10 +88,14 @@ public class AccountDTO implements Serializable {
     private boolean autoInit;
     private Long parentAccountId;
     private int freeTrial;
+    private int freeTrialLeft;
+    private boolean inFreeTrial;
 
     private String defaultPassword;
 
     private String activationCoupon;
+
+    private Map<String, Object> attributes = new HashMap<>();
 
     public AccountDTO() {
     }
@@ -595,5 +596,29 @@ public class AccountDTO implements Serializable {
                 .map(AccountFeatureDTO::isEnabled)
                 .findFirst()
                 .orElse(false);
+    }
+
+    public Object getAttribute(String name) {
+        return attributes.get(name);
+    }
+
+    public void setAttribute(String name, Object value) {
+        attributes.put(name, value);
+    }
+
+    public int getFreeTrialLeft() {
+        return freeTrialLeft;
+    }
+
+    public void setFreeTrialLeft(int freeTrialLeft) {
+        this.freeTrialLeft = freeTrialLeft;
+    }
+
+    public boolean isInFreeTrial() {
+        return inFreeTrial;
+    }
+
+    public void setInFreeTrial(boolean inFreeTrial) {
+        this.inFreeTrial = inFreeTrial;
     }
 }

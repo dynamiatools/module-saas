@@ -14,7 +14,7 @@ fields:
   message:
     params:
       header:
-        width: '400px'
+        width: '500px'
   ip:
     params:
       header:

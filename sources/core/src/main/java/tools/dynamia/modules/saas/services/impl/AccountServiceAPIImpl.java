@@ -232,15 +232,7 @@ public class AccountServiceAPIImpl extends AbstractService implements AccountSer
 
     @Override
     public void log(Long accountId, String message) {
-        if (accountId != null && message != null && !message.isEmpty()) {
-            AccountLog log = new AccountLog();
-            Account account = new Account();
-            account.setId(accountId);
-            log.setAccount(account);
-            log.setMessage(message);
-            log.setIp(HttpUtils.getClientIp());
-            log.save();
-        }
+        service.log(new Account(accountId), message);
     }
 
     @Override

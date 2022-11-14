@@ -89,4 +89,6 @@ public interface AccountService {
     Long getAccountIdByCustomDomain(String domain);
 
     Account getAccountByName(String name);
+
+    void log(Account account, String message);
 }

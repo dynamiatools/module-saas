@@ -42,6 +42,7 @@ import tools.dynamia.modules.saas.api.enums.AccountPeriodicity;
 import tools.dynamia.modules.saas.api.enums.AccountStatus;
 import tools.dynamia.modules.saas.domain.*;
 import tools.dynamia.modules.saas.services.AccountService;
+import tools.dynamia.web.util.HttpUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
@@ -201,13 +202,16 @@ public class AccountServiceImpl implements AccountService, ApplicationListener<C
 
     @Override
     public void initAccount(AccountDTO accountDTO) {
+        var accountRef = new Account(accountDTO.getId());
         Collection<AccountInitializer> initializers = Containers.get().findObjects(AccountInitializer.class);
         initializers.stream().sorted(Comparator.comparingInt(AccountInitializer::getPriority)).forEach(initializer -> {
             try {
                 logger.info("Executing " + initializer + " for " + accountDTO.getName());
+                crudService.executeWithinTransaction(() -> log(accountRef, "Executing " + initializer.getClass().getSimpleName()));
                 initializer.init(accountDTO);
             } catch (Exception e) {
-                logger.error("Error firing account initializer " + initializer.getClass(), e);
+                logger.error("Error firing account initializer " + initializer.getClass().getSimpleName(), e);
+                crudService.executeWithinTransaction(() -> log(accountRef, "Error at " + initializer.getClass().getSimpleName() + ": " + e.getMessage()));
             }
         });
     }
@@ -453,5 +457,19 @@ public class AccountServiceImpl implements AccountService, ApplicationListener<C
     public Account getAccountByName(String name) {
         return crudService.findSingle(Account.class,
                 QueryParameters.with("name", QueryConditions.eq(name)));
+    }
+
+    @Override
+    @Transactional
+    public void log(Account account, String message) {
+        if (account != null && message != null) {
+            var log = new AccountLog(account, message);
+            try {
+                log.setIp(HttpUtils.getClientIp());
+            } catch (Exception e) {
+                //ignore
+            }
+            crudService.create(log);
+        }
     }
 }

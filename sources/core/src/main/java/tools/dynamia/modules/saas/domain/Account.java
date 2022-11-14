@@ -179,6 +179,16 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
     private AccountChannelSale channel;
 
     public Account() {
+        initLocale();
+    }
+
+
+    public Account(Long accountId) {
+        this.setId(accountId);
+        initLocale();
+    }
+
+    private void initLocale() {
         try {
             Locale current = Locale.getDefault();
             locale = current.toLanguageTag();
@@ -191,8 +201,8 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
             }
         } catch (Exception e) {
         }
-
     }
+
 
     public Boolean getRequiredInstanceUuid() {
         return requiredInstanceUuid;
@@ -514,6 +524,8 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
         dto.setGlobalMessageType(getGlobalMessageType());
         dto.setPaymentValue(getPaymentValue());
         dto.setMaxUsers(maxUsers);
+        dto.setFreeTrialLeft(getFreeTrialLeft());
+        dto.setInFreeTrial(isInFreeTrial());
         try {
             if (HttpUtils.isInWebScope()) {
                 dto.setUrl(HttpUtils.getServerPath().replace("admin.", subdomain + "."));
