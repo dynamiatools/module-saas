@@ -30,6 +30,8 @@ fields:
   publicType:
     label: Public
   printingSupport:
+  trial:
+  trialDays:
 params:
   orderBy: name
-     
+

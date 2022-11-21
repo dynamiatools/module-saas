@@ -802,7 +802,7 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
 
     public int getFreeTrialLeft() {
         int left = 0;
-        if (freeTrial > 0) {
+        if (isFreeTrial()) {
             left = computeTrialLeft(freeTrial, new Date());
         }
         return left;
@@ -820,7 +820,17 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
 
     @JsonIgnore
     public boolean isInFreeTrial() {
-        return freeTrial > 0 && getFreeTrialLeft() > 0;
+        return isFreeTrial() && getFreeTrialLeft() > 0;
+    }
+
+    @JsonIgnore
+    public boolean isFreeTrialEnd() {
+        return isFreeTrial() && getFreeTrialLeft() <= 0;
+    }
+
+    @JsonIgnore
+    private boolean isFreeTrial() {
+        return freeTrial > 0;
     }
 
     public String getDefaultPassword() {

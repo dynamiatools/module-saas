@@ -18,6 +18,7 @@
 
 package tools.dynamia.modules.saas.api.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import tools.dynamia.modules.saas.api.enums.AccountStatus;
 
 import java.io.Serializable;
@@ -96,6 +97,7 @@ public class AccountDTO implements Serializable {
     private String activationCoupon;
 
     private Map<String, Object> attributes = new HashMap<>();
+
 
     public AccountDTO() {
     }
@@ -621,4 +623,14 @@ public class AccountDTO implements Serializable {
     public void setInFreeTrial(boolean inFreeTrial) {
         this.inFreeTrial = inFreeTrial;
     }
+
+    public boolean isFreeTrialEnd() {
+        return isFreeTrial() && getFreeTrialLeft() <= 0;
+    }
+
+
+    private boolean isFreeTrial() {
+        return freeTrial > 0;
+    }
+
 }

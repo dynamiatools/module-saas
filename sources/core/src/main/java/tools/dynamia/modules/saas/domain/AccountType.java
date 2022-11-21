@@ -66,6 +66,9 @@ public class AccountType extends SimpleEntity implements Transferable<AccountTyp
 
     private boolean secured;
 
+    private boolean trial;
+    private int trialDays;
+
 
     public String getName() {
         return name;
@@ -224,5 +227,21 @@ public class AccountType extends SimpleEntity implements Transferable<AccountTyp
 
     public void setSecured(boolean secured) {
         this.secured = secured;
+    }
+
+    public boolean isTrial() {
+        return trial;
+    }
+
+    public void setTrial(boolean trial) {
+        this.trial = trial;
+    }
+
+    public int getTrialDays() {
+        return trialDays;
+    }
+
+    public void setTrialDays(int trialDays) {
+        this.trialDays = trialDays;
     }
 }

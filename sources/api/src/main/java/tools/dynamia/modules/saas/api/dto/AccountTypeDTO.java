@@ -51,7 +51,10 @@ public class AccountTypeDTO implements Serializable {
     private boolean paymentRequired;
 
     private boolean secured;
-    
+
+    private boolean trial;
+    private int trialDays;
+
 
     public String getName() {
         return name;
@@ -192,5 +195,21 @@ public class AccountTypeDTO implements Serializable {
 
     public void setSecured(boolean secured) {
         this.secured = secured;
+    }
+
+    public boolean isTrial() {
+        return trial;
+    }
+
+    public void setTrial(boolean trial) {
+        this.trial = trial;
+    }
+
+    public int getTrialDays() {
+        return trialDays;
+    }
+
+    public void setTrialDays(int trialDays) {
+        this.trialDays = trialDays;
     }
 }

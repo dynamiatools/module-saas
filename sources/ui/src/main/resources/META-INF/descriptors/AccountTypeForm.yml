@@ -35,10 +35,17 @@ fields:
   secured:
   restrictions:
     component: crudview
+  trial:
+    label: Active
+  trialDays:
+    label: Days
 
 groups:
   configuration:
     fields: [ active,paymentRequired,allowAdditionalUsers,publicType,printingSupport,secured ]
+
+  trial:
+    fields: [ trial, trialDays ]
 
 layout:
   columns: 4
