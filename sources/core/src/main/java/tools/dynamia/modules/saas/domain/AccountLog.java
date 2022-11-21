@@ -88,6 +88,9 @@ public class AccountLog extends BaseEntity implements Transferable<AccountLogDTO
 
     public void setMessage(String message) {
         this.message = message;
+        if (message != null && message.length() > 999) {
+            this.message = message.substring(0, 999);
+        }
     }
 
     public Date getDate() {
