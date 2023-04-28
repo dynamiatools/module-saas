@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 Dynamia Soluciones IT S.A.S - NIT 900302344-1
+ * Copyright (C) 2023 Dynamia Soluciones IT S.A.S - NIT 900302344-1
  * Colombia / South America
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -145,7 +145,7 @@ public class AccountAdditionalService extends SimpleEntity {
             var calculator = Containers.get().findObjects(AccountServiceQuantityCalculator.class)
                     .stream().filter(s -> s.getId().equals(quantityCalculator))
                     .findFirst().orElse(null);
-            
+
             if (calculator != null && account != null && account.getId() != null) {
                 var qty = (int) calculator.calculate(account.getId());
                 if (qty >= 0) {
