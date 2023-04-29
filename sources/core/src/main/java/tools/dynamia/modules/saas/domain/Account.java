@@ -95,6 +95,8 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
     @OneToOne
     @JsonIgnore
     private EntityFile logo;
+    @Column(length = 600)
+    private String logoURL;
     private String locale;
     private String timeZone;
     @OneToOne
@@ -390,6 +392,14 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
 
     public void setLogo(EntityFile logo) {
         this.logo = logo;
+        if (logo != null && logo.getName() != null) {
+            logoURL = logo.getStoredEntityFile().getThumbnailUrl();
+            if (logoURL != null && logoURL.length() > 600) {
+                logoURL = null;
+            }
+        } else {
+            logoURL = null;
+        }
     }
 
     public boolean isDefaultAccount() {
@@ -855,5 +865,16 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
 
     public void setChannel(AccountChannelSale channel) {
         this.channel = channel;
+    }
+
+    public String getLogoURL() {
+        if (logoURL == null && logo != null) {
+            logoURL = logo.getStoredEntityFile().getThumbnailUrl();
+        }
+        return logoURL;
+    }
+
+    public void setLogoURL(String logoURL) {
+        this.logoURL = logoURL;
     }
 }
