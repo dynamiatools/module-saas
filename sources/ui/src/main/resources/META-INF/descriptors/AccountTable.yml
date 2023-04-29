@@ -13,7 +13,7 @@ fields:
         title: name
         subtitle: email
         description: type
-        imageURL: logo.storedEntityFile.thumbnailUrl
+        imageURL: logoURL
         tooltiptext: customerInfo
 
   profile:
