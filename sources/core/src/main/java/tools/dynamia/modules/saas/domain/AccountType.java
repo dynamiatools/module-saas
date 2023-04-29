@@ -173,13 +173,7 @@ public class AccountType extends SimpleEntity implements Transferable<AccountTyp
 
     @Override
     public AccountTypeDTO toDTO() {
-        AccountTypeDTO dto = DomainUtils.autoDataTransferObject(this, AccountTypeDTO.class);
-        try {
-            getRestrictions().forEach(r -> dto.getRestrictions().add(r.toDTO()));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return dto;
+        return DomainUtils.autoDataTransferObject(this, AccountTypeDTO.class);
     }
 
     public int getAllowedOverdueDays() {
