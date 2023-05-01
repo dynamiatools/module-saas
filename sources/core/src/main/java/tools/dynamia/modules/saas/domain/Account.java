@@ -33,11 +33,11 @@ import tools.dynamia.modules.saas.api.dto.AccountDTO;
 import tools.dynamia.modules.saas.api.enums.AccountStatus;
 import tools.dynamia.web.util.HttpUtils;
 
-import javax.persistence.*;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -79,16 +79,16 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
     @OneToOne
     @NotNull
     private AccountType type;
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(jakarta.persistence.TemporalType.DATE)
     private Date expirationDate;
     private AccountStatus status = AccountStatus.NEW;
-    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    @Temporal(jakarta.persistence.TemporalType.TIMESTAMP)
     private Date statusDate;
-    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    @Temporal(jakarta.persistence.TemporalType.TIMESTAMP)
     private Date oldStatusDate;
 
     private String statusDescription;
-    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    @Temporal(jakarta.persistence.TemporalType.TIMESTAMP)
     private Date creationDate = new Date();
     private boolean defaultAccount;
     private String skin;
@@ -109,9 +109,9 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
     @Max(value = 31, message = "Enter valid day")
     private int paymentDay = 1;
     private BigDecimal paymentValue;
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(jakarta.persistence.TemporalType.DATE)
     private Date lastPaymentDate;
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(jakarta.persistence.TemporalType.DATE)
     private Date lastChargeDate;
     private String phoneNumber;
     private String mobileNumber;

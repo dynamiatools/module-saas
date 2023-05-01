@@ -26,9 +26,9 @@ import tools.dynamia.integration.Containers;
 import tools.dynamia.modules.saas.api.AccountAware;
 import tools.dynamia.modules.saas.api.AccountServiceAPI;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
 /**
  * @author Mario Serrano Leones

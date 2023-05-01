@@ -23,7 +23,7 @@ import tools.dynamia.domain.OrderBy;
 import tools.dynamia.domain.jpa.SimpleEntity;
 import tools.dynamia.modules.saas.api.AccountStats;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.Date;
 
 @Entity

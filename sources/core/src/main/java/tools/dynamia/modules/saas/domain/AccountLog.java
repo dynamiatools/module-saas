@@ -21,8 +21,8 @@ import tools.dynamia.domain.jpa.BaseEntity;
 import tools.dynamia.domain.Transferable;
 import tools.dynamia.modules.saas.api.dto.AccountLogDTO;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity

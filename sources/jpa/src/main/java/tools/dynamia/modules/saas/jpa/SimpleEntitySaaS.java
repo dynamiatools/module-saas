@@ -18,8 +18,8 @@
 
 package tools.dynamia.modules.saas.jpa;
 
-import javax.persistence.MappedSuperclass;
-import javax.validation.constraints.NotNull;
+import jakarta.persistence.MappedSuperclass;
+import jakarta.validation.constraints.NotNull;
 
 import tools.dynamia.domain.jpa.SimpleEntity;
 import tools.dynamia.modules.saas.api.AccountAware;

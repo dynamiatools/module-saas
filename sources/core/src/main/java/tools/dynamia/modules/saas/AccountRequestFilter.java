@@ -6,9 +6,9 @@ import tools.dynamia.integration.Containers;
 import tools.dynamia.modules.saas.api.AccountServiceAPI;
 import tools.dynamia.web.util.HttpUtils;
 
-import javax.servlet.*;
-import javax.servlet.annotation.WebFilter;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.*;
+import jakarta.servlet.annotation.WebFilter;
+import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 @WebFilter(urlPatterns = "/*", displayName = "AccountRequestFilter", description = "Find and set current accountID in request attributes")
