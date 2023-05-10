@@ -76,7 +76,7 @@ public class ShowAccountAdminActions extends AbstractCrudAction {
             actions.sort(Comparator.comparing(Action::getPosition).thenComparing(Action::getName));
             actions.forEach(a -> {
                 ActionRenderer renderer = a.getRenderer() == null ? defaultRenderer : a.getRenderer();
-                Object component = renderer.render(a, evtBuilder);
+                Object component = Actions.render(renderer, a, evtBuilder);
                 if (component instanceof Button) {
                     if (a.getAttribute("type") != null) {
                         ((Button) component).setZclass("btn btn-" + a.getAttribute("type") + " btn-block");
