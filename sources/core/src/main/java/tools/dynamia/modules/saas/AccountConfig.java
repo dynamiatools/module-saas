@@ -26,6 +26,8 @@ import tools.dynamia.modules.saas.domain.*;
 @Configuration
 public class AccountConfig {
 
+    public static final String CACHE_NAME = "saas";
+
     @Bean
     public EntityReferenceRepository<Long> accountReferenceRepository() {
         DefaultEntityReferenceRepository<Long> repo = new DefaultEntityReferenceRepository<>(Account.class, "name");

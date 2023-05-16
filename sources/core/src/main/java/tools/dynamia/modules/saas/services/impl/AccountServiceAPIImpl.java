@@ -18,16 +18,22 @@
 package tools.dynamia.modules.saas.services.impl;
 
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.env.Environment;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import tools.dynamia.commons.DateTimeUtils;
 import tools.dynamia.commons.SimpleCache;
+import tools.dynamia.domain.Transferable;
 import tools.dynamia.domain.query.ApplicationParameters;
 import tools.dynamia.domain.query.QueryConditions;
 import tools.dynamia.domain.query.QueryParameters;
 import tools.dynamia.domain.services.AbstractService;
 import tools.dynamia.domain.services.CrudService;
+import tools.dynamia.integration.CacheManagerUtils;
 import tools.dynamia.integration.sterotypes.Service;
+import tools.dynamia.modules.saas.AccountConfig;
 import tools.dynamia.modules.saas.AccountContext;
 import tools.dynamia.modules.saas.AccountSessionHolder;
 import tools.dynamia.modules.saas.api.AccountServiceAPI;
@@ -39,6 +45,7 @@ import tools.dynamia.modules.saas.api.enums.AccountStatus;
 import tools.dynamia.modules.saas.domain.Account;
 import tools.dynamia.modules.saas.domain.AccountFeature;
 import tools.dynamia.modules.saas.domain.AccountLog;
+import tools.dynamia.modules.saas.domain.AccountPayment;
 import tools.dynamia.modules.saas.jpa.AccountParameter;
 import tools.dynamia.modules.saas.services.AccountService;
 import tools.dynamia.web.util.HttpUtils;
@@ -52,6 +59,7 @@ import static tools.dynamia.domain.query.QueryConditions.eq;
 import static tools.dynamia.domain.util.QueryBuilder.select;
 
 @Service("accountServiceAPI")
+@CacheConfig(cacheNames = AccountConfig.CACHE_NAME)
 public class AccountServiceAPIImpl extends AbstractService implements AccountServiceAPI, InitializingBean {
 
     private final AccountService service;
@@ -59,9 +67,6 @@ public class AccountServiceAPIImpl extends AbstractService implements AccountSer
     private final CrudService crudService;
     private final Environment environment;
 
-
-    private final SimpleCache<Long, AccountDTO> accountCache = new SimpleCache<>();
-    private final SimpleCache<String, Long> domainCache = new SimpleCache<>();
 
     public AccountServiceAPIImpl(AccountService service, AccountContext accountContext, CrudService crudService, Environment environment) {
         this.service = service;
@@ -72,6 +77,7 @@ public class AccountServiceAPIImpl extends AbstractService implements AccountSer
 
 
     @Override
+    @Cacheable(key = "'AccountStatus-'+#accountId")
     public AccountStatus getAccountStatus(Long accountId) {
         try {
             AccountStatusDTO dto = getAccountStatusDetails(accountId);
@@ -84,23 +90,20 @@ public class AccountServiceAPIImpl extends AbstractService implements AccountSer
 
     @Override
     @Transactional
+    @Cacheable(key = "'Account-'+#accountId")
     public AccountDTO getAccount(Long accountId) {
         AccountDTO dto = null;
 
         try {
-            dto = accountCache.get(accountId);
-            if (dto == null) {
-                Account account = crudService.findSingle(Account.class,
-                        QueryParameters.with("id", accountId).add("status", QueryConditions.isNotNull()));
+            Account account = crudService.findSingle(Account.class,
+                    QueryParameters.with("id", accountId).add("status", QueryConditions.isNotNull()));
 
-
-                if (account != null) {
-                    dto = account.toDTO();
-                    accountCache.add(accountId, dto);
-                } else {
-                    log("No account found with id " + accountId);
-                }
+            if (account != null) {
+                dto = account.toDTO();
+            } else {
+                log("No account found with id " + accountId);
             }
+
         } catch (Exception e) {
             log("Error getting account info, returning null", e);
         }
@@ -108,6 +111,7 @@ public class AccountServiceAPIImpl extends AbstractService implements AccountSer
     }
 
     @Override
+    @Cacheable(key = "'SystemAccount'")
     public Long getSystemAccountId() {
         try {
             Account account = crudService.findSingle(Account.class, "name", eq("System"));
@@ -180,12 +184,17 @@ public class AccountServiceAPIImpl extends AbstractService implements AccountSer
 
     @Override
     public List<AccountPaymentDTO> getPayments(Long accountId) {
-        return null;
+        return crudService().find(AccountPayment.class, QueryParameters.with("accountId", accountId)
+                        .add("creationDate", QueryConditions.geqt(DateTimeUtils.createDate(1))))
+                .stream().map(Transferable::toDTO)
+                .toList();
     }
 
     @Override
     public List<AccountLogDTO> getLogs(Long accountId, Date startDate, Date endDate) {
-        return null;
+        return crudService().find(AccountLog.class, QueryParameters.with("accountId", accountId)
+                        .add("creationDate", QueryConditions.between(startDate, endDate)))
+                .stream().map(Transferable::toDTO).toList();
     }
 
 
@@ -205,6 +214,7 @@ public class AccountServiceAPIImpl extends AbstractService implements AccountSer
     }
 
     @Override
+    @Cacheable(key = "'AccountFeature-'+#accountId+'-'+#featureId")
     public boolean hasFeature(Long accountId, String featureId) {
         AccountFeature feature = crudService.findSingle(AccountFeature.class, QueryParameters.with("account.id", accountId)
                 .add("providerId", eq(featureId)));
@@ -213,6 +223,7 @@ public class AccountServiceAPIImpl extends AbstractService implements AccountSer
     }
 
     @Override
+    @Cacheable(key = "'AccountPrintingEnabled-'+#accountId")
     public boolean isPrintingEnabled(Long accountId) {
         Boolean enabled = crudService.executeProjection(Boolean.class, "select a.type.printingSupport from Account a where a.id = :accountId",
                 QueryParameters.with("accountId", accountId));
@@ -224,6 +235,7 @@ public class AccountServiceAPIImpl extends AbstractService implements AccountSer
     }
 
     @Override
+    @Cacheable(key = "'AccountsByFeatured-'+#featureId")
     public List<Long> findAccountsIdByFeature(String featureId) {
         String jpql = "select af.account.id from AccountFeature af where af.providerId = :feature and af.enabled = true and af.account.status = :status";
         return crudService.executeQuery(jpql, QueryParameters.with("feature", eq(featureId))
@@ -236,6 +248,7 @@ public class AccountServiceAPIImpl extends AbstractService implements AccountSer
     }
 
     @Override
+    @Cacheable(key = "'AccountsDetails-'+#accountId")
     public AccountStatusDTO getAccountStatusDetails(final Long accountId) {
 
         List<AccountStatusDTO> result = crudService.executeQuery(select("id", "name", "status", "statusDate",
@@ -273,46 +286,43 @@ public class AccountServiceAPIImpl extends AbstractService implements AccountSer
     }
 
     @Override
+    @Cacheable(key = "'AccountByDomain-'+#domain")
     public Long getAccountIdByDomain(String domain) {
         if (domain == null) {
             return null;
         }
 
-        Long accountId = domainCache.get(domain);
+
+        Long accountId = service.getAccountId(domain);
+
         if (accountId == null) {
-            accountId = service.getAccountId(domain);
-
-            if (accountId == null) {
-                accountId = service.getAccountIdByCustomDomain(domain);
-            }
-
-            if (accountId == null && "true".equals(environment.getProperty("useDefaultAccount"))) {
-                var account = service.getDefaultAccount();
-                accountId = account.getId();
-            }
-
-
-            if (accountId != null) {
-                domainCache.add(domain, accountId);
-            }
+            accountId = service.getAccountIdByCustomDomain(domain);
         }
+
+        if (accountId == null && "true".equals(environment.getProperty("useDefaultAccount"))) {
+            var account = service.getDefaultAccount();
+            accountId = account.getId();
+        }
+
 
         return accountId;
     }
 
     @Override
     public void clearCache() {
-        domainCache.clear();
-        accountCache.clear();
+        CacheManagerUtils.clearCache(AccountConfig.CACHE_NAME);
     }
 
     @Override
     public void clearCache(Long accountId, String accountDomain) {
         if (accountId != null) {
-            accountCache.remove(accountId);
+            CacheManagerUtils.evict(AccountConfig.CACHE_NAME, "Account-" + accountId);
+            CacheManagerUtils.evict(AccountConfig.CACHE_NAME, "AccountsDetails-" + accountId);
+            CacheManagerUtils.evict(AccountConfig.CACHE_NAME, "AccountPrintingEnabled-" + accountId);
+            CacheManagerUtils.evict(AccountConfig.CACHE_NAME, "AccountStatus-" + accountId);
         }
         if (accountDomain != null) {
-            domainCache.remove(accountDomain);
+            CacheManagerUtils.evict(AccountConfig.CACHE_NAME, "AccountByDomain-" + accountDomain);
         }
     }
 
@@ -334,7 +344,7 @@ public class AccountServiceAPIImpl extends AbstractService implements AccountSer
 
         domains.forEach(o -> {
             var dto = (AccountDTO) o;
-            domainCache.add(dto.getSubdomain(), dto.getId());
+            CacheManagerUtils.put("saas", "AccountByDomain-" + dto.getSubdomain(), dto.getId());
             log(dto.getId() + "  -> " + dto.getSubdomain());
         });
 
