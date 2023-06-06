@@ -94,4 +94,8 @@ public interface AccountServiceAPI {
     default List<Long> findActivePaymentRequiredAccounts() {
         return findAccountsId(Map.of("status", AccountStatus.ACTIVE, "type.paymentRequired", true));
     }
+
+    default void initDomainCache() {
+        //do nothing
+    }
 }

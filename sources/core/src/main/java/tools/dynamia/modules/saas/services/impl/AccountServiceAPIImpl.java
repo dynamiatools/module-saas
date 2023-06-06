@@ -17,14 +17,12 @@
 
 package tools.dynamia.modules.saas.services.impl;
 
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.env.Environment;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import tools.dynamia.commons.DateTimeUtils;
-import tools.dynamia.commons.SimpleCache;
 import tools.dynamia.domain.Transferable;
 import tools.dynamia.domain.query.ApplicationParameters;
 import tools.dynamia.domain.query.QueryConditions;
@@ -60,7 +58,7 @@ import static tools.dynamia.domain.util.QueryBuilder.select;
 
 @Service("accountServiceAPI")
 @CacheConfig(cacheNames = AccountConfig.CACHE_NAME)
-public class AccountServiceAPIImpl extends AbstractService implements AccountServiceAPI, InitializingBean {
+public class AccountServiceAPIImpl extends AbstractService implements AccountServiceAPI {
 
     private final AccountService service;
     private final AccountContext accountContext;
@@ -334,7 +332,8 @@ public class AccountServiceAPIImpl extends AbstractService implements AccountSer
         return crudService.executeQuery(query);
     }
 
-    private void initDomainCache() {
+    @Override
+    public void initDomainCache() {
         log("Loading subdomain cache");
         var domains = crudService.executeQuery(
                 select("id", "subdomain").from(Account.class, "a")
@@ -351,8 +350,4 @@ public class AccountServiceAPIImpl extends AbstractService implements AccountSer
 
     }
 
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        initDomainCache();
-    }
 }
