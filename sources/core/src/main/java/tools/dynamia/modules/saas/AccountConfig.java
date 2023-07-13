@@ -19,14 +19,31 @@ package tools.dynamia.modules.saas;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import tools.dynamia.domain.AutoEvictEntityCacheCrudListener;
 import tools.dynamia.domain.DefaultEntityReferenceRepository;
 import tools.dynamia.domain.EntityReferenceRepository;
 import tools.dynamia.modules.saas.domain.*;
+
+import java.util.List;
 
 @Configuration
 public class AccountConfig {
 
     public static final String CACHE_NAME = "saas";
+
+    static {
+        AutoEvictEntityCacheCrudListener.register(CACHE_NAME, Account.class, account -> List.of(
+                "Account-" + account.getId(),
+                "AccountDTO-" + account.getId(),
+                "AccountByDomain-" + account.getSubdomain(),
+                "AccountIdByDomain-" + account.getSubdomain(),
+                "AccountByCustomDomain-" + account.getCustomDomain(),
+                "AccountIdByCustomDomain-" + account.getCustomDomain(),
+                "AccountByName-" + account.getName(),
+                "AccountsDetails-" + account.getId(),
+                "AccountStatus-" + account.getId()
+        ));
+    }
 
     @Bean
     public EntityReferenceRepository<Long> accountReferenceRepository() {

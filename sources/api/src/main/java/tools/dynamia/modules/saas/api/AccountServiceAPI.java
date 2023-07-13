@@ -43,6 +43,8 @@ public interface AccountServiceAPI {
 
     AccountDTO getCurrentAccount();
 
+    AccountDTO setCurrentAccount(Long accountId);
+
     void updateAccountUsers(Long accountId, long users, long activedUsers);
 
     List<AccountPaymentDTO> getPayments(Long accountId);
@@ -96,6 +98,14 @@ public interface AccountServiceAPI {
     }
 
     default void initDomainCache() {
+        //do nothing
+    }
+
+    /**
+     * Check if account is ACTIVE or throw a {@link tools.dynamia.domain.ValidationError}
+     * @param accountId
+     */
+    default void validateAccountStatus(Long accountId) {
         //do nothing
     }
 }

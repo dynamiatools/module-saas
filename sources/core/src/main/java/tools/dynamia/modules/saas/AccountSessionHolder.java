@@ -18,6 +18,7 @@
 
 package tools.dynamia.modules.saas;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.annotation.SessionScope;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -27,6 +28,7 @@ import tools.dynamia.integration.sterotypes.Component;
 import tools.dynamia.modules.saas.api.AccountException;
 import tools.dynamia.modules.saas.api.dto.AccountDTO;
 import tools.dynamia.modules.saas.domain.Account;
+import tools.dynamia.modules.saas.services.AccountService;
 
 import java.io.Serializable;
 import java.util.Locale;
@@ -37,6 +39,9 @@ import java.util.Locale;
 @Component("accountSessionHolder")
 @SessionScope
 public class AccountSessionHolder implements Serializable {
+
+    @Autowired
+    private AccountService service;
 
     private Locale accountLocale;
     private Account current;
@@ -67,11 +72,8 @@ public class AccountSessionHolder implements Serializable {
         if (account != null) {
             try {
                 DomainUtils.lookupCrudService().executeWithinTransaction(() -> {
-                    this.current = DomainUtils.lookupCrudService().find(Account.class,account.getId());
-                    current.getFeatures().size();
-                    current.getAdditionalServices().size();
-                    current.getStats().size();
-                    current.getType().getRestrictions().size();
+
+                    this.current = service.getAccountById(account.getId());
                     accountLocale = current.getLocale() != null ? Locale.forLanguageTag(current.getLocale()) : null;
 
                     currentDTO = null;

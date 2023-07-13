@@ -18,6 +18,8 @@
 package tools.dynamia.modules.saas.services.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.core.env.Environment;
@@ -34,6 +36,7 @@ import tools.dynamia.domain.query.QueryParameters;
 import tools.dynamia.domain.services.CrudService;
 import tools.dynamia.domain.util.QueryBuilder;
 import tools.dynamia.integration.Containers;
+import tools.dynamia.modules.saas.AccountConfig;
 import tools.dynamia.modules.saas.api.AccountInitializer;
 import tools.dynamia.modules.saas.api.AccountStats;
 import tools.dynamia.modules.saas.api.AccountStatsProvider;
@@ -45,6 +48,7 @@ import tools.dynamia.modules.saas.services.AccountService;
 import tools.dynamia.web.util.HttpUtils;
 
 import jakarta.servlet.http.HttpServletRequest;
+
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -52,6 +56,7 @@ import java.util.*;
  * @author Mario Serrano Leones
  */
 @Service
+@CacheConfig(cacheNames = AccountConfig.CACHE_NAME)
 public class AccountServiceImpl implements AccountService, ApplicationListener<ContextRefreshedEvent> {
 
     private LoggingService logger = new SLF4JLoggingService(AccountService.class);
@@ -77,6 +82,7 @@ public class AccountServiceImpl implements AccountService, ApplicationListener<C
     }
 
     @Override
+    @Cacheable(key = "'AccountByDomain-'+#subdomain")
     public Account getAccount(String subdomain) {
         return crudService.findSingle(Account.class,
                 QueryParameters.with("subdomain", QueryConditions.eq(subdomain))
@@ -88,6 +94,7 @@ public class AccountServiceImpl implements AccountService, ApplicationListener<C
     /**
      * Find the account id using a subdomain
      */
+    @Cacheable(key = "'AccountIdByDomain-'+#subdomain")
     public Long getAccountId(String subdomain) {
         var result = crudService.executeQuery(QueryBuilder.select("id").from(Account.class, "a").where(
                 QueryParameters.with("subdomain", QueryConditions.eq(subdomain))
@@ -98,6 +105,7 @@ public class AccountServiceImpl implements AccountService, ApplicationListener<C
     }
 
     @Override
+    @Cacheable(key = "'AccountByCustomDomain-'+#domain")
     public Account getAccountByCustomDomain(String domain) {
         return crudService.findSingle(Account.class,
                 QueryParameters.with("customDomain", QueryConditions.eq(domain)).add("status", QueryConditions.isNotNull())
@@ -437,11 +445,15 @@ public class AccountServiceImpl implements AccountService, ApplicationListener<C
     }
 
     @Override
+    @Cacheable(key = "'Account-'+#accountId")
+    @Transactional
     public Account getAccountById(Long accountId) {
-        return crudService.find(Account.class, accountId);
+        return crudService.load(Account.class, accountId);
+
     }
 
     @Override
+    @Cacheable(key = "'AccountIdByCustomDomain-'+#domain")
     public Long getAccountIdByCustomDomain(String domain) {
         var result = crudService.executeQuery(QueryBuilder.select("id").from(Account.class, "a").where(
                 QueryParameters.with("customDomain", QueryConditions.eq(domain))
@@ -454,6 +466,7 @@ public class AccountServiceImpl implements AccountService, ApplicationListener<C
     }
 
     @Override
+    @Cacheable(key = "'AccountIdByName-'+#name")
     public Account getAccountByName(String name) {
         return crudService.findSingle(Account.class,
                 QueryParameters.with("name", QueryConditions.eq(name)));

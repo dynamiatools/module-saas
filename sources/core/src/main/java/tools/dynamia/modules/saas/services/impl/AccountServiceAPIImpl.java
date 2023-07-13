@@ -24,12 +24,14 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import tools.dynamia.commons.DateTimeUtils;
 import tools.dynamia.domain.Transferable;
+import tools.dynamia.domain.ValidationError;
 import tools.dynamia.domain.query.ApplicationParameters;
 import tools.dynamia.domain.query.QueryConditions;
 import tools.dynamia.domain.query.QueryParameters;
 import tools.dynamia.domain.services.AbstractService;
 import tools.dynamia.domain.services.CrudService;
 import tools.dynamia.integration.CacheManagerUtils;
+import tools.dynamia.integration.Containers;
 import tools.dynamia.integration.sterotypes.Service;
 import tools.dynamia.modules.saas.AccountConfig;
 import tools.dynamia.modules.saas.AccountContext;
@@ -88,7 +90,7 @@ public class AccountServiceAPIImpl extends AbstractService implements AccountSer
 
     @Override
     @Transactional
-    @Cacheable(key = "'Account-'+#accountId")
+    @Cacheable(key = "'AccountDTO-'+#accountId")
     public AccountDTO getAccount(Long accountId) {
         AccountDTO dto = null;
 
@@ -165,6 +167,25 @@ public class AccountServiceAPIImpl extends AbstractService implements AccountSer
             log("Error loading current account", e);
             return null;
         }
+    }
+
+    @Override
+    public AccountDTO setCurrentAccount(Long accountId) {
+        if (HttpUtils.isInWebScope()) {
+            var current = getCurrentAccount();
+            if (current == null || !current.getId().equals(accountId)) {
+                var account = service.getAccountById(accountId);
+                if (account != null) {
+                    AccountSessionHolder.get().setCurrent(account);
+                    return AccountSessionHolder.get().toDTO();
+                }
+            } else {
+                return current;
+            }
+        } else {
+            throw new IllegalStateException("Cannot change current Account outside web scope ");
+        }
+        return null;
     }
 
     @Override
@@ -346,8 +367,16 @@ public class AccountServiceAPIImpl extends AbstractService implements AccountSer
             CacheManagerUtils.put("saas", "AccountByDomain-" + dto.getSubdomain(), dto.getId());
             log(dto.getId() + "  -> " + dto.getSubdomain());
         });
+    }
 
-
+    @Override
+    public void validateAccountStatus(Long accountId) {
+        if (accountId != null) {
+            var status = Containers.get().findObject(AccountServiceAPI.class).getAccountStatusDetails(accountId);
+            if (status != null && status.getStatus() != AccountStatus.ACTIVE) {
+                throw new ValidationError("Account " + status.getName() + " is " + status.getStatus() + ": " + status.getGlobalMessage());
+            }
+        }
     }
 
 }

@@ -132,6 +132,11 @@ public class RemoteAccountServiceAPI extends CrudServiceListenerAdapter<AccountA
     }
 
     @Override
+    public AccountDTO setCurrentAccount(Long accountId) {
+        throw new IllegalStateException("Cannot update current account in t his implementation");
+    }
+
+    @Override
     public void updateAccountUsers(Long accountId, long users, long activedUsers) {
 
     }

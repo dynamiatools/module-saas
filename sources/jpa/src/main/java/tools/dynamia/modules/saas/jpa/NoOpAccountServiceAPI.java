@@ -30,12 +30,12 @@ import java.util.*;
 
 public class NoOpAccountServiceAPI extends CrudServiceListenerAdapter<AccountAware> implements AccountServiceAPI {
 
-    private static final Long ACCOUNT_ID = 1L;
+    private static Long defaultAccountId = 1L;
     private static AccountDTO CURRENT_ACCOUNT;
 
     private void init() {
         CURRENT_ACCOUNT = new AccountDTO();
-        CURRENT_ACCOUNT.setId(ACCOUNT_ID);
+        CURRENT_ACCOUNT.setId(defaultAccountId);
         CURRENT_ACCOUNT.setName("NoOp");
         CURRENT_ACCOUNT.setEmail("account@account.com");
         CURRENT_ACCOUNT.setStatus(AccountStatus.ACTIVE);
@@ -65,12 +65,22 @@ public class NoOpAccountServiceAPI extends CrudServiceListenerAdapter<AccountAwa
 
     @Override
     public Long getSystemAccountId() {
-        return ACCOUNT_ID;
+        return defaultAccountId;
     }
 
     @Override
     public Long getCurrentAccountId() {
-        return ACCOUNT_ID;
+        return defaultAccountId;
+    }
+
+    @Override
+    public AccountDTO setCurrentAccount(Long accountId) {
+        if (accountId != null) {
+            defaultAccountId = accountId;
+            CURRENT_ACCOUNT.setId(defaultAccountId);
+            return CURRENT_ACCOUNT;
+        }
+        return null;
     }
 
     @Override
@@ -89,14 +99,14 @@ public class NoOpAccountServiceAPI extends CrudServiceListenerAdapter<AccountAwa
     @Override
     public void beforeCreate(AccountAware entity) {
         if (entity != null) {
-            entity.setAccountId(ACCOUNT_ID);
+            entity.setAccountId(defaultAccountId);
         }
     }
 
     @Override
     public void afterUpdate(AccountAware entity) {
         if (entity != null && entity.getAccountId() == null) {
-            entity.setAccountId(ACCOUNT_ID);
+            entity.setAccountId(defaultAccountId);
         }
     }
 
@@ -138,6 +148,6 @@ public class NoOpAccountServiceAPI extends CrudServiceListenerAdapter<AccountAwa
 
     @Override
     public Long getAccountIdByDomain(String domain) {
-        return ACCOUNT_ID;
+        return defaultAccountId;
     }
 }
