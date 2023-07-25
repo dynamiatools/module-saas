@@ -59,7 +59,7 @@
     </scm>
 
     <properties>
-        <dynamiatools.version>5.0.4</dynamiatools.version>
+        <dynamiatools.version>5.0.5</dynamiatools.version>
         <entityfiles.version>7.0.1</entityfiles.version>
         <java.version>17</java.version>
         <maven.compiler>3.11.0</maven.compiler>
@@ -68,7 +68,7 @@
 
         <oshi.version>6.1.0</oshi.version>
         <jna.version>5.11.0</jna.version>
-        <springboot.version>3.0.7</springboot.version>
+        <springboot.version>3.0.9</springboot.version>
     </properties>
 
     <modules>
