@@ -26,13 +26,13 @@
     <parent>
         <groupId>tools.dynamia.modules</groupId>
         <artifactId>tools.dynamia.modules.saas.parent</artifactId>
-        <version>3.0.1</version>
+        <version>3.1.0</version>
     </parent>
     <artifactId>tools.dynamia.modules.saas.api</artifactId>
 
     <name>DynamiaModules - SaaS API</name>
     <url>https://www.dynamia.tools/modules/saas</url>
-    <version>3.0.1</version>
+    <version>3.1.0</version>
 
     <build>
         <plugins>
@@ -54,6 +54,10 @@
             <groupId>tools.dynamia</groupId>
             <artifactId>tools.dynamia.actions</artifactId>
             <version>${dynamiatools.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
         </dependency>
     </dependencies>
 

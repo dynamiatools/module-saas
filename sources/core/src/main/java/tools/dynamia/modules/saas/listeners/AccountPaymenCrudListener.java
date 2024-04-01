@@ -18,8 +18,6 @@
 
 package tools.dynamia.modules.saas.listeners;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import tools.dynamia.domain.services.CrudService;
 import tools.dynamia.domain.util.CrudServiceListenerAdapter;
 import tools.dynamia.integration.sterotypes.Listener;
 import tools.dynamia.modules.saas.domain.AccountPayment;
@@ -31,8 +29,12 @@ import tools.dynamia.modules.saas.services.AccountService;
 @Listener
 public class AccountPaymenCrudListener extends CrudServiceListenerAdapter<AccountPayment> {
 
-    @Autowired
-    private AccountService service;
+
+    private final AccountService service;
+
+    public AccountPaymenCrudListener(AccountService service) {
+        this.service = service;
+    }
 
     @Override
     public void afterCreate(AccountPayment payment) {

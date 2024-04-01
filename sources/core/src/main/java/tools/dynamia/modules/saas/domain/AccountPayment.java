@@ -33,6 +33,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
+
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.Date;
@@ -71,6 +72,7 @@ public class AccountPayment extends BaseEntity implements Transferable<AccountPa
     private String couponCode;
 
     private boolean silent;
+    private boolean invoiceRequired = true;
 
     public Account getAccount() {
         return account;
@@ -237,5 +239,13 @@ public class AccountPayment extends BaseEntity implements Transferable<AccountPa
 
     public void setSilent(boolean silent) {
         this.silent = silent;
+    }
+
+    public boolean isInvoiceRequired() {
+        return invoiceRequired;
+    }
+
+    public void setInvoiceRequired(boolean invoiceRequired) {
+        this.invoiceRequired = invoiceRequired;
     }
 }

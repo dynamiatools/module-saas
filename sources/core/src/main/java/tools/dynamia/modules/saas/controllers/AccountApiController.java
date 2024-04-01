@@ -50,7 +50,7 @@ public class AccountApiController extends AbstractService {
         NO_ACCOUNT.setStatusDescription("Invalid License");
     }
 
-    private AccountService service;
+    private final AccountService service;
 
     @Autowired
     public AccountApiController(AccountService service) {

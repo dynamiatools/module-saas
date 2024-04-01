@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 
-package tools.dynamia.modules.saas.jpa;
+package tools.dynamia.modules.saas.api;
 
-import tools.dynamia.domain.util.CrudServiceListenerAdapter;
-import tools.dynamia.modules.saas.api.AccountAware;
-import tools.dynamia.modules.saas.api.AccountServiceAPI;
+
+import tools.dynamia.commons.logger.LoggingService;
+import tools.dynamia.commons.logger.SLF4JLoggingService;
 import tools.dynamia.modules.saas.api.dto.AccountDTO;
 import tools.dynamia.modules.saas.api.dto.AccountLogDTO;
 import tools.dynamia.modules.saas.api.dto.AccountPaymentDTO;
@@ -28,7 +28,12 @@ import tools.dynamia.modules.saas.api.enums.AccountStatus;
 
 import java.util.*;
 
-public class NoOpAccountServiceAPI extends CrudServiceListenerAdapter<AccountAware> implements AccountServiceAPI {
+/**
+ * Default No operational {@link AccountServiceAPI} implementation. Useful for testing
+ */
+public class NoOpAccountServiceAPI implements AccountServiceAPI {
+
+    private final LoggingService logger = new SLF4JLoggingService(NoOpAccountServiceAPI.class);
 
     private static Long defaultAccountId = 1L;
     private static AccountDTO CURRENT_ACCOUNT;
@@ -96,19 +101,6 @@ public class NoOpAccountServiceAPI extends CrudServiceListenerAdapter<AccountAwa
 
     }
 
-    @Override
-    public void beforeCreate(AccountAware entity) {
-        if (entity != null) {
-            entity.setAccountId(defaultAccountId);
-        }
-    }
-
-    @Override
-    public void afterUpdate(AccountAware entity) {
-        if (entity != null && entity.getAccountId() == null) {
-            entity.setAccountId(defaultAccountId);
-        }
-    }
 
     @Override
     public List<AccountPaymentDTO> getPayments(Long accountId) {
@@ -143,7 +135,7 @@ public class NoOpAccountServiceAPI extends CrudServiceListenerAdapter<AccountAwa
 
     @Override
     public void log(Long accountId, String message) {
-        System.out.println("[LOG ACCOUNT " + accountId + "]  " + message);
+        logger.info("[ACCOUNT " + accountId + "]  " + message);
     }
 
     @Override

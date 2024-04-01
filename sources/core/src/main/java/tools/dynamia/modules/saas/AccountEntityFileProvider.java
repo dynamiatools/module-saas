@@ -30,8 +30,12 @@ import tools.dynamia.modules.saas.api.AccountServiceAPI;
 @Provider
 public class AccountEntityFileProvider implements EntityFileAccountProvider {
 
-    @Autowired
-    private AccountServiceAPI accountServiceAPI;
+
+    private final AccountServiceAPI accountServiceAPI;
+
+    public AccountEntityFileProvider(AccountServiceAPI accountServiceAPI) {
+        this.accountServiceAPI = accountServiceAPI;
+    }
 
     @Override
     public Long getAccountId() {

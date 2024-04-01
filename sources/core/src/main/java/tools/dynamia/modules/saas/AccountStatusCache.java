@@ -20,9 +20,12 @@ package tools.dynamia.modules.saas;
 import tools.dynamia.commons.SimpleCache;
 import tools.dynamia.modules.saas.domain.Account;
 
+/**
+ * Basic simple cache for account status. Internaylly use {@link SimpleCache} class
+ */
 public class AccountStatusCache {
 
-    private static SimpleCache<Long, Boolean> statusCache = new SimpleCache<>();
+    private static final SimpleCache<Long, Boolean> statusCache = new SimpleCache<>();
 
     public static boolean isStatusChanged(Account account) {
         if (account.getId() == null) {

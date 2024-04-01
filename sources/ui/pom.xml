@@ -7,7 +7,7 @@
   ~ you may not use this file except in compliance with the License.
   ~ You may obtain a copy of the License at
   ~
-  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~     http://www.apache.org/licenses/L ICENSE-2.0
   ~
   ~ Unless required by applicable law or agreed to in writing, software
   ~ distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,10 +22,10 @@
     <parent>
         <groupId>tools.dynamia.modules</groupId>
         <artifactId>tools.dynamia.modules.saas.parent</artifactId>
-        <version>3.0.1</version>
+        <version>3.1.0</version>
     </parent>
     <artifactId>tools.dynamia.modules.saas.ui</artifactId>
-    <version>3.0.1</version>
+    <version>3.1.0</version>
     <name>DynamiaModules - SaaS UI</name>
     <url>https://www.dynamia.tools/modules/saas</url>
 

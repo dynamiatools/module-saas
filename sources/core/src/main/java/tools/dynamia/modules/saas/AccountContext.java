@@ -39,11 +39,13 @@ public class AccountContext {
 
     private final LoggingService logger = new SLF4JLoggingService(AccountContext.class);
 
-    @Autowired
-    private List<AccountResolver> resolvers;
+    private final AccountService service;
+    private final List<AccountResolver> resolvers;
 
-    @Autowired
-    private AccountService service;
+    public AccountContext(AccountService service, List<AccountResolver> resolvers) {
+        this.service = service;
+        this.resolvers = resolvers;
+    }
 
 
     public static AccountContext getCurrent() {
