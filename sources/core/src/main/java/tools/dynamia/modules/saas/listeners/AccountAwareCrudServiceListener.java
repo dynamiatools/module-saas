@@ -22,9 +22,8 @@ import tools.dynamia.commons.BeanUtils;
 import tools.dynamia.domain.query.QueryParameters;
 import tools.dynamia.domain.util.CrudServiceListenerAdapter;
 import tools.dynamia.integration.sterotypes.Listener;
-import tools.dynamia.modules.saas.AccountContext;
 import tools.dynamia.modules.saas.api.AccountAware;
-import tools.dynamia.modules.saas.domain.Account;
+import tools.dynamia.modules.saas.api.AccountServiceAPI;
 
 /**
  * @author Mario Serrano Leones
@@ -33,18 +32,18 @@ import tools.dynamia.modules.saas.domain.Account;
 public class AccountAwareCrudServiceListener extends CrudServiceListenerAdapter<AccountAware> {
 
     private static final String ACCOUNT_ID = "accountId";
-    private final AccountContext accountContext;
+    private final AccountServiceAPI serviceAPI;
 
-    public AccountAwareCrudServiceListener(AccountContext accountContext) {
-        this.accountContext = accountContext;
+    public AccountAwareCrudServiceListener(AccountServiceAPI serviceAPI) {
+        this.serviceAPI = serviceAPI;
     }
 
     @Override
     public void beforeCreate(AccountAware entity) {
         if (entity.getAccountId() == null) {
-            var account = accountContext.getAccount();
-            if (account != null) {
-                entity.setAccountId(account.getId());
+            var accountId = serviceAPI.getCurrentAccountId();
+            if (accountId != null) {
+                entity.setAccountId(accountId);
             }
         }
     }
@@ -54,9 +53,9 @@ public class AccountAwareCrudServiceListener extends CrudServiceListenerAdapter<
         if (params != null && (!params.containsKey(ACCOUNT_ID) || params.get(ACCOUNT_ID) == null || params.get(ACCOUNT_ID).equals(0L))) {
             Class paramsType = params.getType();
             if (paramsType != null && BeanUtils.isAssignable(paramsType, AccountAware.class)) {
-                Account account = accountContext.getAccount();
-                if (account != null) {
-                    params.add(ACCOUNT_ID, account.getId());
+                var accountId = serviceAPI.getCurrentAccountId();
+                if (accountId != null) {
+                    params.add(ACCOUNT_ID, accountId);
                 }
             }
         }
