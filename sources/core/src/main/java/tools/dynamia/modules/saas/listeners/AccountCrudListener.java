@@ -24,6 +24,7 @@ import tools.dynamia.integration.sterotypes.Listener;
 import tools.dynamia.modules.saas.api.AccountServiceAPI;
 import tools.dynamia.modules.saas.api.enums.AccountStatus;
 import tools.dynamia.modules.saas.domain.Account;
+import tools.dynamia.modules.saas.services.AccountService;
 
 /**
  * @author Mario Serrano Leones
@@ -32,12 +33,16 @@ import tools.dynamia.modules.saas.domain.Account;
 public class AccountCrudListener extends CrudServiceListenerAdapter<Account> {
 
 
-    private final AccountServiceAPI service;
+    private final AccountService service;
 
-    public AccountCrudListener(AccountServiceAPI service) {
+    public AccountCrudListener(AccountService service) {
         this.service = service;
     }
 
+    @Override
+    public void afterCreate(Account entity) {
+        service.clearCache();
+    }
 
     @Override
     public void afterUpdate(Account entity) {

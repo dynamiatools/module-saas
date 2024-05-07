@@ -15,6 +15,7 @@ fields:
   account:
   type:
   reference:
+  reference2:
   paymentMethod:
   paymentValue:
     params:
@@ -66,6 +67,12 @@ fields:
   paymentMethodDescription:
   couponCode:
   finished:
+  external:
+  externalReference:
+  externalService:
+  invoiceID:
+  invoiceNumber:
+  invoiceUUID:
 
 
 

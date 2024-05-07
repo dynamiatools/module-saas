@@ -68,7 +68,7 @@
 
         <oshi.version>6.5.0</oshi.version>
         <jna.version>5.14.0</jna.version>
-        <springboot.version>3.2.4</springboot.version>
+        <springboot.version>3.2.5</springboot.version>
     </properties>
 
     <modules>

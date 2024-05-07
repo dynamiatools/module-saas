@@ -17,13 +17,11 @@
 
 package tools.dynamia.modules.saas.services.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.core.env.Environment;
-import org.springframework.orm.jpa.EntityManagerFactoryInfo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,6 +33,7 @@ import tools.dynamia.domain.query.QueryConditions;
 import tools.dynamia.domain.query.QueryParameters;
 import tools.dynamia.domain.services.CrudService;
 import tools.dynamia.domain.util.QueryBuilder;
+import tools.dynamia.integration.CacheManagerUtils;
 import tools.dynamia.integration.Containers;
 import tools.dynamia.modules.saas.AccountConfig;
 import tools.dynamia.modules.saas.api.AccountInitializer;
@@ -59,16 +58,17 @@ import java.util.*;
 @CacheConfig(cacheNames = AccountConfig.CACHE_NAME)
 public class AccountServiceImpl implements AccountService, ApplicationListener<ContextRefreshedEvent> {
 
-    private LoggingService logger = new SLF4JLoggingService(AccountService.class);
+    private final LoggingService logger = new SLF4JLoggingService(AccountService.class);
 
-    @Autowired
-    private CrudService crudService;
 
-    @Autowired
-    private EntityManagerFactoryInfo entityManagerFactoryInfo;
+    private final CrudService crudService;
 
-    @Autowired
-    private Environment environment;
+    private final Environment environment;
+
+    public AccountServiceImpl(CrudService crudService, Environment environment) {
+        this.crudService = crudService;
+        this.environment = environment;
+    }
 
 
     @Override
@@ -366,9 +366,9 @@ public class AccountServiceImpl implements AccountService, ApplicationListener<C
     @Override
     @Transactional
     public void checkPayment(AccountPayment payment) {
-        Account account = crudService.reload(payment.getAccount());
-        account.setLastPaymentDate(payment.getCreationDate());
-        if (payment.isFinished()) {
+        if (!payment.isExternal() && payment.isFinished()) {
+            Account account = crudService.reload(payment.getAccount());
+            account.setLastPaymentDate(payment.getCreationDate());
             account.setBalance(account.getBalance().add(payment.getValue()));
             if (account.getBalance().longValue() >= 0) {
                 account.setStatus(AccountStatus.ACTIVE);
@@ -377,13 +377,22 @@ public class AccountServiceImpl implements AccountService, ApplicationListener<C
             }
             account.save();
         }
+
+        clearCache(payment.getAccount());
     }
 
     @Override
     @Transactional
     public void computeBalance(Account account) {
-        QueryBuilder queryCharges = QueryBuilder.select("sum(c.value)").from(AccountCharge.class, "c").where("c.account", QueryConditions.eq(account));
-        QueryBuilder queryPayments = QueryBuilder.select("sum(p.value)").from(AccountPayment.class, "p").where("p.account", QueryConditions.eq(account)).and("p.finished = true");
+        QueryBuilder queryCharges = QueryBuilder.select("sum(c.value)")
+                .from(AccountCharge.class, "c")
+                .where("c.account", QueryConditions.eq(account));
+
+        QueryBuilder queryPayments = QueryBuilder.select("sum(p.value)")
+                .from(AccountPayment.class, "p")
+                .where("p.account", QueryConditions.eq(account))
+                .and("p.finished = true")
+                .and("p.external = false");
 
         BigDecimal charges = crudService.executeProjection(BigDecimal.class, queryCharges.toString(), queryCharges.getQueryParameters());
         BigDecimal payments = crudService.executeProjection(BigDecimal.class, queryPayments.toString(), queryPayments.getQueryParameters());
@@ -391,6 +400,8 @@ public class AccountServiceImpl implements AccountService, ApplicationListener<C
 
         BigDecimal balance = BigDecimal.ZERO.add(payments).subtract(charges);
         account.setBalance(balance);
+
+        clearCache(account);
     }
 
 
@@ -484,5 +495,34 @@ public class AccountServiceImpl implements AccountService, ApplicationListener<C
             }
             crudService.create(log);
         }
+    }
+
+    @Override
+    public List<AccountPayment> findAllPayments(Account account) {
+        return crudService.find(AccountPayment.class, QueryParameters.with("account", account)
+                .orderBy("creationDate", false));
+    }
+
+    @Override
+    public void clearCache() {
+        CacheManagerUtils.clearCache(AccountConfig.CACHE_NAME);
+    }
+
+    @Override
+    public void clearCache(Long accountId, String accountDomain) {
+        if (accountId != null) {
+            CacheManagerUtils.evict(AccountConfig.CACHE_NAME, "Account-" + accountId);
+            CacheManagerUtils.evict(AccountConfig.CACHE_NAME, "AccountsDetails-" + accountId);
+            CacheManagerUtils.evict(AccountConfig.CACHE_NAME, "AccountPrintingEnabled-" + accountId);
+            CacheManagerUtils.evict(AccountConfig.CACHE_NAME, "AccountStatus-" + accountId);
+        }
+        if (accountDomain != null) {
+            CacheManagerUtils.evict(AccountConfig.CACHE_NAME, "AccountByDomain-" + accountDomain);
+        }
+    }
+
+    @Override
+    public void clearCache(Account account) {
+        clearCache(account.getId(), account.getSubdomain());
     }
 }

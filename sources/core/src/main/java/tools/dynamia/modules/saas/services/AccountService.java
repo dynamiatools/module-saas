@@ -18,12 +18,15 @@
 
 package tools.dynamia.modules.saas.services;
 
+import tools.dynamia.integration.CacheManagerUtils;
+import tools.dynamia.modules.saas.AccountConfig;
 import tools.dynamia.modules.saas.api.AccountStats;
 import tools.dynamia.modules.saas.api.dto.AccountDTO;
 import tools.dynamia.modules.saas.domain.Account;
 import tools.dynamia.modules.saas.domain.AccountPayment;
 
 import jakarta.servlet.http.HttpServletRequest;
+
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -91,4 +94,12 @@ public interface AccountService {
     Account getAccountByName(String name);
 
     void log(Account account, String message);
+
+    List<AccountPayment> findAllPayments(Account account);
+
+    void clearCache();
+
+    void clearCache(Long accountId, String accountDomain);
+
+    void clearCache(Account account);
 }

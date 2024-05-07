@@ -152,15 +152,9 @@ public class AccountAdditionalService extends SimpleEntity {
                     var op = autoQtyOp == null ? AutoQuantityOperation.REPLACE : autoQtyOp;
 
                     switch (op) {
-                        case ADD:
-                            setQuantity(this.quantity + qty);
-                            break;
-                        case REPLACE:
-                            setQuantity(qty);
-                            break;
-                        case SUBSTRACT:
-                            setQuantity(Math.abs(this.quantity - qty));
-                            break;
+                        case ADD -> setQuantity(this.quantity + qty);
+                        case REPLACE -> setQuantity(qty);
+                        case SUBSTRACT -> setQuantity(Math.abs(this.quantity - qty));
                     }
 
                 }

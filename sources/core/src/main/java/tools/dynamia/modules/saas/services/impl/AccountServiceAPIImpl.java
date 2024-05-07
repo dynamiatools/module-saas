@@ -329,20 +329,12 @@ public class AccountServiceAPIImpl extends AbstractService implements AccountSer
 
     @Override
     public void clearCache() {
-        CacheManagerUtils.clearCache(AccountConfig.CACHE_NAME);
+        service.clearCache();
     }
 
     @Override
     public void clearCache(Long accountId, String accountDomain) {
-        if (accountId != null) {
-            CacheManagerUtils.evict(AccountConfig.CACHE_NAME, "Account-" + accountId);
-            CacheManagerUtils.evict(AccountConfig.CACHE_NAME, "AccountsDetails-" + accountId);
-            CacheManagerUtils.evict(AccountConfig.CACHE_NAME, "AccountPrintingEnabled-" + accountId);
-            CacheManagerUtils.evict(AccountConfig.CACHE_NAME, "AccountStatus-" + accountId);
-        }
-        if (accountDomain != null) {
-            CacheManagerUtils.evict(AccountConfig.CACHE_NAME, "AccountByDomain-" + accountDomain);
-        }
+        service.clearCache(accountId, accountDomain);
     }
 
     @Override
