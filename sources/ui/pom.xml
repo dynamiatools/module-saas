@@ -22,10 +22,10 @@
     <parent>
         <groupId>tools.dynamia.modules</groupId>
         <artifactId>tools.dynamia.modules.saas.parent</artifactId>
-        <version>3.1.0</version>
+        <version>3.1.1</version>
     </parent>
     <artifactId>tools.dynamia.modules.saas.ui</artifactId>
-    <version>3.1.0</version>
+    <version>3.1.1</version>
     <name>DynamiaModules - SaaS UI</name>
     <url>https://www.dynamia.tools/modules/saas</url>
 
@@ -39,7 +39,8 @@
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
-                    <encoding>${source.encoding}</encoding>
+                     <encoding>${source.encoding}</encoding>
+                    <parameters>true</parameters>
                 </configuration>
             </plugin>
         </plugins>
