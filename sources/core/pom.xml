@@ -22,10 +22,10 @@
     <parent>
         <groupId>tools.dynamia.modules</groupId>
         <artifactId>tools.dynamia.modules.saas.parent</artifactId>
-        <version>3.0.1</version>
+        <version>3.1.1</version>
     </parent>
     <artifactId>tools.dynamia.modules.saas</artifactId>
-    <version>3.0.1</version>
+    <version>3.1.1</version>
     <name>DynamiaModules - SaaS Core</name>
     <url>https://www.dynamia.tools/modules/saas</url>
 
@@ -38,7 +38,8 @@
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
-                    <encoding>${source.encoding}</encoding>
+                     <encoding>${source.encoding}</encoding>
+                    <parameters>true</parameters>
                 </configuration>
             </plugin>
         </plugins>
@@ -48,12 +49,12 @@
         <dependency>
             <groupId>tools.dynamia.modules</groupId>
             <artifactId>tools.dynamia.modules.saas.api</artifactId>
-            <version>3.0.1</version>
+            <version>3.1.1</version>
         </dependency>
         <dependency>
             <groupId>tools.dynamia.modules</groupId>
             <artifactId>tools.dynamia.modules.saas.jpa</artifactId>
-            <version>3.0.1</version>
+            <version>3.1.1</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>

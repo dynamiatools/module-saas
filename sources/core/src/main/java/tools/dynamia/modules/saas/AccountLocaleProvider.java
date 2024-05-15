@@ -27,7 +27,7 @@ import java.util.Locale;
 @Provider
 public class AccountLocaleProvider implements LocaleProvider {
 
-    private LoggingService logger = new SLF4JLoggingService(AccountLocaleProvider.class);
+    private final LoggingService logger = new SLF4JLoggingService(AccountLocaleProvider.class);
 
     @Override
     public int getPriority() {

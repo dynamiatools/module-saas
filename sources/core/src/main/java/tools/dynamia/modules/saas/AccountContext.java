@@ -18,7 +18,6 @@
 
 package tools.dynamia.modules.saas;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import tools.dynamia.commons.logger.LoggingService;
 import tools.dynamia.commons.logger.SLF4JLoggingService;
@@ -28,7 +27,6 @@ import tools.dynamia.modules.saas.domain.Account;
 import tools.dynamia.modules.saas.services.AccountService;
 import tools.dynamia.web.util.HttpUtils;
 
-import jakarta.annotation.PostConstruct;
 import java.util.List;
 
 /**
@@ -39,11 +37,13 @@ public class AccountContext {
 
     private final LoggingService logger = new SLF4JLoggingService(AccountContext.class);
 
-    @Autowired
-    private List<AccountResolver> resolvers;
+    private final AccountService service;
+    private final List<AccountResolver> resolvers;
 
-    @Autowired
-    private AccountService service;
+    public AccountContext(AccountService service, List<AccountResolver> resolvers) {
+        this.service = service;
+        this.resolvers = resolvers;
+    }
 
 
     public static AccountContext getCurrent() {

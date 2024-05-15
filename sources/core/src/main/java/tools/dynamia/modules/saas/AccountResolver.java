@@ -22,6 +22,7 @@ package tools.dynamia.modules.saas;
 import tools.dynamia.modules.saas.domain.Account;
 
 /**
+ * Account resolver api
  *
  * @author Mario Serrano Leones
  */

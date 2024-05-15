@@ -90,6 +90,7 @@ fields:
   stats:
     component: crudview
 
+  redirect:
 
 
 
@@ -98,7 +99,7 @@ groups:
     fields: [ contactFirstName, contactLastName,phoneNumber,mobileNumber,contactEmail, city,region, country, address, customerInfo ]
 
   configuration:
-    fields: [ locale, timeZone,skin, maxUsers,statusDescription,uuid,instanceUuid,creationDate,remote,autoInit,requiredInstanceUuid ]
+    fields: [ locale, timeZone,skin, maxUsers,statusDescription,uuid,instanceUuid,creationDate,remote,autoInit,requiredInstanceUuid,redirect ]
 
   notification:
     fields: [ globalMessage,globalMessageType,showGlobalMessage ]

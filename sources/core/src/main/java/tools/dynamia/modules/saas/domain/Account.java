@@ -38,6 +38,7 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+
 import java.math.BigDecimal;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -176,7 +177,7 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
     private String defaultPassword;
 
     private String activationCoupon;
-
+    private String redirect;
     @OneToOne
     private AccountChannelSale channel;
 
@@ -876,5 +877,13 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
 
     public void setLogoURL(String logoURL) {
         this.logoURL = logoURL;
+    }
+
+    public String getRedirect() {
+        return redirect;
+    }
+
+    public void setRedirect(String redirect) {
+        this.redirect = redirect;
     }
 }

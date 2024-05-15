@@ -17,6 +17,7 @@
 
 package tools.dynamia.modules.saas.domain;
 
+import jakarta.persistence.*;
 import tools.dynamia.commons.BigDecimalUtils;
 import tools.dynamia.commons.DateTimeUtils;
 import tools.dynamia.domain.OrderBy;
@@ -28,11 +29,8 @@ import tools.dynamia.modules.saas.api.dto.AccountPaymentDTO;
 import tools.dynamia.modules.saas.domain.enums.ResellerComissionStatus;
 import tools.dynamia.modules.saas.services.AccountService;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
+
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.Date;
@@ -68,9 +66,27 @@ public class AccountPayment extends BaseEntity implements Transferable<AccountPa
     private BigDecimal resellerComission;
     private double comissionRate;
     private ResellerComissionStatus comissionStatus;
+    @ManyToOne
+    private AccountReseller reseller;
     private String couponCode;
 
     private boolean silent;
+    private boolean invoiceRequired = true;
+    @ManyToOne
+    private AccountAdditionalService additionalService;
+    private String externalReference;
+    private String externalService;
+    private boolean external;
+    private String reference2;
+    private String invoiceID;
+    private String invoiceNumber;
+    private String invoiceUUID;
+    private String extra0;
+    private String extra1;
+    private String extra2;
+    private String extra3;
+    @Column(length = 400)
+    private String paymentLink;
 
     public Account getAccount() {
         return account;
@@ -152,6 +168,7 @@ public class AccountPayment extends BaseEntity implements Transferable<AccountPa
             users = account.getUsers();
             type = account.getType();
             value = paymentValue;
+            reseller = account.getReseller();
             if (account.getDiscount() != null && account.getDiscountExpire() != null && account.getDiscountExpire().after(new Date())) {
                 description = "Discount: " + DecimalFormat.getCurrencyInstance().format(account.getDiscount()) + " - " + DateTimeUtils.formatDate(account.getDiscountExpire());
             }
@@ -237,5 +254,130 @@ public class AccountPayment extends BaseEntity implements Transferable<AccountPa
 
     public void setSilent(boolean silent) {
         this.silent = silent;
+    }
+
+    public boolean isInvoiceRequired() {
+        return invoiceRequired;
+    }
+
+    public void setInvoiceRequired(boolean invoiceRequired) {
+        this.invoiceRequired = invoiceRequired;
+    }
+
+    public AccountReseller getReseller() {
+        return reseller;
+    }
+
+    public void setReseller(AccountReseller reseller) {
+        this.reseller = reseller;
+    }
+
+    public AccountAdditionalService getAdditionalService() {
+        return additionalService;
+    }
+
+    public void setAdditionalService(AccountAdditionalService additionalService) {
+        this.additionalService = additionalService;
+    }
+
+    public String getExternalReference() {
+        return externalReference;
+    }
+
+    public void setExternalReference(String externalReference) {
+        this.externalReference = externalReference;
+    }
+
+    public String getExternalService() {
+        return externalService;
+    }
+
+    public void setExternalService(String externalService) {
+        this.externalService = externalService;
+    }
+
+    public String getReference2() {
+        return reference2;
+    }
+
+    public void setReference2(String reference2) {
+        this.reference2 = reference2;
+    }
+
+    public String getInvoiceID() {
+        return invoiceID;
+    }
+
+    public void setInvoiceID(String invoiceID) {
+        this.invoiceID = invoiceID;
+    }
+
+    public String getInvoiceNumber() {
+        return invoiceNumber;
+    }
+
+    public void setInvoiceNumber(String invoiceNumber) {
+        this.invoiceNumber = invoiceNumber;
+    }
+
+    public String getInvoiceUUID() {
+        return invoiceUUID;
+    }
+
+    public void setInvoiceUUID(String invoiceUUID) {
+        this.invoiceUUID = invoiceUUID;
+    }
+
+    public String getExtra0() {
+        return extra0;
+    }
+
+    public void setExtra0(String extra0) {
+        this.extra0 = extra0;
+    }
+
+    public String getExtra1() {
+        return extra1;
+    }
+
+    public void setExtra1(String extra1) {
+        this.extra1 = extra1;
+    }
+
+    public String getExtra2() {
+        return extra2;
+    }
+
+    public void setExtra2(String extra2) {
+        this.extra2 = extra2;
+    }
+
+    public String getExtra3() {
+        return extra3;
+    }
+
+    public void setExtra3(String extra3) {
+        this.extra3 = extra3;
+    }
+
+    public String getPaymentLink() {
+        return paymentLink;
+    }
+
+    public void setPaymentLink(String paymentLink) {
+        this.paymentLink = paymentLink;
+    }
+
+    public boolean isExternal() {
+        return external;
+    }
+
+    /**
+     * External payment do not update account balance or account last payment
+     *
+     * @param external
+     */
+    public void setExternal(boolean external) {
+        this.external = external;
     }
 }

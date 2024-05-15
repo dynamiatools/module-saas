@@ -18,18 +18,38 @@
 package tools.dynamia.modules.saas.api;
 
 import org.springframework.beans.factory.config.CustomScopeConfigurer;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import tools.dynamia.integration.ms.MessageService;
 
+/**
+ *  Default Account SaaS configuration
+ */
 @Configuration
 public class AccountAPIConfig {
 
 
-
+    /**
+     *   This bean is used to register the AccountScope in the application context.
+     * @return CustomScopeConfigurer
+     */
     @Bean
-    public static CustomScopeConfigurer accountScopeConfigurer() {
+    public CustomScopeConfigurer accountScopeConfigurer() {
         CustomScopeConfigurer configurer = new CustomScopeConfigurer();
         configurer.addScope("account", new AccountScope());
         return configurer;
+    }
+
+    /**
+     * If no AccountServiceAPI is configured, this bean will be used as a default.
+     * This is useful for testing.
+     *
+     * @return NoOpAccountServiceAPI instance
+     */
+    @Bean
+    @ConditionalOnMissingBean(AccountServiceAPI.class)
+    public AccountServiceAPI noOpAccountServiceAPI() {
+        return new NoOpAccountServiceAPI();
     }
 }
