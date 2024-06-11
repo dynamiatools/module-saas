@@ -18,6 +18,7 @@
 
 package tools.dynamia.modules.saas.api.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import tools.dynamia.modules.saas.api.enums.AccountPeriodicity;
 
 import java.io.Serializable;
@@ -29,6 +30,7 @@ import java.util.List;
  * @author Mario Serrano Leones
  */
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class AccountTypeDTO implements Serializable {
 
     private Long id;

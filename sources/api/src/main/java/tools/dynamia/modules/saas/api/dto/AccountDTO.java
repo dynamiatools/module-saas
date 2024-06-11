@@ -18,7 +18,7 @@
 
 package tools.dynamia.modules.saas.api.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import tools.dynamia.modules.saas.api.enums.AccountStatus;
 
 import java.io.Serializable;
@@ -29,6 +29,7 @@ import java.util.*;
  * @author Mario Serrano Leones
  */
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class AccountDTO implements Serializable {
 
 
@@ -91,6 +92,7 @@ public class AccountDTO implements Serializable {
     private int freeTrial;
     private int freeTrialLeft;
     private boolean inFreeTrial;
+    private String redirect;
 
     private String defaultPassword;
 
@@ -633,4 +635,11 @@ public class AccountDTO implements Serializable {
         return freeTrial > 0;
     }
 
+    public String getRedirect() {
+        return redirect;
+    }
+
+    public void setRedirect(String redirect) {
+        this.redirect = redirect;
+    }
 }

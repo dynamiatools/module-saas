@@ -17,8 +17,11 @@
 
 package tools.dynamia.modules.saas.api.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.io.Serializable;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class AccountFeatureDTO implements Serializable {
 
     private Long id;

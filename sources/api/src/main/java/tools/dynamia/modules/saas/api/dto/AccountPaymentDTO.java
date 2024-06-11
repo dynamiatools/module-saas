@@ -17,9 +17,12 @@
 
 package tools.dynamia.modules.saas.api.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class AccountPaymentDTO implements Serializable {
 
     private Long id;
