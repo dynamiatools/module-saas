@@ -17,12 +17,14 @@
 
 package tools.dynamia.modules.saas.api.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import tools.dynamia.modules.saas.api.enums.AccountStatus;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class AccountStatusDTO implements Serializable {
 
 
