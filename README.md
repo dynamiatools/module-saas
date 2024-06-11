@@ -1,6 +1,7 @@
 [![Maven Central](https://img.shields.io/maven-central/v/tools.dynamia.modules/tools.dynamia.modules.saas)](https://search.maven.org/search?q=tools.dynamia.modules.saas)
 ![Java Version Required](https://img.shields.io/badge/java-17-blue)
 [![Maven Build](https://github.com/dynamiatools/module-saas/actions/workflows/maven.yml/badge.svg)](https://github.com/dynamiatools/module-saas/actions/workflows/maven.yml)
+[![Release and Deploy](https://github.com/dynamiatools/module-saas/actions/workflows/release.yml/badge.svg)](https://github.com/dynamiatools/module-saas/actions/workflows/release.yml)
 
 # SaaS Module
 
