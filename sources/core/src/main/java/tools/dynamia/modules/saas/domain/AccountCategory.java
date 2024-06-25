@@ -17,6 +17,7 @@
 
 package tools.dynamia.modules.saas.domain;
 
+import jakarta.persistence.ManyToOne;
 import org.hibernate.annotations.BatchSize;
 import tools.dynamia.domain.Descriptor;
 import tools.dynamia.domain.jpa.SimpleEntity;
@@ -28,13 +29,17 @@ import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "saas_categories")
-@Descriptor(fields = "name")
+@Descriptor(fields = {"name", "defaultAccountType", "defaultAccountProfile"})
 @BatchSize(size = 20)
 public class AccountCategory extends SimpleEntity {
 
     @NotNull
     @Column(unique = true)
     private String name;
+    @ManyToOne
+    private AccountType defaultAccountType;
+    @ManyToOne
+    private AccountProfile defaultAccountProfile;
 
     public String getName() {
         return name;
@@ -42,6 +47,22 @@ public class AccountCategory extends SimpleEntity {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public AccountType getDefaultAccountType() {
+        return defaultAccountType;
+    }
+
+    public void setDefaultAccountType(AccountType defaultAccountType) {
+        this.defaultAccountType = defaultAccountType;
+    }
+
+    public AccountProfile getDefaultAccountProfile() {
+        return defaultAccountProfile;
+    }
+
+    public void setDefaultAccountProfile(AccountProfile defaultAccountProfile) {
+        this.defaultAccountProfile = defaultAccountProfile;
     }
 
     @Override
