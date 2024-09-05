@@ -40,12 +40,16 @@ import java.util.Locale;
 @SessionScope
 public class AccountSessionHolder implements Serializable {
 
-    @Autowired
-    private AccountService service;
+
+    private transient final AccountService service;
 
     private Locale accountLocale;
     private Account current;
     private AccountDTO currentDTO;
+
+    public AccountSessionHolder(AccountService service) {
+        this.service = service;
+    }
 
     public static AccountSessionHolder get() {
         AccountSessionHolder accountSessionHolder = null;
