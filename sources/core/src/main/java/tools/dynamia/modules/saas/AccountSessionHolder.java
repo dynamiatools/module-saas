@@ -18,7 +18,7 @@
 
 package tools.dynamia.modules.saas;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.web.context.annotation.SessionScope;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -41,11 +41,16 @@ import java.util.Locale;
 public class AccountSessionHolder implements Serializable {
 
 
-    private transient final AccountService service;
+    @JsonIgnore
+    private transient AccountService service;
 
     private Locale accountLocale;
-    private Account current;
+    private Long currentId;
     private AccountDTO currentDTO;
+
+    public AccountSessionHolder() {
+        this.service = Containers.get().findObject(AccountService.class);
+    }
 
     public AccountSessionHolder(AccountService service) {
         this.service = service;
@@ -69,19 +74,17 @@ public class AccountSessionHolder implements Serializable {
     }
 
     public Account getCurrent() {
-        return current;
+        return currentId != null ? getService().getAccountById(currentId) : null;
     }
 
     public void setCurrent(final Account account) {
         if (account != null) {
             try {
                 DomainUtils.lookupCrudService().executeWithinTransaction(() -> {
-
-                    this.current = service.getAccountById(account.getId());
+                    var current = getService().getAccountById(account.getId());
                     accountLocale = current.getLocale() != null ? Locale.forLanguageTag(current.getLocale()) : null;
-
-                    currentDTO = null;
-                    toDTO();
+                    currentId = current.getId();
+                    currentDTO = current.toDTO();
                 });
             } catch (Exception e) {
                 //ignore
@@ -91,10 +94,11 @@ public class AccountSessionHolder implements Serializable {
 
 
     public AccountDTO toDTO() {
-        if (currentDTO == null && current != null) {
-            currentDTO = current.toDTO();
-        }
         return currentDTO;
+    }
+
+    public Long getId() {
+        return currentId;
     }
 
     public Locale getAccountLocale() {
@@ -102,5 +106,12 @@ public class AccountSessionHolder implements Serializable {
             accountLocale = Locale.getDefault();
         }
         return accountLocale;
+    }
+
+    private AccountService getService() {
+        if (service == null) {
+            service = Containers.get().findObject(AccountService.class);
+        }
+        return service;
     }
 }
