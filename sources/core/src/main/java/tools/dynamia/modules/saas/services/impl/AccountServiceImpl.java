@@ -48,6 +48,7 @@ import tools.dynamia.web.util.HttpUtils;
 
 import jakarta.servlet.http.HttpServletRequest;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -56,7 +57,7 @@ import java.util.*;
  */
 @Service
 @CacheConfig(cacheNames = AccountConfig.CACHE_NAME)
-public class AccountServiceImpl implements AccountService, ApplicationListener<ContextRefreshedEvent> {
+public class AccountServiceImpl implements AccountService, ApplicationListener<ContextRefreshedEvent>, Serializable {
 
     private final LoggingService logger = new SLF4JLoggingService(AccountService.class);
 
