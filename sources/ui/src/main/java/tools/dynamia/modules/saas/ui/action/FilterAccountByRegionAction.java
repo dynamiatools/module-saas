@@ -17,6 +17,7 @@ public class FilterAccountByRegionAction extends AbstractCrudAction {
     public FilterAccountByRegionAction() {
         setName("Filter by Region");
         setApplicableClass(Account.class);
+        setAlwaysVisible(true);
     }
 
     @Override
