@@ -19,10 +19,10 @@ package tools.dynamia.modules.saas.api;
 
 import tools.dynamia.actions.AbstractAction;
 import tools.dynamia.actions.ActionEvent;
-import tools.dynamia.actions.ActionFilter;
+import tools.dynamia.actions.ActionSelfFilter;
 import tools.dynamia.integration.Containers;
 
-public abstract class AccountAdminAction extends AbstractAction implements ActionFilter {
+public abstract class AccountAdminAction extends AbstractAction implements ActionSelfFilter {
 
     private boolean authorizationRequired;
 
