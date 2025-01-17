@@ -18,6 +18,11 @@
 package tools.dynamia.modules.saas.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import tools.dynamia.commons.DateTimeUtils;
@@ -33,12 +38,7 @@ import tools.dynamia.modules.saas.api.dto.AccountDTO;
 import tools.dynamia.modules.saas.api.enums.AccountStatus;
 import tools.dynamia.web.util.HttpUtils;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
-
+import java.io.Serial;
 import java.math.BigDecimal;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -59,6 +59,7 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = 684169179001325225L;
 
     @NotNull
@@ -93,14 +94,14 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
     private Date creationDate = new Date();
     private boolean defaultAccount;
     private String skin;
-    @OneToOne
+    @ManyToOne
     @JsonIgnore
     private EntityFile logo;
     @Column(length = 600)
     private String logoURL;
     private String locale;
     private String timeZone;
-    @OneToOne
+    @ManyToOne
     @JsonIgnore
     private AccountProfile profile;
     private long users;
@@ -138,6 +139,7 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
     private String globalMessage;
     private boolean showGlobalMessage;
     private String globalMessageType;
+    @JsonIgnore
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AccountFeature> features = new ArrayList<>();
     private BigDecimal balance = BigDecimal.ZERO;
@@ -146,6 +148,7 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
     @Temporal(TemporalType.DATE)
     private Date discountExpire;
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<AccountAdditionalService> additionalServices = new ArrayList<>();
     @Column(length = 2000)
     private String customerInfo;
@@ -158,11 +161,16 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
     private boolean useTempPaymentDay;
     private AccountStatus oldStatus;
 
-    @OneToOne
+    @ManyToOne
     private AccountCategory category;
 
-    @OneToOne
+    @ManyToOne
     private AccountReseller reseller;
+
+    @ManyToOne
+    private AccountRegion accountRegion;
+    private boolean templateAccount;
+
 
     private long openTicketsCount;
     private long closedTicketsCount;
@@ -885,5 +893,21 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
 
     public void setRedirect(String redirect) {
         this.redirect = redirect;
+    }
+
+    public AccountRegion getAccountRegion() {
+        return accountRegion;
+    }
+
+    public void setAccountRegion(AccountRegion accountRegion) {
+        this.accountRegion = accountRegion;
+    }
+
+    public boolean isTemplateAccount() {
+        return templateAccount;
+    }
+
+    public void setTemplateAccount(boolean templateAccount) {
+        this.templateAccount = templateAccount;
     }
 }

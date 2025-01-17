@@ -21,6 +21,8 @@ fields:
       shared: true
   skin:
     component: skincombobox
+  accountRegion:
+    label: Region
   profile:
   reseller:
   channel:
@@ -44,6 +46,7 @@ fields:
   mobileNumber:
   city:
   region:
+    label: Contact Region
   country:
   address:
     params:
@@ -91,6 +94,7 @@ fields:
     component: crudview
 
   redirect:
+  templateAccount:
 
 
 
@@ -99,7 +103,7 @@ groups:
     fields: [ contactFirstName, contactLastName,phoneNumber,mobileNumber,contactEmail, city,region, country, address, customerInfo ]
 
   configuration:
-    fields: [ locale, timeZone,skin, maxUsers,statusDescription,uuid,instanceUuid,creationDate,remote,autoInit,requiredInstanceUuid,redirect ]
+    fields: [ locale, timeZone,skin, maxUsers,statusDescription,uuid,instanceUuid,creationDate,remote,autoInit,requiredInstanceUuid,redirect,templateAccount ]
 
   notification:
     fields: [ globalMessage,globalMessageType,showGlobalMessage ]

@@ -50,6 +50,7 @@ import tools.dynamia.modules.saas.jpa.AccountParameter;
 import tools.dynamia.modules.saas.services.AccountService;
 import tools.dynamia.web.util.HttpUtils;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -60,7 +61,7 @@ import static tools.dynamia.domain.util.QueryBuilder.select;
 
 @Service("accountServiceAPI")
 @CacheConfig(cacheNames = AccountConfig.CACHE_NAME)
-public class AccountServiceAPIImpl extends AbstractService implements AccountServiceAPI {
+public class AccountServiceAPIImpl extends AbstractService implements AccountServiceAPI, Serializable {
 
     private final AccountService service;
     private final AccountContext accountContext;

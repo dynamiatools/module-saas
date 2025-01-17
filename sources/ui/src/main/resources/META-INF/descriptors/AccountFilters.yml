@@ -8,6 +8,8 @@ fields:
   subdomain:
   customDomain:
   type:
+  accountRegion:
+    label: Region
   email:
   adminUsername:
   status:

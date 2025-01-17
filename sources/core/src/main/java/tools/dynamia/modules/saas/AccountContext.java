@@ -24,7 +24,6 @@ import tools.dynamia.commons.logger.SLF4JLoggingService;
 import tools.dynamia.integration.Containers;
 import tools.dynamia.modules.saas.api.dto.AccountDTO;
 import tools.dynamia.modules.saas.domain.Account;
-import tools.dynamia.modules.saas.services.AccountService;
 import tools.dynamia.web.util.HttpUtils;
 
 import java.util.List;
@@ -37,11 +36,9 @@ public class AccountContext {
 
     private final LoggingService logger = new SLF4JLoggingService(AccountContext.class);
 
-    private final AccountService service;
     private final List<AccountResolver> resolvers;
 
-    public AccountContext(AccountService service, List<AccountResolver> resolvers) {
-        this.service = service;
+    public AccountContext(List<AccountResolver> resolvers) {
         this.resolvers = resolvers;
     }
 

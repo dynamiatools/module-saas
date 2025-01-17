@@ -18,6 +18,7 @@
 
 package tools.dynamia.modules.saas.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.BatchSize;
 import tools.dynamia.domain.jpa.SimpleEntity;
 import tools.dynamia.domain.Transferable;
@@ -49,6 +50,7 @@ public class AccountType extends SimpleEntity implements Transferable<AccountTyp
     private boolean active;
     private boolean publicType;
     private String publicName;
+    @JsonIgnore
     @OneToMany(mappedBy = "type", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AccountTypeRestriction> restrictions = new ArrayList<>();
     @Enumerated(EnumType.ORDINAL)
