@@ -21,7 +21,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>tools.dynamia.modules</groupId>
     <artifactId>tools.dynamia.modules.saas.parent</artifactId>
-    <version>3.2.0</version>
+    <version>3.2.1</version>
     <packaging>pom</packaging>
     <name>DynamiaModules - SaaS</name>
     <description>DynamiaTools extension to create SaaS applications with accounts control and multi tenants in same
@@ -59,8 +59,8 @@
     </scm>
 
     <properties>
-        <dynamiatools.version>5.3.1</dynamiatools.version>
-        <entityfiles.version>7.2.0</entityfiles.version>
+        <dynamiatools.version>5.3.2</dynamiatools.version>
+        <entityfiles.version>7.2.1</entityfiles.version>
         <java.version>17</java.version>
         <maven.compiler>3.13.0</maven.compiler>
         <source.encoding>UTF-8</source.encoding>
