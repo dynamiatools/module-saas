@@ -60,7 +60,7 @@
 
     <properties>
         <dynamiatools.version>5.3.2</dynamiatools.version>
-        <entityfiles.version>7.2.1</entityfiles.version>
+        <entityfiles.version>7.2.2</entityfiles.version>
         <java.version>17</java.version>
         <maven.compiler>3.13.0</maven.compiler>
         <source.encoding>UTF-8</source.encoding>
