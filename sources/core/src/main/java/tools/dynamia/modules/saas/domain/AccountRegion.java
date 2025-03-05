@@ -1,12 +1,14 @@
 package tools.dynamia.modules.saas.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import tools.dynamia.domain.jpa.SimpleEntity;
+import tools.dynamia.domain.query.QueryConditions;
+import tools.dynamia.domain.query.QueryParameters;
+import tools.dynamia.domain.util.DomainUtils;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -28,6 +30,10 @@ public class AccountRegion extends SimpleEntity {
     private String currency;
     private String timeZone = TimeZone.getDefault().getDisplayName();
     private String locale = Locale.getDefault().getDisplayName();
+    private String invoiceType;
+
+    @OneToMany(mappedBy = "region", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<AccountRegionParameter> parameters = new ArrayList<>();
 
     public String getName() {
         return name;
@@ -106,4 +112,28 @@ public class AccountRegion extends SimpleEntity {
         return name;
     }
 
+    public String getInvoiceType() {
+        return invoiceType;
+    }
+
+    public void setInvoiceType(String invoiceType) {
+        this.invoiceType = invoiceType;
+    }
+
+    public List<AccountRegionParameter> getParameters() {
+        return parameters;
+    }
+
+    public void setParameters(List<AccountRegionParameter> parameters) {
+        this.parameters = parameters;
+    }
+
+    public AccountRegionParameter findParameter(String name) {
+        if (getId() == null) {
+            return parameters.stream().filter(p -> p.getName().equals(name)).findFirst().orElse(null);
+        } else {
+            return DomainUtils.lookupCrudService().findSingle(AccountRegionParameter.class, QueryParameters.with("region", this)
+                    .add("name", QueryConditions.eq(name)));
+        }
+    }
 }

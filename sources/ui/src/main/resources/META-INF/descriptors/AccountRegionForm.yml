@@ -10,7 +10,10 @@ fields:
   paymentProvider:
   mainAccount:
   currency:
+  invoiceType:
   timeZone:
     component: timezonebox
   locale:
     component: localebox
+  parameters:
+    component: crudview

@@ -4,7 +4,6 @@
 [![Release and Deploy](https://github.com/dynamiatools/module-saas/actions/workflows/release.yml/badge.svg)](https://github.com/dynamiatools/module-saas/actions/workflows/release.yml)
 
 # SaaS Module
-
 This [DynamiaTools](https://www.dynamia.tools) extension allow you to create modules with multi tenant support por SaaS applications. Its manage accounts,
 payments, account status, data isolation by account and more
 
@@ -26,7 +25,7 @@ Add the following dependencies to project classpath
 <dependency>
     <groupId>tools.dynamia.modules</groupId>
     <artifactId>tools.dynamia.modules.saas</artifactId>
-    <version>3.1.3</version>
+    <version>3.2.2</version>
 </dependency>
 ```
 
@@ -34,7 +33,7 @@ Add the following dependencies to project classpath
 <dependency>
     <groupId>tools.dynamia.modules</groupId>
     <artifactId>tools.dynamia.modules.saas.ui</artifactId>
-    <version>3.1.3</version>
+    <version>3.2.2</version>
 </dependency>
 
 ```
@@ -42,8 +41,8 @@ Add the following dependencies to project classpath
 **Gradle**
 
 ```groovy
-compile 'tools.dynamia.modules:tools.dynamia.modules.saas:3.1.3'
-compile 'tools.dynamia.modules:tools.dynamia.modules.saas.ui:3.1.3'
+compile 'tools.dynamia.modules:tools.dynamia.modules.saas:3.2.2'
+compile 'tools.dynamia.modules:tools.dynamia.modules.saas.ui:3.2.2'
 ```
 
 ## Usage
@@ -82,7 +81,7 @@ For your modules you only require the API dependency
 <dependency>
     <groupId>tools.dynamia.modules</groupId>
     <artifactId>tools.dynamia.modules.saas.api</artifactId>
-    <version>3.1.3</version>
+    <version>3.2.2</version>
 </dependency>
 ```
 
