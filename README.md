@@ -1,5 +1,5 @@
 [![Maven Central](https://img.shields.io/maven-central/v/tools.dynamia.modules/tools.dynamia.modules.saas)](https://search.maven.org/search?q=tools.dynamia.modules.saas)
-![Java Version Required](https://img.shields.io/badge/java-17-blue)
+![Java Version Required](https://img.shields.io/badge/java-21-blue)
 [![Maven Build](https://github.com/dynamiatools/module-saas/actions/workflows/maven.yml/badge.svg)](https://github.com/dynamiatools/module-saas/actions/workflows/maven.yml)
 [![Release and Deploy](https://github.com/dynamiatools/module-saas/actions/workflows/release.yml/badge.svg)](https://github.com/dynamiatools/module-saas/actions/workflows/release.yml)
 
@@ -25,7 +25,7 @@ Add the following dependencies to project classpath
 <dependency>
     <groupId>tools.dynamia.modules</groupId>
     <artifactId>tools.dynamia.modules.saas</artifactId>
-    <version>3.2.2</version>
+    <version>3.4.0</version>
 </dependency>
 ```
 
@@ -33,7 +33,7 @@ Add the following dependencies to project classpath
 <dependency>
     <groupId>tools.dynamia.modules</groupId>
     <artifactId>tools.dynamia.modules.saas.ui</artifactId>
-    <version>3.2.2</version>
+    <version>3.4.0</version>
 </dependency>
 
 ```
@@ -41,8 +41,8 @@ Add the following dependencies to project classpath
 **Gradle**
 
 ```groovy
-compile 'tools.dynamia.modules:tools.dynamia.modules.saas:3.2.2'
-compile 'tools.dynamia.modules:tools.dynamia.modules.saas.ui:3.2.2'
+compile 'tools.dynamia.modules:tools.dynamia.modules.saas:3.4.0'
+compile 'tools.dynamia.modules:tools.dynamia.modules.saas.ui:3.4.0'
 ```
 
 ## Usage
@@ -81,7 +81,7 @@ For your modules you only require the API dependency
 <dependency>
     <groupId>tools.dynamia.modules</groupId>
     <artifactId>tools.dynamia.modules.saas.api</artifactId>
-    <version>3.2.2</version>
+    <version>3.4.0</version>
 </dependency>
 ```
 
