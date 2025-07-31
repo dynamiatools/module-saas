@@ -57,6 +57,10 @@ public class AccountFormCustomizer implements ViewCustomizer<FormView<Account>> 
             }
 
             resellerCombo.addEventListener(Events.ON_CHANGE, e -> {
+                if (resellerCombo.getSelectedItem() == null) {
+                    UIMessages.showMessage("Please select a valid reseller.");
+                    return;
+                }
                 AccountReseller reseller = resellerCombo.getSelectedItem().getValue();
                 var agents = service.findAgentsByReseller(reseller);
                 fillComboboxAgents(agentCombo, agents, account);
