@@ -1,5 +1,6 @@
 view: form
 beanClass: tools.dynamia.modules.saas.domain.Account
+customizer: tools.dynamia.modules.saas.ui.customizers.AccountFormCustomizer
 autofields: false
 
 fields:
@@ -24,7 +25,7 @@ fields:
   accountRegion:
     label: Region
   profile:
-  reseller:
+
   channel:
   creationDate:
   category:
@@ -57,8 +58,6 @@ fields:
     component: spiner
   status:
   customDomain:
-    params:
-      span: 2
   maxUsers:
     description: Override Account Type Config
     params:
@@ -97,10 +96,38 @@ fields:
   templateAccount:
 
 
+  reseller:
+    component: combobox
+    params:
+      readonly: true
+
+  resellerAgent:
+    label: Agent
+    component: combobox
+    params:
+      readonly: true
+
+  resellerInvoice:
+    label: Invoice
+
+  resellerInvoiceDate:
+    label: Invoice Date
+
+  resellerComments:
+    label: Comments
+    params:
+      span: 4
+      multiline: true
+      height: 80px
+
 
 groups:
   contactInfo:
     fields: [ contactFirstName, contactLastName,phoneNumber,mobileNumber,contactEmail, city,region, country, address, customerInfo ]
+
+
+  resellerInfo:
+    fields: [ reseller, resellerAgent, resellerInvoice, resellerInvoiceDate, resellerComments ]
 
   configuration:
     fields: [ locale, timeZone,skin, maxUsers,statusDescription,uuid,instanceUuid,creationDate,remote,autoInit,requiredInstanceUuid,redirect,templateAccount ]

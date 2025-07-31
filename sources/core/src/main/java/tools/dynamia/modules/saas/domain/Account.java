@@ -40,6 +40,7 @@ import tools.dynamia.web.util.HttpUtils;
 
 import java.io.Serial;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
@@ -166,6 +167,18 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
 
     @ManyToOne
     private AccountReseller reseller;
+
+    @ManyToOne
+    private AccountResellerAgent resellerAgent;
+
+    @Lob
+    private String resellerComments;
+
+    @Column(length = 50)
+    private String resellerInvoice;
+
+    @Temporal(TemporalType.DATE)
+    private Date resellerInvoiceDate;
 
     @ManyToOne
     private AccountRegion accountRegion;
@@ -909,5 +922,37 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
 
     public void setTemplateAccount(boolean templateAccount) {
         this.templateAccount = templateAccount;
+    }
+
+    public AccountResellerAgent getResellerAgent() {
+        return resellerAgent;
+    }
+
+    public void setResellerAgent(AccountResellerAgent resellerAgent) {
+        this.resellerAgent = resellerAgent;
+    }
+
+    public String getResellerComments() {
+        return resellerComments;
+    }
+
+    public void setResellerComments(String resellerComments) {
+        this.resellerComments = resellerComments;
+    }
+
+    public String getResellerInvoice() {
+        return resellerInvoice;
+    }
+
+    public void setResellerInvoice(String resellerInvoice) {
+        this.resellerInvoice = resellerInvoice;
+    }
+
+    public Date getResellerInvoiceDate() {
+        return resellerInvoiceDate;
+    }
+
+    public void setResellerInvoiceDate(Date resellerInvoiceDate) {
+        this.resellerInvoiceDate = resellerInvoiceDate;
     }
 }
