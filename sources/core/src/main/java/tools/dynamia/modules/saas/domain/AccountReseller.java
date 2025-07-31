@@ -45,7 +45,7 @@ public class AccountReseller extends BaseEntity {
     @ManyToOne
     private Account mainAccount;
     private double comissionRate;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<AccountResellerAgent> agents = new ArrayList<>();
     @Temporal(TemporalType.DATE)
     private Date startDate = new Date();
