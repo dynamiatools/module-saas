@@ -34,7 +34,6 @@ import java.util.List;
 public class AccountReseller extends BaseEntity {
 
 
-
     @NotEmpty
     private String name;
     private String identification;
@@ -45,7 +44,7 @@ public class AccountReseller extends BaseEntity {
     @ManyToOne
     private Account mainAccount;
     private double comissionRate;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "reseller")
     private List<AccountResellerAgent> agents = new ArrayList<>();
     @Temporal(TemporalType.DATE)
     private Date startDate = new Date();
