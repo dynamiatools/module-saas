@@ -50,7 +50,7 @@ public class AccountReseller extends BaseEntity {
     @Temporal(TemporalType.DATE)
     private Date startDate = new Date();
     @Temporal(TemporalType.DATE)
-    private Date endDate = new Date();
+    private Date endDate = null;
     @Column(length = 1000)
     private String comments;
 
