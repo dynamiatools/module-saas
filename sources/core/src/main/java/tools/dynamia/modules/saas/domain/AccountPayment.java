@@ -43,10 +43,10 @@ import java.util.Date;
 @OrderBy("creationDate")
 public class AccountPayment extends BaseEntity implements Transferable<AccountPaymentDTO> {
 
-    @OneToOne
+    @ManyToOne
     @NotNull(message = "Select account")
     private Account account;
-    @OneToOne
+    @ManyToOne
     private AccountType type;
     @NotEmpty(message = "Entrer payment reference")
     private String reference;
@@ -60,7 +60,7 @@ public class AccountPayment extends BaseEntity implements Transferable<AccountPa
     @Column(length = 2000)
     private String paymentMethodDescription;
     private boolean finished = true;
-    @OneToOne
+    @ManyToOne
     @NotNull
     private AccountPaymentMethod paymentMethod;
     private BigDecimal resellerComission;

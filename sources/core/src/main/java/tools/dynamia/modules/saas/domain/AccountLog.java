@@ -34,7 +34,7 @@ public class AccountLog extends BaseEntity implements Transferable<AccountLogDTO
     @Column(name = "logDate")
     private Date date = new Date();
 
-    @OneToOne
+    @ManyToOne
     @NotNull
     private Account account;
     private String ip;

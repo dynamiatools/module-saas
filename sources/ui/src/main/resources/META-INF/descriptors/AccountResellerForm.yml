@@ -13,6 +13,9 @@ fields:
   externalId:
   enabled:
 
+  agents:
+    component: crudview
+
 
 layout:
   columns: 4
