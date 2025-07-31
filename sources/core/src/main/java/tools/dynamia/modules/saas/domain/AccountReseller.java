@@ -17,6 +17,7 @@
 
 package tools.dynamia.modules.saas.domain;
 
+import jakarta.persistence.ManyToOne;
 import org.hibernate.annotations.BatchSize;
 import tools.dynamia.domain.contraints.NotEmpty;
 import tools.dynamia.domain.jpa.BaseEntity;
@@ -44,7 +45,7 @@ public class AccountReseller extends BaseEntity {
     private ContactInfo contactInfo = new ContactInfo();
     private boolean enabled;
     private Long externalId;
-    @OneToOne
+    @ManyToOne
     private Account mainAccount;
     private double comissionRate;
 

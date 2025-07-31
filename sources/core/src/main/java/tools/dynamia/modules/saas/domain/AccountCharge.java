@@ -17,6 +17,7 @@
 
 package tools.dynamia.modules.saas.domain;
 
+import jakarta.persistence.ManyToOne;
 import tools.dynamia.domain.jpa.BaseEntity;
 
 import jakarta.persistence.Entity;
@@ -29,7 +30,7 @@ import java.math.BigDecimal;
 @Table(name = "saas_charges")
 public class AccountCharge extends BaseEntity {
 
-    @OneToOne
+    @ManyToOne
     @NotNull
     private Account account;
     @NotNull

@@ -78,7 +78,7 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
     @Email(message = "ingreso direccion de correo valida ")
     @NotEmpty(message = "ingrese direccion de correo electronico")
     private String email;
-    @OneToOne
+    @ManyToOne
     @NotNull
     private AccountType type;
     @Temporal(jakarta.persistence.TemporalType.DATE)
@@ -186,7 +186,7 @@ public class Account extends SimpleEntity implements Transferable<AccountDTO> {
 
     private String activationCoupon;
     private String redirect;
-    @OneToOne
+    @ManyToOne
     private AccountChannelSale channel;
 
     public Account() {
