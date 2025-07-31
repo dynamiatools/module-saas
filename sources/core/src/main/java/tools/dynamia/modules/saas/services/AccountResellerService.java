@@ -24,9 +24,10 @@ public interface AccountResellerService {
     List<AccountReseller> findAllEnabledResellers();
 
     /**
-     * Finds all resellers in the system, ordered by creation date.
+     * Finds all agents associated with a specific reseller.
      *
-     * @return A list of AccountReseller entities ordered by their creation date.
+     * @param reseller The AccountReseller for which to find agents.
+     * @return A list of AccountResellerAgent entities associated with the specified reseller.
      */
     List<AccountResellerAgent> findAgentsByReseller(AccountReseller reseller);
 
