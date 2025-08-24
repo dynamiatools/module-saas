@@ -17,29 +17,29 @@
 
 package tools.dynamia.modules.saas;
 
-import tools.dynamia.commons.LocaleProvider;
+import tools.dynamia.commons.TimeZoneProvider;
 import tools.dynamia.commons.logger.LoggingService;
 import tools.dynamia.commons.logger.SLF4JLoggingService;
 import tools.dynamia.integration.sterotypes.Provider;
 
-import java.util.Locale;
+import java.time.ZoneId;
 
 /**
- * AccountLocaleProvider is an implementation of {@link LocaleProvider} for SaaS environments.
+ * AccountTimeZoneProvider is an implementation of {@link TimeZoneProvider} for SaaS environments.
  * <p>
- * Provides the default {@link Locale} based on the current account session context.
- * The priority for this provider is set to 10, making it suitable for account-level locale resolution.
+ * Provides the default {@link ZoneId} based on the current account session context.
+ * The priority for this provider is set to 10, making it suitable for account-level time zone resolution.
  * <p>
- * If the account session or locale cannot be resolved, this provider returns null.
+ * If the account session or time zone cannot be resolved, this provider returns null.
  *
  * @author Mario
  */
 @Provider
-public class AccountLocaleProvider implements LocaleProvider {
+public class AccountTimeZoneProvider implements TimeZoneProvider {
     /**
      * Logger for this provider, using SLF4J.
      */
-    private final LoggingService logger = new SLF4JLoggingService(AccountLocaleProvider.class);
+    private final LoggingService logger = new SLF4JLoggingService(AccountTimeZoneProvider.class);
 
     /**
      * Returns the priority of this provider. Lower values indicate higher priority.
@@ -52,16 +52,16 @@ public class AccountLocaleProvider implements LocaleProvider {
     }
 
     /**
-     * Returns the default {@link Locale} for the current account session.
+     * Returns the default {@link ZoneId} for the current account session.
      * <p>
-     * Attempts to retrieve the account locale from the current session. If unavailable, returns null.
+     * Attempts to retrieve the account time zone from the current session. If unavailable, returns null.
      *
-     * @return the account's default Locale, or null if not available
+     * @return the account's default ZoneId, or null if not available
      */
     @Override
-    public Locale getDefaultLocale() {
+    public ZoneId getDefaultTimeZone() {
         try {
-            return AccountSessionHolder.get().getAccountLocale();
+            return AccountSessionHolder.get().getAccountTimeZone();
         } catch (Exception e) {
             return null;
         }

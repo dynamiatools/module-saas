@@ -31,6 +31,7 @@ import tools.dynamia.modules.saas.domain.Account;
 import tools.dynamia.modules.saas.services.AccountService;
 
 import java.io.Serializable;
+import java.time.ZoneId;
 import java.util.Locale;
 
 /**
@@ -45,6 +46,7 @@ public class AccountSessionHolder implements Serializable {
     private transient AccountService service;
 
     private Locale accountLocale;
+    private ZoneId accountTimeZone;
     private Long currentId;
     private AccountDTO currentDTO;
 
@@ -82,13 +84,30 @@ public class AccountSessionHolder implements Serializable {
             try {
                 DomainUtils.lookupCrudService().executeWithinTransaction(() -> {
                     var current = getService().getAccountById(account.getId());
-                    accountLocale = current.getLocale() != null ? Locale.forLanguageTag(current.getLocale()) : null;
+                    loadAccountLocale(current);
+                    loadAccountTimeZone(current);
                     currentId = current.getId();
                     currentDTO = current.toDTO();
                 });
             } catch (Exception e) {
                 //ignore
             }
+        }
+    }
+
+    private void loadAccountTimeZone(Account current) {
+        try {
+            accountTimeZone = current.getTimeZone() != null ? ZoneId.of(current.getTimeZone()) : null;
+        } catch (Exception e) {
+            accountTimeZone = null;
+        }
+    }
+
+    private void loadAccountLocale(Account current) {
+        try {
+            accountLocale = current.getLocale() != null ? Locale.forLanguageTag(current.getLocale()) : null;
+        } catch (Exception e) {
+            accountLocale = null;
         }
     }
 
@@ -113,5 +132,12 @@ public class AccountSessionHolder implements Serializable {
             service = Containers.get().findObject(AccountService.class);
         }
         return service;
+    }
+
+    public ZoneId getAccountTimeZone() {
+        if (accountTimeZone == null) {
+            accountTimeZone = ZoneId.systemDefault();
+        }
+        return accountTimeZone;
     }
 }
