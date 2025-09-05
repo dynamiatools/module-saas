@@ -40,11 +40,10 @@ public class NewAccountPaymentAction extends AbstractCrudAction {
         setName(msg("newPayment"));
         setApplicableClass(Account.class);
         setImage("payment");
-        setColor("white");
-        setBackground(".green");
         setMenuSupported(true);
-        setAttribute("showLabel", true);
+        setShowLabel(true);
         setGroup(ActionGroup.get("CRUD"));
+        setType("success");
     }
 
     @Override
