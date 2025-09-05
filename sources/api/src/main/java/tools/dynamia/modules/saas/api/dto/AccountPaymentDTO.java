@@ -27,6 +27,7 @@ public class AccountPaymentDTO implements Serializable {
 
     private Long id;
     private Long accountId;
+    private String account;
     private String type;
     private BigDecimal value;
     private BigDecimal paymentValue;
@@ -35,6 +36,31 @@ public class AccountPaymentDTO implements Serializable {
     private String description;
     private String paymentMethodDescription;
     private boolean finished;
+
+    private String paymentMethod;
+    private Long paymentMethodId;
+
+    private String couponCode;
+
+    private boolean silent;
+    private boolean invoiceRequired;
+
+    private String additionalService;
+    private Long additionalServiceId;
+    private String externalReference;
+    private String externalService;
+    private boolean external;
+    private String reference2;
+    private String invoiceID;
+    private String invoiceNumber;
+    private String invoiceUUID;
+    private String extra0;
+    private String extra1;
+    private String extra2;
+    private String extra3;
+    private String paymentLink;
+    private String reseller;
+    private Long resellerId;
 
     public Long getId() {
         return id;
@@ -100,6 +126,22 @@ public class AccountPaymentDTO implements Serializable {
         this.description = description;
     }
 
+    public String getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
+
+    public Long getPaymentMethodId() {
+        return paymentMethodId;
+    }
+
+    public void setPaymentMethodId(Long paymentMethodId) {
+        this.paymentMethodId = paymentMethodId;
+    }
+
     public String getPaymentMethodDescription() {
         return paymentMethodDescription;
     }
@@ -114,5 +156,165 @@ public class AccountPaymentDTO implements Serializable {
 
     public void setFinished(boolean finished) {
         this.finished = finished;
+    }
+
+    public String getCouponCode() {
+        return couponCode;
+    }
+
+    public void setCouponCode(String couponCode) {
+        this.couponCode = couponCode;
+    }
+
+    public boolean isSilent() {
+        return silent;
+    }
+
+    public void setSilent(boolean silent) {
+        this.silent = silent;
+    }
+
+    public boolean isInvoiceRequired() {
+        return invoiceRequired;
+    }
+
+    public void setInvoiceRequired(boolean invoiceRequired) {
+        this.invoiceRequired = invoiceRequired;
+    }
+
+    public String getAdditionalService() {
+        return additionalService;
+    }
+
+    public void setAdditionalService(String additionalService) {
+        this.additionalService = additionalService;
+    }
+
+    public Long getAdditionalServiceId() {
+        return additionalServiceId;
+    }
+
+    public void setAdditionalServiceId(Long additionalServiceId) {
+        this.additionalServiceId = additionalServiceId;
+    }
+
+    public String getExternalReference() {
+        return externalReference;
+    }
+
+    public void setExternalReference(String externalReference) {
+        this.externalReference = externalReference;
+    }
+
+    public String getExternalService() {
+        return externalService;
+    }
+
+    public void setExternalService(String externalService) {
+        this.externalService = externalService;
+    }
+
+    public boolean isExternal() {
+        return external;
+    }
+
+    public void setExternal(boolean external) {
+        this.external = external;
+    }
+
+    public String getReference2() {
+        return reference2;
+    }
+
+    public void setReference2(String reference2) {
+        this.reference2 = reference2;
+    }
+
+    public String getInvoiceID() {
+        return invoiceID;
+    }
+
+    public void setInvoiceID(String invoiceID) {
+        this.invoiceID = invoiceID;
+    }
+
+    public String getInvoiceNumber() {
+        return invoiceNumber;
+    }
+
+    public void setInvoiceNumber(String invoiceNumber) {
+        this.invoiceNumber = invoiceNumber;
+    }
+
+    public String getInvoiceUUID() {
+        return invoiceUUID;
+    }
+
+    public void setInvoiceUUID(String invoiceUUID) {
+        this.invoiceUUID = invoiceUUID;
+    }
+
+    public String getExtra0() {
+        return extra0;
+    }
+
+    public void setExtra0(String extra0) {
+        this.extra0 = extra0;
+    }
+
+    public String getExtra1() {
+        return extra1;
+    }
+
+    public void setExtra1(String extra1) {
+        this.extra1 = extra1;
+    }
+
+    public String getExtra2() {
+        return extra2;
+    }
+
+    public void setExtra2(String extra2) {
+        this.extra2 = extra2;
+    }
+
+    public String getExtra3() {
+        return extra3;
+    }
+
+    public void setExtra3(String extra3) {
+        this.extra3 = extra3;
+    }
+
+    public String getPaymentLink() {
+        return paymentLink;
+    }
+
+    public void setPaymentLink(String paymentLink) {
+        this.paymentLink = paymentLink;
+    }
+
+    public String getAccount() {
+        return account;
+    }
+
+    public void setAccount(String account) {
+        this.account = account;
+    }
+
+    public String getReseller() {
+        return reseller;
+    }
+
+    public void setReseller(String reseller) {
+        this.reseller = reseller;
+    }
+
+    public Long getResellerId() {
+        return resellerId;
+    }
+
+    public void setResellerId(Long resellerId) {
+        this.resellerId = resellerId;
     }
 }

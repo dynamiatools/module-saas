@@ -17,19 +17,22 @@
 
 package tools.dynamia.modules.saas.domain;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import tools.dynamia.commons.BigDecimalUtils;
 import tools.dynamia.commons.DateTimeUtils;
 import tools.dynamia.domain.OrderBy;
 import tools.dynamia.domain.Transferable;
 import tools.dynamia.domain.contraints.NotEmpty;
 import tools.dynamia.domain.jpa.BaseEntity;
+import tools.dynamia.domain.util.DomainUtils;
 import tools.dynamia.integration.Containers;
 import tools.dynamia.modules.saas.api.dto.AccountPaymentDTO;
 import tools.dynamia.modules.saas.domain.enums.ResellerComissionStatus;
 import tools.dynamia.modules.saas.services.AccountService;
-
-import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
@@ -379,5 +382,37 @@ public class AccountPayment extends BaseEntity implements Transferable<AccountPa
      */
     public void setExternal(boolean external) {
         this.external = external;
+    }
+
+    @Override
+    public AccountPaymentDTO toDTO() {
+        AccountPaymentDTO dto = DomainUtils.autoDataTransferObject(this, AccountPaymentDTO.class);
+        if (paymentMethod != null) {
+            dto.setPaymentMethod(paymentMethod.getName());
+            dto.setPaymentMethodId(paymentMethod.getId());
+        }
+
+        if (additionalService != null) {
+            dto.setAdditionalService(additionalService.getName());
+            dto.setAdditionalServiceId(additionalService.getId());
+        }
+
+        if (type != null) {
+            dto.setType(type.getName());
+        }
+
+        if (account != null) {
+            dto.setAccount(account.getName());
+            dto.setAccountId(account.getId());
+
+        }
+
+        if (reseller != null) {
+            dto.setReseller(getReseller().getName());
+            dto.setResellerId(getReseller().getId());
+        }
+
+
+        return dto;
     }
 }
