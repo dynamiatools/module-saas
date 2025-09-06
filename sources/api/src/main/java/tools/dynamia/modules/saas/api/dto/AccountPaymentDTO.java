@@ -21,6 +21,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class AccountPaymentDTO implements Serializable {
@@ -28,6 +29,12 @@ public class AccountPaymentDTO implements Serializable {
     private Long id;
     private Long accountId;
     private String account;
+
+    private Date creationDate;
+    private Date creationTime;
+
+    private Date creationTimestamp;
+    private String creator;
     private String type;
     private BigDecimal value;
     private BigDecimal paymentValue;
@@ -316,5 +323,37 @@ public class AccountPaymentDTO implements Serializable {
 
     public void setResellerId(Long resellerId) {
         this.resellerId = resellerId;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public Date getCreationTime() {
+        return creationTime;
+    }
+
+    public void setCreationTime(Date creationTime) {
+        this.creationTime = creationTime;
+    }
+
+    public Date getCreationTimestamp() {
+        return creationTimestamp;
+    }
+
+    public void setCreationTimestamp(Date creationTimestamp) {
+        this.creationTimestamp = creationTimestamp;
+    }
+
+    public String getCreator() {
+        return creator;
+    }
+
+    public void setCreator(String creator) {
+        this.creator = creator;
     }
 }
