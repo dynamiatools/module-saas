@@ -32,7 +32,7 @@ class SimpleAccountLocalStorage implements AccountLocalStorage {
 
     @Autowired
     private AccountServiceAPI accountServiceAPI;
-    private Map<Long, Map<String, Entry>> storage = new ConcurrentHashMap<>();
+    private final Map<Long, Map<String, Entry>> storage = new ConcurrentHashMap<>();
 
     @Override
     public Object get(String key) {

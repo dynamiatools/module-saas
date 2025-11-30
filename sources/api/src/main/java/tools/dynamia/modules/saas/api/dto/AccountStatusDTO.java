@@ -28,14 +28,14 @@ import java.util.Date;
 public class AccountStatusDTO implements Serializable {
 
 
-    private Long id;
-    private String name;
-    private AccountStatus status;
-    private Date statusDate;
+    private final Long id;
+    private final String name;
+    private final AccountStatus status;
+    private final Date statusDate;
     private String statusDescription;
-    private String globalMessage;
-    private boolean showGlobalMessage;
-    private String globalMessageType;
+    private final String globalMessage;
+    private final boolean showGlobalMessage;
+    private final String globalMessageType;
     private final BigDecimal balance;
 
 

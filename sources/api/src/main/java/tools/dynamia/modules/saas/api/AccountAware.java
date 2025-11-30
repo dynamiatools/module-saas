@@ -19,13 +19,45 @@
 package tools.dynamia.modules.saas.api;
 
 /**
+ * Interface for entities or components that belong to a specific account in a multi-tenant SaaS environment.
+ * <p>
+ * Implementing this interface allows objects to be associated with an account, enabling proper data isolation
+ * and tenant-specific operations. This is a fundamental interface for multi-tenancy support, ensuring that
+ * each entity knows which account it belongs to.
+ * <p>
+ * Example usage:
+ * <pre>{@code
+ * @Entity
+ * public class Customer implements AccountAware {
+ *     @Column
+ *     private Long accountId;
+ *
+ *     public Long getAccountId() {
+ *         return accountId;
+ *     }
+ *
+ *     public void setAccountId(Long accountId) {
+ *         this.accountId = accountId;
+ *     }
+ * }
+ * }</pre>
  *
  * @author Mario Serrano Leones
  */
 public interface AccountAware {
 
+    /**
+     * Returns the unique identifier of the account this entity belongs to.
+     *
+     * @return the account ID
+     */
     Long getAccountId();
 
+    /**
+     * Sets the account this entity belongs to.
+     *
+     * @param account the account ID to assign to this entity
+     */
     void setAccountId(Long account);
 
 }

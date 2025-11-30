@@ -32,7 +32,7 @@ public class AccountTest {
 
         left = account.computeTrialLeft(account.getFreeTrial(), createDate(2022, 1, 15));
         System.out.println("Trial Left 3 = " + left);
-        Assert.assertEquals(0 + 1, left);
+        Assert.assertEquals(1, left);
 
         left = account.computeTrialLeft(account.getFreeTrial(), createDate(2022, 1, 20));
         System.out.println("Trial Left 4 = " + left);

@@ -67,9 +67,7 @@ public class AccountNavigationRestriction implements tools.dynamia.navigation.Na
                         return null;
                 }
             }
-        } else if (account.getType().isAdmin()) {
-            return true;
-        }
+        } else return account.getType().isAdmin();
 
         return false;
     }

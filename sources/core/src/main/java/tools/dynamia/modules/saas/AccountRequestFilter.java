@@ -23,8 +23,7 @@ public class AccountRequestFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        if (request instanceof HttpServletRequest) {
-            var req = (HttpServletRequest) request;
+        if (request instanceof HttpServletRequest req) {
             String subdomain = HttpUtils.getSubdomain(req);
             if (subdomain != null) {
                 var accountId = (Long) req.getAttribute(AccountServiceAPI.CURRENT_ACCOUNT_ID_ATTRIBUTE);
