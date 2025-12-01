@@ -23,6 +23,6 @@ package tools.dynamia.modules.saas.api.enums;
  */
 public enum AccountStatus {
 
-    NEW, ACTIVE, CANCELED, SUSPENDED;
+    NEW, ACTIVE, CANCELED, SUSPENDED
 
 }

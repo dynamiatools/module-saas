@@ -21,18 +21,31 @@ import org.springframework.beans.factory.config.CustomScopeConfigurer;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import tools.dynamia.integration.ms.MessageService;
 
 /**
- *  Default Account SaaS configuration
+ * Default Spring configuration for the SaaS Account API module.
+ * <p>
+ * This configuration class sets up the essential beans required for multi-tenant
+ * account management, including the custom account scope and a fallback no-op
+ * implementation of {@link AccountServiceAPI}.
+ * <p>
+ * The configuration is automatically loaded when the module is present in the classpath,
+ * and provides sensible defaults that can be overridden by custom implementations.
+ *
+ * @author Mario Serrano Leones
  */
 @Configuration
 public class AccountAPIConfig {
 
-
     /**
-     *   This bean is used to register the AccountScope in the application context.
-     * @return CustomScopeConfigurer
+     * Registers the custom "account" scope with the Spring container.
+     * <p>
+     * This bean configures the {@link AccountScope} which enables beans to be scoped
+     * at the account level, ensuring proper isolation in multi-tenant environments.
+     * Once registered, beans can use {@code @Scope("account")} to be managed at the account level.
+     *
+     * @return a {@link CustomScopeConfigurer} with the account scope registered
+     * @see AccountScope
      */
     @Bean
     public CustomScopeConfigurer accountScopeConfigurer() {
@@ -42,10 +55,14 @@ public class AccountAPIConfig {
     }
 
     /**
-     * If no AccountServiceAPI is configured, this bean will be used as a default.
-     * This is useful for testing.
+     * Provides a no-op implementation of {@link AccountServiceAPI} as a fallback.
+     * <p>
+     * This bean is only created if no other {@link AccountServiceAPI} implementation
+     * is found in the application context. It's primarily useful for testing scenarios
+     * or when the SaaS features are not fully configured.
      *
-     * @return NoOpAccountServiceAPI instance
+     * @return a {@link NoOpAccountServiceAPI} instance
+     * @see NoOpAccountServiceAPI
      */
     @Bean
     @ConditionalOnMissingBean(AccountServiceAPI.class)

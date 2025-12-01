@@ -23,7 +23,9 @@ import org.springframework.web.context.annotation.SessionScope;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import tools.dynamia.domain.util.DomainUtils;
+import tools.dynamia.integration.CloneableThreadLocalObject;
 import tools.dynamia.integration.Containers;
+import tools.dynamia.integration.ThreadLocalObjectContainer;
 import tools.dynamia.integration.sterotypes.Component;
 import tools.dynamia.modules.saas.api.AccountException;
 import tools.dynamia.modules.saas.api.dto.AccountDTO;
@@ -39,7 +41,7 @@ import java.util.Locale;
  */
 @Component("accountSessionHolder")
 @SessionScope
-public class AccountSessionHolder implements Serializable {
+public class AccountSessionHolder implements Serializable, CloneableThreadLocalObject {
 
 
     @JsonIgnore
@@ -61,7 +63,7 @@ public class AccountSessionHolder implements Serializable {
     public static AccountSessionHolder get() {
         AccountSessionHolder accountSessionHolder = null;
         try {
-            accountSessionHolder = Containers.get().findObject(AccountSessionHolder.class);
+            accountSessionHolder = ThreadLocalObjectContainer.getObject(AccountSessionHolder.class);
         } catch (Exception e) {
             RequestAttributes attributes = RequestContextHolder.getRequestAttributes();
             if (attributes != null) {
@@ -140,4 +142,15 @@ public class AccountSessionHolder implements Serializable {
         }
         return accountTimeZone;
     }
+
+    public AccountSessionHolder clone() {
+        AccountSessionHolder accountSessionHolder = new AccountSessionHolder(service);
+        accountSessionHolder.currentId = this.currentId;
+        accountSessionHolder.accountLocale = this.accountLocale;
+        accountSessionHolder.accountTimeZone = this.accountTimeZone;
+        accountSessionHolder.currentDTO = this.currentDTO;
+        return accountSessionHolder;
+    }
+
+
 }

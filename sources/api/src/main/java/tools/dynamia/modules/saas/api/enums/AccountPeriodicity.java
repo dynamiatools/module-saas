@@ -25,7 +25,7 @@ public enum AccountPeriodicity {
 
     MONTHLY(30), YEARLY(365), UNLIMITED(-1);
 
-    private int days;
+    private final int days;
 
     AccountPeriodicity(int days) {
         this.days = days;

@@ -98,7 +98,7 @@ public class AccountDTO implements Serializable {
 
     private String activationCoupon;
 
-    private Map<String, Object> attributes = new HashMap<>();
+    private final Map<String, Object> attributes = new HashMap<>();
 
 
     public AccountDTO() {

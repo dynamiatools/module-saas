@@ -54,7 +54,7 @@ public class AccountProfileController extends CrudController<AccountProfile> {
     private Listbox modules;
     @Wire
     private Listbox restrictions;
-    private List<AccountProfileRestriction> toDelete = new ArrayList<>();
+    private final List<AccountProfileRestriction> toDelete = new ArrayList<>();
 
     // autowired by zk composer
     @Wire
@@ -164,7 +164,7 @@ public class AccountProfileController extends CrudController<AccountProfile> {
 
     private AccountProfileRestriction getSelectedPermiso() {
         if (restrictions != null) {
-            return (AccountProfileRestriction) restrictions.getSelectedItem().getValue();
+            return restrictions.getSelectedItem().getValue();
         } else {
             return null;
         }

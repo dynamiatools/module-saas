@@ -55,10 +55,10 @@ import java.util.stream.Stream;
 public class AccountProfileCrudVM extends AbstractService implements FormCrudViewModel<AccountProfile> {
 
 
-    private ModuleContainer moduleContainer = Containers.get().findObject(ModuleContainer.class);
+    private final ModuleContainer moduleContainer = Containers.get().findObject(ModuleContainer.class);
 
 
-    private List<AccountProfileRestriction> toDelete = new ArrayList<>();
+    private final List<AccountProfileRestriction> toDelete = new ArrayList<>();
     private AccountProfile model;
     private Object selectedItem;
     private AccountProfileRestriction selectedRestriction;
@@ -163,7 +163,7 @@ public class AccountProfileCrudVM extends AbstractService implements FormCrudVie
             if (!module.isEmpty()) {
                 DefaultTreeNode modNode = new DefaultTreeNode(module, new ArrayList());
                 rootNode.add(modNode);
-                renderPageGroupNode(Arrays.asList(module.getDefaultPageGroup()), modNode);
+                renderPageGroupNode(Collections.singletonList(module.getDefaultPageGroup()), modNode);
                 renderPageGroupNode(module.getPageGroups(), modNode);
             }
         }

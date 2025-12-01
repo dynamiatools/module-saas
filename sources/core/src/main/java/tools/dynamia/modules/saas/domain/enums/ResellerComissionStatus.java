@@ -18,5 +18,5 @@
 package tools.dynamia.modules.saas.domain.enums;
 
 public enum ResellerComissionStatus {
-    PENDING, PAYED, CANCELED;
+    PENDING, PAYED, CANCELED
 }

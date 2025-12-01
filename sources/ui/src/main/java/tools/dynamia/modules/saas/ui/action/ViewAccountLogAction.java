@@ -56,7 +56,6 @@ public class ViewAccountLogAction extends AbstractCrudAction {
 
             if (logs.isEmpty()) {
                 UIMessages.showMessage("No logs found", MessageType.WARNING);
-                return;
             } else {
                 Viewer viewer = new Viewer("table", AccountLog.class);
                 viewer.setValue(logs);

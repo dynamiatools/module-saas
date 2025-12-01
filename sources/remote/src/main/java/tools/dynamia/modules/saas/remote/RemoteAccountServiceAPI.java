@@ -278,12 +278,11 @@ public class RemoteAccountServiceAPI extends CrudServiceListenerAdapter<AccountA
     }
 
     private String getLocalInfo() {
-        StringBuilder info = new StringBuilder();
-        info.append("User Dir:").append(System.getProperty("user.dir")).append(",");
-        info.append("OS:").append(System.getProperty("os.name")).append(",");
-        info.append("Port:").append(env.getProperty("server.port")).append(",");
-        info.append("Datasource:").append(env.getProperty("spring.datasource.url"));
-        return info.toString();
+        String info = "User Dir:" + System.getProperty("user.dir") + "," +
+                "OS:" + System.getProperty("os.name") + "," +
+                "Port:" + env.getProperty("server.port") + "," +
+                "Datasource:" + env.getProperty("spring.datasource.url");
+        return info;
     }
 
     @Scheduled(cron = "0 0 6 * * *")
